@@ -393,7 +393,14 @@ export default function LeadModal({
       });
 
       if (!response.ok) {
-        throw new Error('Gagal menghubungi AI di server backend. Silakan coba kembali.');
+        let serverErrorMsg = 'Gagal menghubungi AI di server backend. Silakan coba kembali.';
+        try {
+          const errData = await response.json();
+          if (errData && errData.error) {
+            serverErrorMsg = errData.error;
+          }
+        } catch (_) {}
+        throw new Error(serverErrorMsg);
       }
 
       const result = await response.json();
@@ -725,7 +732,7 @@ export default function LeadModal({
                       </h4>
                     </div>
                     <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5 leading-snug">
-                      Analisis kemungkinan closing, deteksi risiko, rekomendasi personal, dan rancang draf tindak lanjut WhatsApp secara instan dengan LLM **Gemini 2.5**.
+                      Analisis kemungkinan closing, deteksi risiko, rekomendasi personal, dan rancang draf tindak lanjut WhatsApp secara instan dengan LLM **Gemini 3.6**.
                     </p>
                   </div>
 
