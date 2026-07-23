@@ -41,7 +41,7 @@ export default function Sidebar({ activeTab, setActiveTab, userRole, userName, u
   return (
     <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-screen sticky top-0 transition-colors duration-200 shrink-0">
       {/* Brand Header */}
-      <div className="px-5 py-4 border-b border-blue-900/80 bg-gradient-to-r from-blue-900 to-indigo-950 text-white flex items-center justify-start">
+      <div className="px-5 py-4 border-b border-[#42B8D5]/30 bg-gradient-to-r from-[#42B8D5] to-[#136386] text-white flex items-center justify-start">
         <img 
           src={academiusLogo} 
           alt="Academius CRM System" 
@@ -53,14 +53,23 @@ export default function Sidebar({ activeTab, setActiveTab, userRole, userName, u
 
       {/* User Quick Info */}
       <div className="p-4 mx-4 my-3 bg-white dark:bg-slate-800 rounded-xl border-0 flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold font-display text-sm border border-blue-200 dark:border-blue-800">
+        <div 
+          className="h-10 w-10 rounded-full flex items-center justify-center font-bold font-display text-sm border border-[#42B8D5]/30"
+          style={{ backgroundColor: '#d8f0ff', color: '#42B8D5' }}
+        >
           {userName.slice(0, 2).toUpperCase()}
         </div>
         <div className="overflow-hidden">
-          <p className="text-sm font-poppins font-bold text-slate-700 dark:text-slate-200 truncate">{userName}</p>
+          <p className="text-sm font-poppins font-bold truncate" style={{ color: '#136386' }}>{userName}</p>
           <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-            <span className="text-[10px] font-sans font-bold tracking-wider uppercase text-blue-600 dark:text-blue-400">
+            <span 
+              className="h-1.5 w-1.5 rounded-full" 
+              style={{ backgroundColor: '#42B8D5', color: '#42B8D5' }}
+            ></span>
+            <span 
+              className="text-[10px] font-sans font-bold tracking-wider uppercase"
+              style={{ color: '#42B8D5' }}
+            >
               {(() => {
                 const rawRole = isArsul ? 'Admin CRM' : userRole;
                 if (rawRole === 'Admin CRM') return 'Admin CRM';
@@ -84,16 +93,19 @@ export default function Sidebar({ activeTab, setActiveTab, userRole, userName, u
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 group ${
                 isActive 
-                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/15 dark:bg-blue-600 dark:text-white' 
+                  ? 'bg-[#42B8D5] text-white shadow-sm shadow-[#42B8D5]/20 dark:bg-[#42B8D5] dark:text-white' 
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
               }`}
+              style={{
+                backgroundColor: isActive ? '#42B8D5' : undefined
+              }}
             >
-              <Icon className={`h-5 w-5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200'}`} />
+              <Icon className={`h-5 w-5 ${isActive ? 'text-white' : ''}`} style={{ color: !isActive ? '#136386' : undefined }} />
               <span 
                 className={`${item.id === 'dashboard' ? 'font-poppins' : 'font-sans'} font-medium`} 
                 style={{
-                  ...(item.id === 'mentoring' ? { textAlign: 'left' } : {}),
-                  ...(item.id === 'dashboard' && !isActive ? { color: '#45556c' } : {})
+                  color: isActive ? '#ffffff' : '#136386',
+                  ...(item.id === 'mentoring' ? { textAlign: 'left' } : {})
                 }}
               >
                 {item.label}
@@ -119,7 +131,7 @@ export default function Sidebar({ activeTab, setActiveTab, userRole, userName, u
       {/* Footer Branding Note */}
       <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-center">
         <div className="flex justify-center items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-          <Sparkles className="h-3 w-3 text-blue-500 dark:text-blue-400 animate-pulse" />
+          <Sparkles className="h-3 w-3 animate-pulse" style={{ color: '#42b8d5' }} />
           <span>Intelligent Educational CRM</span>
         </div>
       </div>

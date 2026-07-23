@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import academiusLogo from './assets/images/regenerated_image_1784801332072.webp';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
@@ -730,7 +731,7 @@ export default function App() {
     return (
       <div className="space-y-6 pb-12 animate-in fade-in duration-300 font-sans">
         <div>
-          <h2 className="font-display font-black text-2xl text-slate-800 dark:text-white">Daftar Penugasan & Reminders</h2>
+          <h2 className="font-display font-black text-2xl dark:text-white" style={{ color: '#136386' }}>Daftar Penugasan & Reminders</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Eksplorasi seluruh to-do list follow up, cetak reminders hari ini, dan tandai kelar pekerjaan.</p>
         </div>
 
@@ -862,19 +863,14 @@ export default function App() {
   // Check if account is approved by Owner CRM
   if (user.isApproved === false) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6 font-sans transition-colors duration-200">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="bg-blue-600 dark:bg-blue-500 p-2.5 rounded-2xl text-white shadow-lg flex items-center justify-center">
-            <GraduationCap className="h-7 w-7 animate-pulse" />
-          </div>
-          <div>
-            <h1 className="font-display font-black text-2xl text-slate-800 dark:text-white leading-none">
-              ACADEMIUS
-            </h1>
-            <span className="text-xs font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-400 mt-0.5 block">
-              CRM SYSTEM
-            </span>
-          </div>
+      <div className="min-h-screen bg-gradient-to-b from-[#42B8D5] to-[#136386] flex flex-col items-center justify-center p-6 font-sans transition-colors duration-200">
+        <div className="flex items-center justify-center mb-8">
+          <img 
+            src={academiusLogo} 
+            alt="Academius CRM System" 
+            className="h-16 w-auto object-contain max-w-[260px]"
+            referrerPolicy="no-referrer"
+          />
         </div>
 
         <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-200/50 dark:border-slate-800/80 text-center space-y-6 animate-in zoom-in-95 duration-250">

@@ -181,7 +181,7 @@ export default function Navbar({
     <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200">
       {/* Search Bar Placeholder or Title */}
       <div className="flex items-center gap-4">
-        <h2 className="font-poppins font-semibold text-slate-800 dark:text-slate-100 text-lg sm:block hidden">
+        <h2 className="font-poppins font-semibold text-lg sm:block hidden" style={{ color: '#136386' }}>
           Workspace CRM
         </h2>
         
@@ -288,7 +288,8 @@ export default function Navbar({
                                 onOpenLead(notif.leadId!);
                                 setShowNotificationMenu(false);
                               }}
-                              className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline mt-1.5 block"
+                              className="text-[10px] font-bold hover:underline mt-1.5 block"
+                              style={{ color: '#42b8d5' }}
                             >
                               {notif.actionLabel || 'Tindak Lanjut & Detail'} →
                             </button>

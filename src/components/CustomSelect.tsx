@@ -17,6 +17,11 @@ interface CustomSelectProps {
   placeholder?: string;
   disabled?: boolean;
   direction?: 'down' | 'up' | 'auto';
+  triggerStyle?: React.CSSProperties;
+  dropdownStyle?: React.CSSProperties;
+  selectedOptionColor?: string;
+  selectedOptionBgColor?: string;
+  unselectedOptionColor?: string;
 }
 
 export default function CustomSelect({
@@ -27,7 +32,12 @@ export default function CustomSelect({
   className = '',
   placeholder = 'Pilih opsi...',
   disabled = false,
-  direction = 'auto'
+  direction = 'auto',
+  triggerStyle,
+  dropdownStyle,
+  selectedOptionColor,
+  selectedOptionBgColor,
+  unselectedOptionColor
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [placement, setPlacement] = useState<'down' | 'up'>('down');
@@ -119,6 +129,7 @@ export default function CustomSelect({
         disabled={disabled}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
+        style={triggerStyle}
         className={`w-full flex items-center justify-between gap-2.5 text-xs py-1.5 px-2.5 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-700 dark:text-slate-200 font-medium text-left transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm cursor-pointer ${
           hasOuterBorder
             ? 'border-0'
@@ -131,12 +142,15 @@ export default function CustomSelect({
       >
         <span className={`flex items-start gap-1.5 text-wrap text-left whitespace-normal break-words py-0.5 ${isMentoringStageSelect ? 'border-[#e2e8f0]' : ''}`}>
           {selectedOption?.icon}
-          <span className="leading-relaxed">{selectedOption ? selectedOption.label : placeholder}</span>
+          <span className="leading-relaxed" style={{ color: triggerStyle?.color || undefined }}>
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
         </span>
         <ChevronDown
-          className={`h-3.5 w-3.5 text-slate-400 dark:text-slate-500 transition-transform duration-300 shrink-0 ${
+          className={`h-3.5 w-3.5 transition-transform duration-300 shrink-0 ${
             isOpen ? 'transform rotate-180 text-blue-500' : ''
-          }`}
+          } ${triggerStyle?.color ? '' : 'text-slate-400 dark:text-slate-500'}`}
+          style={{ color: triggerStyle?.color || undefined }}
         />
       </button>
 
@@ -147,6 +161,7 @@ export default function CustomSelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: placement === 'up' ? 4 : -4, scale: 0.98 }}
             transition={{ duration: 0.12, ease: 'easeOut' }}
+            style={dropdownStyle}
             className={`absolute z-50 w-full min-w-full bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 rounded-lg shadow-lg overflow-hidden max-h-60 overflow-y-auto left-0 ${
               placement === 'up' ? 'bottom-full mb-1' : 'mt-1'
             }`}
@@ -154,6 +169,9 @@ export default function CustomSelect({
             <div className="p-1 space-y-0.5">
               {parsedOptions.map((option) => {
                 const isSelected = String(option.value) === String(value);
+                const itemColor = isSelected
+                  ? (selectedOptionColor || undefined)
+                  : (unselectedOptionColor || undefined);
                 return (
                   <button
                     key={option.value}
@@ -164,16 +182,28 @@ export default function CustomSelect({
                     }}
                     className={`w-full flex items-start justify-between gap-2.5 text-xs px-2.5 py-1.5 rounded-md text-left transition-colors duration-150 cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-50/70 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold'
+                        ? selectedOptionBgColor ? 'font-bold' : 'bg-blue-50/70 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold'
                         : 'text-slate-650 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                     }`}
+                    style={{
+                      backgroundColor: isSelected && selectedOptionBgColor ? selectedOptionBgColor : undefined
+                    }}
                   >
                     <span className="flex items-start gap-1.5 text-wrap text-left whitespace-normal break-words py-0.5">
                       {option.icon}
-                      <span className="leading-relaxed">{option.label}</span>
+                      <span className="leading-relaxed" style={{ color: itemColor }}>
+                        {option.label}
+                      </span>
                     </span>
                     {isSelected && (
-                      <Check className="h-3 w-3 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                      <Check
+                        className="h-3 w-3 shrink-0"
+                        style={{
+                          color: selectedOptionColor || undefined,
+                          marginTop: '6px',
+                          marginRight: '3px',
+                        }}
+                      />
                     )}
                   </button>
                 );

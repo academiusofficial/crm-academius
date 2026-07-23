@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import academiusLogo from '../assets/images/regenerated_image_1784801332072.webp';
 import { GraduationCap, Lock, Mail, ChevronRight, HelpCircle, ShieldAlert, Check, Eye, EyeOff } from 'lucide-react';
 import { UserRole } from '../types';
 import { supabase } from '../supabaseClient';
@@ -150,21 +151,16 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4 font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-gradient-to-b from-[#42B8D5] to-[#136386] flex flex-col items-center justify-center p-4 font-sans transition-colors duration-200">
       
       {/* Brand Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="bg-blue-600 dark:bg-blue-500 p-2.5 rounded-2xl text-white shadow-lg flex items-center justify-center">
-          <GraduationCap className="h-7 w-7" id="auth-logo" />
-        </div>
-        <div>
-          <h1 className="font-display font-black text-2xl text-slate-805 dark:text-white leading-none">
-            ACADEMIUS
-          </h1>
-          <span className="text-xs font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-400 mt-0.5 block">
-            CRM SYSTEM
-          </span>
-        </div>
+      <div className="flex items-center justify-center mb-8">
+        <img 
+          src={academiusLogo} 
+          alt="Academius CRM System" 
+          className="h-16 w-auto object-contain max-w-[260px]"
+          referrerPolicy="no-referrer"
+        />
       </div>
 
       {/* Auth Panel */}
@@ -174,7 +170,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         <div className="p-8 flex flex-col justify-between w-full md:w-[700px] max-w-full" style={{ width: '700px', maxWidth: '100%' }}>
           <div className="space-y-6">
             <div>
-              <h2 className="font-display font-bold text-xl text-slate-800 dark:text-white">
+              <h2 className="font-display font-bold text-xl dark:text-white" style={{ color: '#116185' }}>
                 {isRegistering ? 'Daftar Akun CRM Baru' : 'Selamat Datang'}
               </h2>
               <p className="text-xs text-slate-400 mt-1">
@@ -221,6 +217,10 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
                         { value: 'Manager CRM', label: 'Manager CRM' },
                         { value: 'Staff CRM', label: 'Staff CRM' }
                       ]}
+                      triggerStyle={{ color: '#116185' }}
+                      dropdownStyle={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#116185' }}
+                      selectedOptionColor="#42b8d5"
+                      unselectedOptionColor="#116185"
                     />
                   </div>
                 </>
@@ -272,7 +272,8 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/10 flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6"
+                className="w-full py-3 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6"
+                style={{ backgroundColor: '#42b8d5' }}
               >
                 <span>{isRegistering ? 'Buat Akun Sekarang' : 'Masuk Aplikasi CRM'}</span>
                 <ChevronRight className="h-4 w-4" />
@@ -290,7 +291,8 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
                 setErrorMessage('');
                 setInfoMessage('');
               }}
-              className="text-blue-600 dark:text-blue-400 hover:underline font-bold ml-1"
+              className="hover:underline font-bold ml-1"
+              style={{ color: '#42b8d5' }}
             >
               {isRegistering ? 'Masuk di Sini' : 'Daftar Sekarang'}
             </button>

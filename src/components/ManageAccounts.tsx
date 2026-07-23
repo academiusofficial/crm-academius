@@ -182,7 +182,7 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
       {/* Header Panel */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h2 className="font-display font-black text-2xl text-slate-800 dark:text-white flex items-center gap-2">
+          <h2 className="font-display font-black text-2xl dark:text-white flex items-center gap-2" style={{ color: '#136386' }}>
             <span>Kelola Akun Sistem CRM</span>
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">

@@ -378,23 +378,24 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-display font-bold text-2xl text-slate-800 dark:text-white">
+          <h2 className="font-display font-bold text-2xl dark:text-white" style={{ color: '#136386' }}>
             Performance Overview
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
             Pantau perolehan leads, status kualifikasi BANT, dan efisiensi konversi sales konselor secara real-time.
           </p>
         </div>
-        <div 
-          className="bg-gradient-to-r from-blue-900 to-indigo-950 px-4 py-2 rounded-xl shadow-sm border border-blue-900 text-xs font-semibold text-white flex items-center gap-2.5"
+        <button 
+          type="button"
+          className="bg-gradient-to-r from-[#42B8D5] to-[#136386] px-4 py-2 rounded-xl shadow-sm text-xs font-semibold text-white flex items-center gap-2.5 border-0 cursor-pointer"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" style={{ color: '#00bba7', backgroundColor: '#00bba7' }}></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" style={{ color: '#00bba7', backgroundColor: '#00bba7' }}></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" style={{ color: '#ffffff', backgroundColor: '#ffffff' }}></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" style={{ color: '#ffffff', backgroundColor: '#ffffff' }}></span>
           </span>
-          <span style={{ color: '#8ec5ff' }}>Waktu Makassar (WITA):</span>
+          <span style={{ color: '#ffffff' }}>Waktu Makassar (WITA):</span>
           <span className="font-mono font-bold" style={{ color: '#ffffff' }}>{currentMakassarTime}</span>
-        </div>
+        </button>
       </div>
 
       {/* Grid Indicators */}
@@ -406,8 +407,8 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
             <Users className="h-4 w-4 text-blue-500" />
           </div>
           <div className="mt-4 pr-0">
-            <h3 className="font-display font-bold text-2xl text-slate-800 dark:text-white">{totalLeads}</h3>
-            <p className="text-[10px] text-slate-400 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Masuk database</p>
+            <h3 className="font-display font-bold text-2xl" style={{ color: '#42b8d5' }}>{totalLeads}</h3>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#42b8d5', color: '#ffffff' }}>Masuk database</p>
           </div>
         </div>
 
@@ -418,8 +419,8 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
             <GraduationCap className="h-4 w-4 text-indigo-500" />
           </div>
           <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-indigo-600 dark:text-indigo-400">{mentoringCount}</h3>
-            <p className="text-[10px] text-indigo-500/90 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Masuk Mentoring</p>
+            <h3 className="font-display font-bold text-2xl" style={{ color: '#615fff' }}>{mentoringCount}</h3>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border" style={{ backgroundColor: '#615fff', color: '#ffffff', borderColor: '#615fff' }}>Masuk Mentoring</p>
           </div>
         </div>
 
@@ -431,7 +432,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
           <div className="mt-4">
             <h3 className="font-display font-bold text-2xl text-red-600 dark:text-red-400">{hotCount}</h3>
-            <p className="text-[10px] text-red-400/90 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Skor BANT &ge; 10</p>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#ff6468', color: '#ffffff' }}>Skor BANT &ge; 10</p>
           </div>
         </div>
 
@@ -443,7 +444,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
           <div className="mt-4">
             <h3 className="font-display font-bold text-2xl text-amber-600 dark:text-amber-400">{warmCount}</h3>
-            <p className="text-[10px] text-amber-400/90 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Skor BANT 6 - 9</p>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#ffba00', color: '#ffffff' }}>Skor BANT 6 - 9</p>
           </div>
         </div>
 
@@ -455,7 +456,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
           <div className="mt-4">
             <h3 className="font-display font-bold text-2xl text-blue-500">{coldCount}</h3>
-            <p className="text-[10px] text-blue-400/90 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Skor BANT &le; 5</p>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#50a3ff', color: '#ffffff' }}>Skor BANT &le; 5</p>
           </div>
         </div>
 
@@ -467,7 +468,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
           <div className="mt-4">
             <h3 className="font-display font-bold text-2xl text-slate-700 dark:text-slate-300">{reactivateCount}</h3>
-            <p className="text-[10px] text-slate-400 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Inaktif &gt; 60 hari</p>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#314158', color: '#ffffff' }}>Inaktif &gt; 60 hari</p>
           </div>
         </div>
 
@@ -479,7 +480,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
           <div className="mt-4">
             <h3 className="font-display font-bold text-2xl text-emerald-600 dark:text-emerald-400">{enrolledCount + completedCount}</h3>
-            <p className="text-[10px] text-emerald-400 font-mono mt-1 border border-[#e2e8f0] dark:border-slate-800 rounded px-1.5 py-0.5 w-fit">Telah mendaftar</p>
+            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#009966', color: '#ffffff' }}>Telah mendaftar</p>
           </div>
         </div>
 
@@ -500,14 +501,14 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
 
       {/* Financial Potential Summary Card */}
       {isArsul || userRole === 'Admin CRM' ? (
-        <div className="bg-gradient-to-r from-blue-900 to-indigo-950 p-6 rounded-2xl text-white shadow-md border border-blue-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="bg-gradient-to-r from-[#42B8D5] to-[#136386] p-6 rounded-2xl text-white shadow-md border-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-blue-300 text-xs font-bold uppercase tracking-widest block">Total Nilai Potensi Pipeline</span>
+              <span className="text-white text-xs font-bold uppercase tracking-widest block" style={{ color: '#ffffff' }}>Total Nilai Potensi Pipeline</span>
               <button
                 type="button"
                 onClick={() => setShowPotentialValue(!showPotentialValue)}
-                className="p-1 rounded hover:bg-white/10 text-blue-200 transition-colors cursor-pointer flex items-center justify-center"
+                className="p-1 rounded hover:bg-white/10 text-white/80 transition-colors cursor-pointer flex items-center justify-center"
                 title={showPotentialValue ? "Sembunyikan Potensi" : "Tampilkan Potensi"}
               >
                 {showPotentialValue ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -516,7 +517,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
             <h3 className="font-display font-bold text-3xl mt-2 tracking-tight">
               {showPotentialValue ? formatIDR(totalPotentialValue) : 'Rp ••••••••'}
             </h3>
-            <p className="text-xs text-blue-200 mt-1">
+            <p className="text-xs text-white mt-1" style={{ color: '#ffffff' }}>
               Akumulasi nilai potensi transaksi dari seluruh leads aktif di pipeline (tidak termasuk status Lost).
             </p>
           </div>
@@ -544,22 +545,22 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
       )}
 
       {/* Pendaftar Stats Table */}
-      <div className="bg-gradient-to-r from-blue-900 to-indigo-950 p-6 rounded-2xl text-white shadow-md border border-blue-900/60 animate-in fade-in duration-300">
+      <div className="bg-gradient-to-r from-[#42B8D5] to-[#136386] p-6 rounded-2xl text-white shadow-md border-0 animate-in fade-in duration-300">
         {/* Card Header & Date Range Picker */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-blue-800/40 pb-4 mb-5">
           <div>
-            <h4 className="text-sm font-semibold tracking-wide uppercase text-[#8ec5ff] flex items-center gap-2">
-              <Users className="h-4 w-4 text-[#8ec5ff]" />
+            <h4 className="text-sm font-semibold tracking-wide uppercase flex items-center gap-2" style={{ color: '#ffffff', borderColor: '#ffffff' }}>
+              <Users className="h-4 w-4" style={{ color: '#ffffff' }} />
               Statistik Sales Konselor (Pendaftar)
             </h4>
-            <p className="text-[11px] text-blue-200/70 mt-1">
+            <p className="text-[11px] mt-1" style={{ color: '#ffffff' }}>
               Berdasarkan tanggal masuk leads yang terdaftar di sistem.
             </p>
           </div>
 
           {/* Date Picker Filter Panel */}
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <div className="flex bg-blue-950/80 border border-blue-800/60 rounded-lg p-0.5">
+            <div className="flex rounded-lg p-0.5" style={{ backgroundColor: '#ffffff' }}>
               {[
                 { id: 'all', label: 'Semua' },
                 { id: '7days', label: '7 Hari' },
@@ -571,11 +572,11 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                   key={p.id}
                   type="button"
                   onClick={() => setDateRangePreset(p.id)}
-                  className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer ${
-                    dateRangePreset === p.id 
-                      ? 'bg-blue-600 text-white shadow-sm' 
-                      : 'text-blue-300 hover:text-white'
-                  }`}
+                  className="px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer"
+                  style={{
+                    backgroundColor: dateRangePreset === p.id ? '#42b8d5' : 'transparent',
+                    color: dateRangePreset === p.id ? '#ffffff' : '#136386'
+                  }}
                 >
                   {p.label}
                 </button>
@@ -583,22 +584,32 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
             </div>
 
             {dateRangePreset === 'custom' && (
-              <div className="flex items-center gap-2 bg-blue-950/80 border border-blue-800/60 rounded-lg px-2.5 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
-                <Calendar className="h-3.5 w-3.5 text-blue-300 shrink-0" />
+              <div 
+                className="flex items-center gap-2 rounded-lg px-2.5 py-1 animate-in fade-in slide-in-from-top-1 duration-200"
+                style={{
+                  backgroundColor: '#42b8d5',
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  borderColor: '#ffffff'
+                }}
+              >
+                <Calendar className="h-3.5 w-3.5 shrink-0" style={{ color: '#ffffff' }} />
                 <input
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
                   className="bg-transparent text-white border-none outline-none focus:ring-0 w-24 p-0 text-xs [color-scheme:dark]"
                   placeholder="Mulai"
+                  style={{ color: '#ffffff' }}
                 />
-                <span className="text-blue-400 font-semibold">-</span>
+                <span className="font-semibold" style={{ color: '#ffffff' }}>-</span>
                 <input
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
                   className="bg-transparent text-white border-none outline-none focus:ring-0 w-24 p-0 text-xs [color-scheme:dark]"
                   placeholder="Akhir"
+                  style={{ color: '#ffffff' }}
                 />
               </div>
             )}
@@ -609,40 +620,40 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-blue-800/50">
-                <th className="pb-4 pr-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 pr-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Pendaftar
-                    <Users className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <Users className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Role
-                    <Shield className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <Shield className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Rentang Tanggal
-                    <Calendar className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <Calendar className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Jumlah Leads
-                    <Target className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <Target className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Jumlah Mentoring Student
-                    <GraduationCap className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <GraduationCap className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 pl-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8ec5ff] font-sans">
-                  <span className="inline-flex items-center gap-1.5">
+                <th className="pb-4 pl-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Conversion Rate
-                    <TrendingUp className="h-3.5 w-3.5 text-[#8ec5ff]/70" />
+                    <TrendingUp className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
               </tr>
@@ -664,7 +675,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                       {row.role === 'Admin CRM' ? 'Admin CRM' : row.role === 'Manager CRM' || row.role === 'Manager' ? 'Manager CRM' : 'Staff CRM'}
                     </span>
                   </td>
-                  <td className="py-4 px-4 font-sans font-bold text-[11px] text-blue-200/95">
+                  <td className="py-4 px-4 font-sans font-bold text-[11px]" style={{ color: '#ffffff' }}>
                     {row.dateRange}
                   </td>
                   <td className="py-4 px-4 font-sans font-bold text-[12px] text-blue-100">
@@ -888,16 +899,18 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          <span className="text-xs font-bold transition-colors" style={{ color: '#1d293d' }}>
                             {lead.namaLengkap}
-                          </h5>
-                          <span className="px-1.5 py-0.5 bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 rounded font-mono font-black text-[9px]" title="Skor BANT">
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded font-mono font-black text-[9px]" title="Skor BANT" style={{ color: '#ffffff', backgroundColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid', borderColor: '#42b8d5' }}>
                             Skor: {totalScore}
                           </span>
                         </div>
                         <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5">
-                          <Target className="h-3 w-3 text-blue-500 dark:text-blue-400 shrink-0" />
-                          <span>{lead.jenjangStudi} {lead.targetNegara} &bull; {lead.produkDiminati}</span>
+                          <button type="button" className="p-0 border-0 bg-transparent cursor-pointer flex items-center">
+                            <Target className="h-3 w-3 shrink-0" style={{ color: '#42b8d5' }} />
+                          </button>
+                          <span style={{ color: '#136386' }}>{lead.jenjangStudi} {lead.targetNegara} &bull; {lead.produkDiminati}</span>
                         </div>
                       </div>
                     </div>

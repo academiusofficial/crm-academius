@@ -428,7 +428,7 @@ export default function LeadModal({
         <div className="p-6 border-b border-slate-200/60 dark:border-slate-850 bg-slate-50/60 dark:bg-slate-900 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-4">
             {/* Round Avatar initials representing study interest */}
-            <div className="h-12 w-12 bg-blue-600 dark:bg-blue-500 rounded-2xl text-white font-bold font-display text-base flex flex-col items-center justify-center shadow-sm">
+            <div className="h-12 w-12 rounded-2xl text-white font-bold font-display text-base flex flex-col items-center justify-center shadow-sm" style={{ backgroundColor: '#42b8d5' }}>
               <span>{lead.jenjangStudi}</span>
               <span className="text-[9px] uppercase tracking-wider font-extrabold">{lead.targetNegara.slice(0, 3)}</span>
             </div>
@@ -471,11 +471,12 @@ export default function LeadModal({
             <button
               id="edit-lead-modal-btn"
               onClick={() => setShowEditForm(true)}
-              className="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/25 dark:hover:bg-blue-950/40 dark:text-blue-400 border border-blue-150/40 dark:border-blue-900/30 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm"
+              className="px-3.5 py-2 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm"
+              style={{ color: '#42b8d5', borderColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid' }}
               title="Edit Data Lengkap Lead"
             >
-              <Edit2 className="h-3.5 w-3.5" />
-              <span>Edit Profil</span>
+              <Edit2 className="h-3.5 w-3.5" style={{ color: '#42b8d5' }} />
+              <span style={{ color: '#42b8d5' }}>Edit Profil</span>
             </button>
 
             {(userRole === 'Admin CRM' || userRole === 'Staff CRM' || userRole === 'Manager CRM' || isArsul) && onDeleteLead && (
@@ -511,10 +512,12 @@ export default function LeadModal({
             {/* Sales Pipeline Stage & PIC & potential IDR Dropdowns */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wildest block mb-1">Tahap Pipeline</label>
+                <label className="text-[10px] font-bold uppercase tracking-wildest block mb-1" style={{ color: '#116185' }}>Tahap Pipeline</label>
                 <CustomSelect
                   id="modal-stage-select"
                   className="w-[170px]"
+                  selectedOptionBgColor="#42b8d5"
+                  selectedOptionColor="#ffffff"
                   value={stage}
                   onChange={(val) => {
                     const nextStg = val as PipelineStage;
@@ -537,10 +540,19 @@ export default function LeadModal({
 
               {stage === 'Completed' ? (
                 <div>
-                  <label className="text-[10px] font-bold text-blue-500 uppercase tracking-wildest block mb-1">Tahap Mentoring</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wildest block mb-1" style={{ color: '#116185' }}>Tahap Mentoring</label>
                   <CustomSelect
                     id="modal-mentoring-stage-select"
-                    className="w-[170px]"
+                    className="w-[178px] border-0"
+                    triggerStyle={{
+                      backgroundColor: '#42b8d5',
+                      color: '#ffffff',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      width: '178px'
+                    }}
+                    selectedOptionBgColor="#42b8d5"
+                    selectedOptionColor="#ffffff"
                     value={mentoringStage}
                     onChange={(val) => {
                       const nextMentoringStg = val as MentoringStage;
@@ -642,7 +654,7 @@ export default function LeadModal({
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] font-bold text-slate-400 block uppercase leading-[15px]">TOTAL SKOR</span>
-                  <span className="font-display font-black text-lg text-blue-600 dark:text-blue-400 font-mono mt-0.5 block">{totalScore} / 12</span>
+                  <span className="font-display font-black text-lg font-mono mt-0.5 block" style={{ color: '#42b8d5' }}>{totalScore} / 12</span>
                 </div>
               </div>
 
@@ -726,7 +738,7 @@ export default function LeadModal({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+                      <Sparkles className="h-5 w-5 animate-pulse" style={{ color: '#42b8d5' }} />
                       <h4 className="font-display font-extrabold text-base text-slate-800 dark:text-white">
                         Asisten AI Admission Predictor
                       </h4>
@@ -740,7 +752,8 @@ export default function LeadModal({
                     id="generate-ai-insight-btn"
                     onClick={fetchGeminiInsight}
                     disabled={isAiLoading}
-                    className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-all shadow-md shadow-indigo-500/10 flex items-center justify-center gap-2 shrink-0 active:scale-95 disabled:opacity-40 select-none cursor-pointer"
+                    className="px-4 py-2.5 rounded-xl text-white font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-2 shrink-0 active:scale-95 disabled:opacity-40 select-none cursor-pointer"
+                    style={{ backgroundColor: '#42b8d5' }}
                   >
                     <Sparkles className="h-4 w-4 text-white" />
                     <span>{isAiLoading ? 'Menganalisis Prospektus...' : 'Minta Analisis AI'}</span>
@@ -850,9 +863,10 @@ export default function LeadModal({
                 onClick={() => setActiveSubTab('tasks')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
                   activeSubTab === 'tasks'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
+                style={{ backgroundColor: activeSubTab === 'tasks' ? '#42b8d5' : undefined }}
               >
                 <ClipboardList className="h-4 w-4" />
                 <span>Rencana Tugas & To-Do</span>
@@ -865,9 +879,10 @@ export default function LeadModal({
                 onClick={() => setActiveSubTab('chats')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
                   activeSubTab === 'chats'
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/10'
+                    ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
+                style={{ backgroundColor: activeSubTab === 'chats' ? '#42b8d5' : undefined }}
               >
                 <MessageSquare className="h-4 w-4" />
                 <span>Simulasi Chat WhatsApp</span>
@@ -877,9 +892,10 @@ export default function LeadModal({
                 onClick={() => setActiveSubTab('logs')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
                   activeSubTab === 'logs'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
+                style={{ backgroundColor: activeSubTab === 'logs' ? '#42b8d5' : undefined }}
               >
                 <History className="h-4 w-4" />
                 <span>Activity Timeline</span>
@@ -959,7 +975,7 @@ export default function LeadModal({
                           <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 uppercase tracking-wider">
                             <span>📌</span> Tugas To-Do CRM
                           </span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-850 text-slate-500 font-bold">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ backgroundColor: '#42b8d5', color: '#ffffff' }}>
                             {tasks.filter(t => t.leadId === lead.id).length} Tugas
                           </span>
                         </div>
@@ -1123,9 +1139,10 @@ export default function LeadModal({
                                     onClick={() => setSelectedChecklistStage(stg)}
                                     className={`text-[9px] px-2 py-0.5 font-bold rounded-full transition-all cursor-pointer ${
                                       isActive
-                                        ? 'bg-blue-600 text-white shadow-sm'
+                                        ? 'text-white shadow-sm'
                                         : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-600 dark:text-slate-400'
                                     } ${isCurrent ? 'ring-1 ring-blue-400' : ''}`}
+                                    style={{ backgroundColor: isActive ? '#42b8d5' : undefined }}
                                     title={isCurrent ? `${stg} (Fase Aktif Lead)` : stg}
                                   >
                                     {stg} {isCurrent && '🎯'}
@@ -1211,7 +1228,8 @@ export default function LeadModal({
                     <div className="sm:col-span-1">
                       <button
                         type="submit"
-                        className="w-full h-full bg-blue-600 hover:bg-blue-500 text-white rounded-xl flex items-center justify-center p-2 cursor-pointer"
+                        className="w-full h-full text-white rounded-xl flex items-center justify-center p-2 cursor-pointer"
+                        style={{ backgroundColor: '#42b8d5' }}
                         title="Tambahkan Tugas"
                       >
                         <Plus className="h-4 w-4" />

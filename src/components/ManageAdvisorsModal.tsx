@@ -104,7 +104,7 @@ export default function ManageAdvisorsModal({ onClose, advisors, onUpdateAdvisor
         {/* Header */}
         <div className="p-5 border-b border-slate-150 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/45">
           <div>
-            <h3 className="font-display font-bold text-base text-slate-800 dark:text-white">
+            <h3 className="font-display font-bold text-base dark:text-white" style={{ color: '#116185' }}>
               Kelola PIC Advisor
             </h3>
             <p className="text-[10px] text-slate-400 mt-0.5">
@@ -152,7 +152,8 @@ export default function ManageAdvisorsModal({ onClose, advisors, onUpdateAdvisor
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all duration-150 cursor-pointer"
+              className="w-full py-2.5 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all duration-150 cursor-pointer"
+              style={{ backgroundColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid', borderColor: '#42b8d5' }}
             >
               <Plus className="h-4 w-4" />
               <span>Tambah PIC Advisor</span>

@@ -142,7 +142,7 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
         
         {/* Header */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
-          <h3 className="font-display font-bold text-lg text-slate-800 dark:text-white">
+          <h3 className="font-display font-bold text-lg dark:text-white" style={{ color: '#116185' }}>
             {lead ? `Edit Data Lead (${lead.leadId})` : 'Input Data Lead Baru'}
           </h3>
           <button 
@@ -441,7 +441,8 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
             <button
               id="save-lead-submit-btn"
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-500/10 flex items-center gap-1.5 transition-all"
+              className="px-5 py-2.5 rounded-xl text-white text-xs font-bold shadow-md flex items-center gap-1.5 transition-all"
+              style={{ backgroundColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid', borderColor: '#42b8d5' }}
             >
               <Check className="h-4 w-4" />
               <span>Simpan Data Profil</span>

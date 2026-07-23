@@ -417,7 +417,8 @@ export default function LeadsTable({
             <button
               id="add-lead-btn"
               onClick={onAddLeadClick}
-              className="px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-500/10 rounded-xl flex items-center gap-2 transition-all active:scale-95"
+              className="px-4 py-2 text-sm font-semibold text-white shadow-sm rounded-xl flex items-center gap-2 transition-all active:scale-95"
+              style={{ backgroundColor: '#42b8d5' }}
             >
               <FolderPlus className="h-4 w-4" />
               <span>Input Lead Baru</span>
