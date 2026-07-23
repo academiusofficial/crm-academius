@@ -111,7 +111,7 @@ Kembalikan respon dalam bentuk JSON VALID dengan struktur persis seperti berikut
 `;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json'
