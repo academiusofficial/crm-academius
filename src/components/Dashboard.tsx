@@ -404,7 +404,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
         <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Leads</span>
-            <Users className="h-4 w-4 text-blue-500" />
+            <Users className="h-4 w-4" style={{ color: '#42b8d5' }} />
           </div>
           <div className="mt-4 pr-0">
             <h3 className="font-display font-bold text-2xl" style={{ color: '#42b8d5' }}>{totalLeads}</h3>
@@ -488,10 +488,10 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
         <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/55 dark:border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-semibold uppercase tracking-wider">Conv. Rate</span>
-            <TrendingUp className="h-4 w-4 text-blue-600" />
+            <TrendingUp className="h-4 w-4" style={{ color: '#42b8d5' }} />
           </div>
           <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-blue-600 dark:text-blue-400">
+            <h3 className="font-display font-bold text-2xl" style={{ color: '#42b8d5' }}>
               {conversionRate.toFixed(1)}%
             </h3>
             <p className="text-[10px] text-slate-400 font-mono mt-1">Target global: 20%</p>
@@ -825,7 +825,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
               <div key={stage.stage} className="relative flex items-center">
                 {/* Horizontal Funnel Bar */}
                 <div className="w-1/3 text-xs font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2">
-                  <span className="h-5 w-5 bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-md flex items-center justify-center font-bold font-display text-[10px]">
+                  <span className="h-5 w-5 rounded-md flex items-center justify-center font-bold font-display text-[10px] text-white" style={{ backgroundColor: '#42b8d5' }}>
                     {idx + 1}
                   </span>
                   <span className="truncate">{stage.stage}</span>
@@ -834,8 +834,8 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                 <div className="flex-1 relative h-9 bg-slate-50 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200/30">
                   {/* Fill Level */}
                   <div 
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-blue-500 flex items-center pl-4 text-white text-xs font-bold transition-all duration-500 ease-out" 
-                    style={{ width: `${stage.conversionFromStart || 5}%` }}
+                    className="absolute top-0 left-0 h-full flex items-center pl-4 text-white text-xs font-bold transition-all duration-500 ease-out" 
+                    style={{ width: `${stage.conversionFromStart || 5}%`, backgroundColor: '#42b8d5' }}
                   >
                     {stage.count} Leads ({stage.conversionFromStart}%)
                   </div>

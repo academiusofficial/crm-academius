@@ -35,8 +35,8 @@ export default function CustomSelect({
   direction = 'auto',
   triggerStyle,
   dropdownStyle,
-  selectedOptionColor,
-  selectedOptionBgColor,
+  selectedOptionColor = '#ffffff',
+  selectedOptionBgColor = '#42b8d5',
   unselectedOptionColor
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -182,11 +182,11 @@ export default function CustomSelect({
                     }}
                     className={`w-full flex items-start justify-between gap-2.5 text-xs px-2.5 py-1.5 rounded-md text-left transition-colors duration-150 cursor-pointer ${
                       isSelected
-                        ? selectedOptionBgColor ? 'font-bold' : 'bg-blue-50/70 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold'
+                        ? 'font-bold'
                         : 'text-slate-650 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                     }`}
                     style={{
-                      backgroundColor: isSelected && selectedOptionBgColor ? selectedOptionBgColor : undefined
+                      backgroundColor: isSelected ? selectedOptionBgColor : undefined
                     }}
                   >
                     <span className="flex items-start gap-1.5 text-wrap text-left whitespace-normal break-words py-0.5">

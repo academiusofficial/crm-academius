@@ -243,9 +243,13 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
                     onClick={() => setJenjangStudi(lvl)}
                     className={`py-2 text-xs font-bold rounded-lg border transition-all ${
                       jenjangStudi === lvl 
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                        ? 'text-white shadow-sm' 
                         : 'bg-white text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-350 dark:border-slate-700'
                     }`}
+                    style={{
+                      backgroundColor: jenjangStudi === lvl ? '#42b8d5' : undefined,
+                      borderColor: jenjangStudi === lvl ? '#42b8d5' : undefined,
+                    }}
                   >
                     {lvl}
                   </button>
@@ -442,7 +446,7 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
               id="save-lead-submit-btn"
               type="submit"
               className="px-5 py-2.5 rounded-xl text-white text-xs font-bold shadow-md flex items-center gap-1.5 transition-all"
-              style={{ backgroundColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid', borderColor: '#42b8d5' }}
+              style={{ backgroundColor: '#42b8d5', borderWidth: '0px' }}
             >
               <Check className="h-4 w-4" />
               <span>Simpan Data Profil</span>

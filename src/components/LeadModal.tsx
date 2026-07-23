@@ -516,6 +516,10 @@ export default function LeadModal({
                 <CustomSelect
                   id="modal-stage-select"
                   className="w-[170px]"
+                  triggerStyle={{
+                    backgroundColor: '#42b8d5',
+                    color: '#ffffff',
+                  }}
                   selectedOptionBgColor="#42b8d5"
                   selectedOptionColor="#ffffff"
                   value={stage}
@@ -670,7 +674,8 @@ export default function LeadModal({
                   type="range" min="1" max="3" step="1"
                   value={budget}
                   onChange={(e) => handleBantChange('budget', Number(e.target.value) as any)}
-                  className="w-full accent-blue-600 dark:accent-blue-500 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  style={{ accentColor: '#42b8d5' }}
                 />
               </div>
 
@@ -686,7 +691,8 @@ export default function LeadModal({
                   type="range" min="1" max="3" step="1"
                   value={authority}
                   onChange={(e) => handleBantChange('authority', Number(e.target.value) as any)}
-                  className="w-full accent-blue-600 dark:accent-blue-500 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  style={{ accentColor: '#42b8d5' }}
                 />
               </div>
 
@@ -702,7 +708,8 @@ export default function LeadModal({
                   type="range" min="1" max="3" step="1"
                   value={need}
                   onChange={(e) => handleBantChange('need', Number(e.target.value) as any)}
-                  className="w-full accent-blue-600 dark:accent-blue-500 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  style={{ accentColor: '#42b8d5' }}
                 />
               </div>
 
@@ -718,7 +725,8 @@ export default function LeadModal({
                   type="range" min="1" max="3" step="1"
                   value={timeline}
                   onChange={(e) => handleBantChange('timeline', Number(e.target.value) as any)}
-                  className="w-full accent-blue-600 dark:accent-blue-500 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                  style={{ accentColor: '#42b8d5' }}
                 />
               </div>
 
@@ -924,9 +932,10 @@ export default function LeadModal({
                         >
                           <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-xs leading-relaxed ${
                             chat.sender === 'counselor'
-                              ? 'bg-blue-600 text-white rounded-tr-none'
+                              ? 'text-white rounded-tr-none'
                               : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200/50 dark:border-slate-750/30'
-                          }`}>
+                          }`}
+                          style={{ backgroundColor: chat.sender === 'counselor' ? '#42b8d5' : undefined }}>
                             <p className="font-sans font-medium whitespace-pre-wrap">{chat.text}</p>
                             <span className={`block text-[9px] text-right mt-1.5 font-mono ${
                               chat.sender === 'counselor' ? 'text-blue-150/70' : 'text-slate-400'
@@ -1050,7 +1059,8 @@ export default function LeadModal({
                                       onAddLog(`${userName} memperbarui tugas To-Do "${task.todo}" menjadi "${editingTaskTodo}" dengan deadline ${editingTaskDeadline}`);
                                       setEditingTaskId(null);
                                     }}
-                                    className="px-2 py-1 text-[11px] bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg flex items-center gap-1 transition-all"
+                                    className="px-2 py-1 text-[11px] text-white font-semibold rounded-lg flex items-center gap-1 transition-all"
+                                    style={{ backgroundColor: '#42b8d5' }}
                                   >
                                     <Check className="h-3 w-3" />
                                     Simpan
@@ -1211,6 +1221,7 @@ export default function LeadModal({
                         value={taskDeadline}
                         onChange={(e) => setTaskDeadline(e.target.value)}
                         className="w-full p-2 text-xs bg-slate-50 dark:bg-slate-850 rounded-xl focus:outline-none border border-slate-200/40 dark:border-slate-700 font-mono text-slate-600"
+                        style={{ paddingLeft: '8px', paddingRight: '8px', marginRight: '0px' }}
                       />
                     </div>
                     <div className="sm:col-span-2">
@@ -1218,6 +1229,13 @@ export default function LeadModal({
                         direction="up"
                         value={taskPriority}
                         onChange={(val: any) => setTaskPriority(val)}
+                        triggerStyle={{
+                          backgroundColor: '#42b8d5',
+                          color: '#ffffff',
+                          width: '89.3594px'
+                        }}
+                        selectedOptionBgColor="#42b8d5"
+                        selectedOptionColor="#ffffff"
                         options={[
                           { value: 'High', label: 'Tinggi' },
                           { value: 'Medium', label: 'Sedang' },

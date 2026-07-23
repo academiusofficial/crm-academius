@@ -923,7 +923,8 @@ export default function App() {
                   }
                 }
               }}
-              className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5"
+              style={{ backgroundColor: '#42b8d5' }}
             >
               <RefreshCw className="h-4 w-4 animate-spin" style={{ animationDuration: '3s' }} />
               <span>Perbarui Status Persetujuan</span>

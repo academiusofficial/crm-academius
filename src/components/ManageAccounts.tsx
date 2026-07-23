@@ -285,7 +285,7 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
                     >
                       <td className="p-4 pl-6">
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900/30 flex items-center justify-center font-bold text-xs">
+                          <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: '#d8f0ff', color: '#42b8d5', borderColor: '#42b8d5' }}>
                             {account.displayName.slice(0, 2).toUpperCase()}
                           </div>
                           <div>
@@ -489,7 +489,8 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-sm flex items-center gap-1.5 cursor-pointer disabled:opacity-55"
+                  className="px-4 py-2 text-white font-bold rounded-xl text-xs shadow-sm flex items-center gap-1.5 cursor-pointer disabled:opacity-55"
+                  style={{ backgroundColor: '#42b8d5' }}
                 >
                   {isSubmitting ? (
                     <div className="h-3 w-3 border-2 border-white/30 border-b-white rounded-full animate-spin" />
