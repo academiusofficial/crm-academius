@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 70" fill="none">
+  <!-- Emblem: Chat / Globe Sphere with grid lines -->
+  <g transform="translate(4, 5)">
+    <!-- Base bubble sphere -->
+    <path d="M 28 4 C 42.3594 4 54 15.6406 54 30 C 54 39.5 48.8 47.8 41 52.2 L 44 63 L 33 55.5 C 31.4 55.8 29.7 56 28 56 C 13.6406 56 2 44.3594 2 30 C 2 15.6406 13.6406 4 28 4 Z" fill="none" stroke="#FFFFFF" stroke-width="3.5"/>
+    <!-- Dotted latitude lines -->
+    <path d="M 9 20 C 18 14 38 14 47 20" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="1 4" stroke-linecap="round"/>
+    <path d="M 5 30 C 17 23 39 23 51 30" stroke="#FFFFFF" stroke-width="3.5" stroke-dasharray="1 4" stroke-linecap="round"/>
+    <path d="M 9 40 C 18 35 38 35 47 40" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="1 4" stroke-linecap="round"/>
+    <!-- Meridian ellipse -->
+    <ellipse cx="28" cy="30" rx="12" ry="25" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="1 4" fill="none"/>
+  </g>
+  
+  <!-- Academius Wordmark -->
+  <text x="72" y="44" fill="#FFFFFF" font-family="'Playfair Display', 'Georgia', 'Times New Roman', serif" font-weight="900" font-size="34" letter-spacing="-0.5">Academius</text>
+  <text x="74" y="60" fill="#93C5FD" font-family="'Plus Jakarta Sans', 'Inter', sans-serif" font-weight="800" font-size="10" letter-spacing="3.5">CRM SYSTEM</text>
+</svg>

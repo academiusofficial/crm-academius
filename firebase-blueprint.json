@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Represents prospective students for study-abroad counseling and scholarships",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "leadId": { "type": "string" },
+        "tanggalMasuk": { "type": "string" },
+        "namaLengkap": { "type": "string" },
+        "nomorWhatsApp": { "type": "string" },
+        "email": { "type": "string" },
+        "kota": { "type": "string" },
+        "sumberLeads": { "type": "string" },
+        "jenjangStudi": { "type": "string" },
+        "targetNegara": { "type": "string" },
+        "produkDiminati": { "type": "string" },
+        "catatan": { "type": "string" },
+        "pic": { "type": "string" },
+        "tanggalFollowUpTerakhir": { "type": "string" },
+        "bant": { "type": "object" },
+        "stage": { "type": "string" },
+        "nilaiPotensi": { "type": "number" },
+        "lastUpdated": { "type": "string" }
+      },
+      "required": ["id", "leadId", "tanggalMasuk", "namaLengkap", "nomorWhatsApp", "email", "sumberLeads", "jenjangStudi", "targetNegara", "stage", "nilaiPotensi", "lastUpdated"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Represents follow-up tasks and deadlines assigned to counselor team",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "leadId": { "type": "string" },
+        "leadName": { "type": "string" },
+        "todo": { "type": "string" },
+        "deadline": { "type": "string" },
+        "pic": { "type": "string" },
+        "status": { "type": "string" },
+        "priority": { "type": "string" }
+      },
+      "required": ["id", "leadId", "leadName", "todo", "deadline", "pic", "status", "priority"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Represents immutable audit log profile changes or milestones",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "leadId": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "jam": { "type": "string" },
+        "user": { "type": "string" },
+        "role": { "type": "string" },
+        "aktivitas": { "type": "string" }
+      },
+      "required": ["id", "leadId", "tanggal", "jam", "user", "role", "aktivitas"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Represents message records for counselors following up via whatsapp, notes, or email",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "leadId": { "type": "string" },
+        "sender": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string" }
+      },
+      "required": ["id", "leadId", "sender", "timestamp", "text", "type"]
+    }
+  },
+  "firestore": {
+    "leads": {
+      "schema": "Lead",
+      "description": "CRM prospective students master collection"
+    },
+    "tasks": {
+      "schema": "Task",
+      "description": "Assigned counselor tasks and active reminders"
+    },
+    "logs": {
+      "schema": "ActivityLog",
+      "description": "Auditable log of counselor and system activities"
+    },
+    "chats": {
+      "schema": "ChatMessage",
+      "description": "WhatsApp, notes, and direct communication history"
+    }
+  }
+}

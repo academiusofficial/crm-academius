@@ -1,0 +1,6 @@
+{
+  "name": "Academius CRM System",
+  "description": "Sistem CRM berbasis database untuk bisnis konsultasi pendidikan, pendampingan kuliah luar negeri, dan beasiswa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
