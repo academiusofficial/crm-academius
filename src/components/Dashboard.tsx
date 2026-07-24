@@ -15,7 +15,9 @@ import {
   Target,
   GraduationCap,
   Calendar,
-  Shield
+  Shield,
+  Search,
+  X
 } from 'lucide-react';
 import { Lead, UserRole, UserProfile } from '../types';
 import { getLeadStatus, formatIDR } from '../utils';
@@ -372,6 +374,18 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
     return result.sort((a, b) => b.leadsCount - a.leadsCount);
   }, [filteredPendaftarLeads, userRole, userName, allProfiles]);
 
+  const [pendaftarSearchQuery, setPendaftarSearchQuery] = React.useState<string>('');
+
+  const searchedPendaftarStats = React.useMemo(() => {
+    if (!pendaftarSearchQuery.trim()) return pendaftarStats;
+    const q = pendaftarSearchQuery.toLowerCase().trim();
+    return pendaftarStats.filter(row => 
+      row.name.toLowerCase().includes(q) || 
+      row.role.toLowerCase().includes(q) ||
+      row.dateRange.toLowerCase().includes(q)
+    );
+  }, [pendaftarStats, pendaftarSearchQuery]);
+
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-300">
       
@@ -551,7 +565,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           <div>
             <h4 className="text-sm font-semibold tracking-wide uppercase flex items-center gap-2" style={{ color: '#ffffff', borderColor: '#ffffff' }}>
               <Users className="h-4 w-4" style={{ color: '#ffffff' }} />
-              Statistik Sales Konselor (Pendaftar)
+              Statistik Performance Sales & Mentoring
             </h4>
             <p className="text-[11px] mt-1" style={{ color: '#ffffff' }}>
               Berdasarkan tanggal masuk leads yang terdaftar di sistem.
@@ -560,6 +574,28 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
 
           {/* Date Picker Filter Panel */}
           <div className="flex flex-wrap items-center gap-2 text-xs">
+            {/* Elegant Search Input */}
+            <div className="relative flex items-center">
+              <Search className="h-3.5 w-3.5 absolute left-2.5 pointer-events-none" style={{ color: '#136386' }} />
+              <input
+                type="text"
+                placeholder="Cari pendaftar..."
+                value={pendaftarSearchQuery}
+                onChange={(e) => setPendaftarSearchQuery(e.target.value)}
+                className="pl-8 pr-7 py-1 text-xs rounded-lg border-0 outline-none transition-all placeholder:text-slate-400 font-medium w-36 sm:w-44 focus:w-48 sm:focus:w-56 shadow-sm"
+                style={{ backgroundColor: '#ffffff', color: '#136386' }}
+              />
+              {pendaftarSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setPendaftarSearchQuery('')}
+                  className="absolute right-2 hover:opacity-80 transition-opacity text-xs font-bold p-0.5 cursor-pointer flex items-center justify-center"
+                >
+                  <X className="h-3 w-3" style={{ color: '#136386' }} />
+                </button>
+              )}
+            </div>
+
             <div className="flex rounded-lg p-0.5" style={{ backgroundColor: '#ffffff' }}>
               {[
                 { id: 'all', label: 'Semua' },
@@ -659,7 +695,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
               </tr>
             </thead>
             <tbody className="divide-y divide-blue-800/30">
-              {pendaftarStats.map((row, index) => (
+              {searchedPendaftarStats.map((row, index) => (
                 <tr key={index} className="hover:bg-white/5 transition-colors">
                   <td className="py-4 pr-4 font-sans font-bold text-[12px] text-white">
                     {row.name}
@@ -689,10 +725,10 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                   </td>
                 </tr>
               ))}
-              {pendaftarStats.length === 0 && (
+              {searchedPendaftarStats.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-blue-300/60 text-sm animate-pulse">
-                    Belum ada data pendaftar dalam rentang tanggal ini.
+                  <td colSpan={6} className="py-8 text-center text-blue-300/80 text-sm font-medium">
+                    {pendaftarSearchQuery ? `Tidak ada pendaftar yang cocok dengan "${pendaftarSearchQuery}"` : 'Belum ada data pendaftar dalam rentang tanggal ini.'}
                   </td>
                 </tr>
               )}
