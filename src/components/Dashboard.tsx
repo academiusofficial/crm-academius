@@ -304,14 +304,14 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
     });
 
     filteredPendaftarLeads.forEach(l => {
-      const pendaftar = (userRole === 'Staff CRM' && userName) ? userName : (l.creator_name || 'Academius');
+      const pendaftar = l.creator_name || l.pic || 'Academius';
       const key = pendaftar.trim().toUpperCase();
       if (!stats[key]) {
         stats[key] = { 
           leadsCount: 0, 
           mentoringCount: 0, 
           dates: [],
-          role: (userRole === 'Staff CRM') ? 'Staff CRM' : (l.creator_role || 'Admin CRM'),
+          role: l.creator_role || 'Admin CRM',
           displayName: pendaftar
         };
       }
@@ -325,7 +325,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           stats[key].dates.push(d);
         }
       }
-      if (l.creator_role && userRole !== 'Staff CRM') {
+      if (l.creator_role) {
         stats[key].role = l.creator_role;
       }
     });
