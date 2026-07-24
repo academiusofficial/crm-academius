@@ -591,7 +591,7 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
                   onClick={() => setPendaftarSearchQuery('')}
                   className="absolute right-2 hover:opacity-80 transition-opacity text-xs font-bold p-0.5 cursor-pointer flex items-center justify-center"
                 >
-                  <X className="h-3 w-3" style={{ color: '#136386' }} />
+                  <X className="h-3 w-3" style={{ color: '#42b8d5' }} />
                 </button>
               )}
             </div>

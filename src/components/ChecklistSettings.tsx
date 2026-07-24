@@ -166,8 +166,8 @@ export default function ChecklistSettings({
                 className="w-full flex items-center justify-center gap-2 py-2.5 px-4 disabled:bg-slate-100 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white text-xs font-bold rounded-xl transition-colors shadow-sm cursor-pointer"
                 style={{ backgroundColor: '#42b8d5' }}
               >
-                <Plus className="h-4 w-4" />
-                <span>Simpan Ke Pengaturan Checklist</span>
+                <Plus className="h-4 w-4" style={{ color: '#ffffff' }} />
+                <span style={{ color: '#ffffff' }}>Simpan Ke Pengaturan Checklist</span>
               </button>
             </form>
           </div>
