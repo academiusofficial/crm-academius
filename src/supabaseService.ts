@@ -606,28 +606,51 @@ export async function getOrganizationMembers(organizationId?: string | null): Pr
 // ---------------------- ACCOUNTS (USER PROFILES) SERVICE ----------------------
 
 export async function getUserProfiles(): Promise<UserProfile[]> {
+  const localRaw = localStorage.getItem('academius_user_profiles');
+  const localProfiles: UserProfile[] = localRaw ? JSON.parse(localRaw) : [];
+
   try {
     const { data, error } = await supabase
       .from('profiles')
       .select('*');
     
     if (error) throw error;
+
     if (data && data.length > 0) {
-      localStorage.setItem('academius_user_profiles', JSON.stringify(data));
-      return data as UserProfile[];
+      // Merge remote data with local profiles so custom/edited display names in local are never lost
+      const mergedList = (data as UserProfile[]).map(remote => {
+        const localMatch = localProfiles.find(p => p.uid === remote.uid || p.email.toLowerCase() === remote.email.toLowerCase());
+        if (localMatch && localMatch.displayName && localMatch.displayName !== remote.email.split('@')[0]) {
+          return {
+            ...remote,
+            displayName: localMatch.displayName || remote.displayName,
+            role: localMatch.role || remote.role,
+            isApproved: localMatch.isApproved !== undefined ? localMatch.isApproved : remote.isApproved
+          };
+        }
+        return remote;
+      });
+
+      // Also include any local profiles not present in remote data
+      localProfiles.forEach(local => {
+        if (!mergedList.some(m => m.uid === local.uid || m.email.toLowerCase() === local.email.toLowerCase())) {
+          mergedList.push(local);
+        }
+      });
+
+      localStorage.setItem('academius_user_profiles', JSON.stringify(mergedList));
+      return mergedList;
     }
-    const local = localStorage.getItem('academius_user_profiles');
-    return local ? JSON.parse(local) : [];
+    return localProfiles;
   } catch (err) {
     console.warn('Supabase profiles query failed, falling back to LocalStorage:', err);
-    const local = localStorage.getItem('academius_user_profiles');
-    return local ? JSON.parse(local) : [];
+    return localProfiles;
   }
 }
 
 export async function saveUserProfile(profile: UserProfile): Promise<void> {
-  const local = localStorage.getItem('academius_user_profiles');
-  const list: UserProfile[] = local ? JSON.parse(local) : [];
+  const localRaw = localStorage.getItem('academius_user_profiles');
+  const list: UserProfile[] = localRaw ? JSON.parse(localRaw) : [];
   const existing = list.find(p => p.uid === profile.uid || p.email.toLowerCase() === profile.email.toLowerCase());
   
   // Determine isApproved status
@@ -655,22 +678,50 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
     isApproved: finalApproved
   };
 
-  try {
-    const { error } = await supabase
-      .from('profiles')
-      .upsert(updatedProfile);
-      
-    if (error) throw error;
-  } catch (err) {
-    console.error('Error saving user profile to Supabase:', err);
-  } finally {
-    const index = list.findIndex(p => p.uid === updatedProfile.uid || p.email.toLowerCase() === updatedProfile.email.toLowerCase());
-    if (index >= 0) {
-      list[index] = updatedProfile;
-    } else {
-      list.push(updatedProfile);
+  // 1. Immediately update LocalStorage so UI gets instant reflection
+  const index = list.findIndex(p => p.uid === updatedProfile.uid || p.email.toLowerCase() === updatedProfile.email.toLowerCase());
+  if (index >= 0) {
+    list[index] = updatedProfile;
+  } else {
+    list.push(updatedProfile);
+  }
+  localStorage.setItem('academius_user_profiles', JSON.stringify(list));
+
+  // 2. Also update active session in localStorage if this is current user
+  const activeSessionRaw = localStorage.getItem('academius_session');
+  if (activeSessionRaw) {
+    try {
+      const activeSession = JSON.parse(activeSessionRaw);
+      if (activeSession.email?.toLowerCase() === updatedProfile.email.toLowerCase()) {
+        activeSession.displayName = finalDisplayName;
+        activeSession.role = updatedProfile.role;
+        localStorage.setItem('academius_session', JSON.stringify(activeSession));
+      }
+    } catch (e) {
+      // ignore
     }
-    localStorage.setItem('academius_user_profiles', JSON.stringify(list));
+  }
+
+  // 3. Sync to Supabase Auth metadata if current user is logged in
+  try {
+    const { data: authData } = await supabase.auth.getUser();
+    if (authData?.user && authData.user.email?.toLowerCase() === updatedProfile.email.toLowerCase()) {
+      await supabase.auth.updateUser({
+        data: {
+          displayName: finalDisplayName,
+          role: updatedProfile.role
+        }
+      });
+    }
+  } catch (authErr) {
+    console.warn('Could not update user_metadata in Supabase Auth:', authErr);
+  }
+
+  // 4. Save to Supabase DB profiles table
+  try {
+    await supabase.from('profiles').upsert(updatedProfile);
+  } catch (err) {
+    console.error('Error saving user profile to Supabase DB:', err);
   }
 }
 

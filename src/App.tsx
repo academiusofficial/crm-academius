@@ -73,12 +73,21 @@ export default function App() {
           }
         } else {
           const userEmail = session.user.email || '';
+          const savedSessionRaw = localStorage.getItem('academius_session');
+          const savedSession = savedSessionRaw ? JSON.parse(savedSessionRaw) : null;
           
           const profiles = await getUserProfiles();
           const matchedProfile = profiles.find(p => p.email.toLowerCase() === userEmail.toLowerCase());
           
-          const userDisplayName = matchedProfile?.displayName || session.user.user_metadata?.displayName || userEmail.split('@')[0];
-          let userRole = matchedProfile?.role || (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
+          const userDisplayName = matchedProfile?.displayName || 
+                                  (savedSession && savedSession.email?.toLowerCase() === userEmail.toLowerCase() ? savedSession.displayName : null) || 
+                                  session.user.user_metadata?.displayName || 
+                                  userEmail.split('@')[0];
+          
+          let userRole = matchedProfile?.role || 
+                         (savedSession && savedSession.email?.toLowerCase() === userEmail.toLowerCase() ? savedSession.role : null) || 
+                         (session.user.user_metadata?.role as UserRole) || 
+                         'Staff CRM';
 
           const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
             ? true
@@ -110,12 +119,21 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         const userEmail = session.user.email || '';
+        const savedSessionRaw = localStorage.getItem('academius_session');
+        const savedSession = savedSessionRaw ? JSON.parse(savedSessionRaw) : null;
         
         const profiles = await getUserProfiles();
         const matchedProfile = profiles.find(p => p.email.toLowerCase() === userEmail.toLowerCase());
         
-        const userDisplayName = matchedProfile?.displayName || session.user.user_metadata?.displayName || userEmail.split('@')[0];
-        let userRole = matchedProfile?.role || (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
+        const userDisplayName = matchedProfile?.displayName || 
+                                (savedSession && savedSession.email?.toLowerCase() === userEmail.toLowerCase() ? savedSession.displayName : null) || 
+                                session.user.user_metadata?.displayName || 
+                                userEmail.split('@')[0];
+        
+        let userRole = matchedProfile?.role || 
+                       (savedSession && savedSession.email?.toLowerCase() === userEmail.toLowerCase() ? savedSession.role : null) || 
+                       (session.user.user_metadata?.role as UserRole) || 
+                       'Staff CRM';
 
         const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
           ? true
