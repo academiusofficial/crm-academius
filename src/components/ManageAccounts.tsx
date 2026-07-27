@@ -11,18 +11,23 @@ import {
   AlertTriangle,
   UserPlus,
   RefreshCw,
-  Clock
+  Clock,
+  Lock,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { getUserProfiles, saveUserProfile, deleteUserProfile } from '../supabaseService';
+import { supabase } from '../supabaseClient';
 
 interface ManageAccountsProps {
   currentUserEmail?: string;
+  currentUserRole?: UserRole;
   onAddLog?: (actionText: string) => void;
   onProfileUpdated?: (updatedProfile: UserProfile) => void;
 }
 
-export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUpdated }: ManageAccountsProps) {
+export default function ManageAccounts({ currentUserEmail, currentUserRole, onAddLog, onProfileUpdated }: ManageAccountsProps) {
   const [accounts, setAccounts] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,9 +40,11 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
   const [editEmail, setEditEmail] = useState('');
   const [editRole, setEditRole] = useState<UserRole>('Staff CRM');
   const [editApproved, setEditApproved] = useState(true);
+  const [editPassword, setEditPassword] = useState('');
+  const [showEditPassword, setShowEditPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
+  const isAdmin = currentUserRole === 'Admin CRM' || currentUserEmail?.toLowerCase() === 'academius.official@gmail.com';
 
   // Modal Delete State
   const [deletingAccount, setDeletingAccount] = useState<UserProfile | null>(null);
@@ -65,6 +72,8 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
     setEditEmail(account.email);
     setEditRole(account.role);
     setEditApproved(account.isApproved !== false);
+    setEditPassword('');
+    setShowEditPassword(false);
     setErrorMsg('');
     setSuccessMsg('');
   };
@@ -104,11 +113,39 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
       return;
     }
 
+    if (isAdmin && editPassword.trim()) {
+      if (editPassword.trim().length < 6) {
+        setErrorMsg('Password baru harus memiliki minimal 6 karakter.');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     setErrorMsg('');
     setSuccessMsg('');
 
     try {
+      // Perbarui password jika diisi oleh Admin CRM
+      let passwordUpdated = false;
+      if (isAdmin && editPassword.trim()) {
+        try {
+          if (editingAccount.email.toLowerCase() === currentUserEmail?.toLowerCase()) {
+            const { error: passErr } = await supabase.auth.updateUser({ password: editPassword.trim() });
+            if (passErr) console.warn('Gagal update password user aktif:', passErr.message);
+            else passwordUpdated = true;
+          } else {
+            const { error: adminPassErr } = await supabase.auth.admin.updateUserById(
+              editingAccount.uid,
+              { password: editPassword.trim() }
+            );
+            if (adminPassErr) console.warn('Gagal update password via admin:', adminPassErr.message);
+            else passwordUpdated = true;
+          }
+        } catch (passErr) {
+          console.warn('Error saat memperbarui password:', passErr);
+        }
+      }
+
       const updatedProfile: UserProfile = {
         ...editingAccount,
         displayName: trimmedName,
@@ -117,15 +154,26 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
         isApproved: editApproved
       };
 
+      if (editingAccount.email.toLowerCase() === currentUserEmail?.toLowerCase()) {
+        try {
+          await supabase.auth.updateUser({
+            data: { displayName: trimmedName, role: editRole }
+          });
+        } catch (metaErr) {
+          console.warn('Gagal memperbarui Auth user metadata:', metaErr);
+        }
+      }
+
       await saveUserProfile(updatedProfile);
       
       // Update local state
       setAccounts(prev => prev.map(acc => acc.uid === editingAccount.uid ? updatedProfile : acc));
-      setSuccessMsg(`Berhasil memperbarui profil akun ${trimmedName}.`);
+      const msgSuffix = passwordUpdated ? ' dan password baru berhasil diperbarui' : (editPassword.trim() ? ' (perubahan profil disimpan)' : '');
+      setSuccessMsg(`Berhasil memperbarui profil akun ${trimmedName}${msgSuffix}.`);
       setEditingAccount(null);
 
       if (onAddLog) {
-        onAddLog(`Memperbarui profil akun: ${trimmedName} (${editRole})`);
+        onAddLog(`Memperbarui profil akun: ${trimmedName} (${editRole})${editPassword.trim() ? ' [Password Diperbarui oleh Admin]' : ''}`);
       }
 
       // Automatically update the user session if their own profile or any profile role gets updated
@@ -429,6 +477,56 @@ export default function ManageAccounts({ currentUserEmail, onAddLog, onProfileUp
                     required
                   />
                 </div>
+              </div>
+
+              {/* Field Edit Password - Khusus Admin CRM */}
+              <div className="space-y-1.5 p-3.5 bg-slate-50/80 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <Lock className="h-3.5 w-3.5 text-amber-500" />
+                    <span>Ubah Password Akun</span>
+                  </label>
+                  {isAdmin ? (
+                    <span className="text-[9px] font-extrabold text-amber-700 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-300 dark:border-amber-800">
+                      Khusus Admin CRM
+                    </span>
+                  ) : (
+                    <span className="text-[9px] font-bold text-slate-400 bg-slate-200/60 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                      Terkunci
+                    </span>
+                  )}
+                </div>
+
+                {isAdmin ? (
+                  <>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input
+                        type={showEditPassword ? "text" : "password"}
+                        value={editPassword}
+                        onChange={(e) => setEditPassword(e.target.value)}
+                        className="w-full text-xs pl-10 pr-10 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-400"
+                        placeholder="Ketik password baru (opsional, min. 6 karakter)"
+                        minLength={6}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowEditPassword(!showEditPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 cursor-pointer"
+                        title={showEditPassword ? "Sembunyikan password" : "Tampilkan password"}
+                      >
+                        {showEditPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                      💡 Sebagai Admin CRM, Anda berhak mereset password akun ini. Kosongkan jika tidak ingin mengubah password.
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 italic leading-relaxed pt-1">
+                    🔒 Fitur pengubahan password hanya dapat dilakukan oleh Admin CRM.
+                  </p>
+                )}
               </div>
 
               <div className="space-y-1.5">

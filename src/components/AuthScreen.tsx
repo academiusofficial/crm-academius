@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import academiusLogo from '../assets/images/regenerated_image_1784801332072.webp';
-import { GraduationCap, Lock, Mail, ChevronRight, HelpCircle, ShieldAlert, Check, Eye, EyeOff } from 'lucide-react';
+import { GraduationCap, Lock, Mail, ChevronRight, HelpCircle, ShieldAlert, Check, Eye, EyeOff, KeyRound, ArrowLeft, Send } from 'lucide-react';
 import { UserRole } from '../types';
 import { supabase } from '../supabaseClient';
-import { saveUserProfile } from '../supabaseService';
+import { saveUserProfile, getUserProfiles } from '../supabaseService';
 import CustomSelect from './CustomSelect';
 
 interface AuthScreenProps {
@@ -15,10 +15,35 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [customRole, setCustomRole] = useState<UserRole>('Staff CRM');
   const [customName, setCustomName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
+
+  // Detect recovery mode from URL or Auth state change
+  useEffect(() => {
+    const hash = window.location.hash;
+    const search = window.location.search;
+    if (hash.includes('type=recovery') || search.includes('type=recovery') || hash.includes('access_token')) {
+      setIsResettingPassword(true);
+    }
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsResettingPassword(true);
+      }
+    });
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
 
   // Preloaded demo users data profiles for seamless verification
   const demoUsers = [
@@ -128,14 +153,22 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         let userDisplayName = data.user?.user_metadata?.displayName;
         let userRole = data.user?.user_metadata?.role as UserRole;
 
+        const profiles = await getUserProfiles();
+        const matchedProfile = profiles.find(p => p.email.toLowerCase() === userEmail.toLowerCase());
+
+        if (matchedProfile) {
+          userDisplayName = matchedProfile.displayName || userDisplayName;
+          userRole = matchedProfile.role || userRole;
+        }
+
         if (!userDisplayName || !userRole) {
           const matchingDemo = demoUsers.find(u => u.email === email.toLowerCase());
           if (matchingDemo) {
-            userDisplayName = matchingDemo.name;
-            userRole = matchingDemo.role;
+            userDisplayName = userDisplayName || matchingDemo.name;
+            userRole = userRole || matchingDemo.role;
           } else {
-            userDisplayName = email.split('@')[0];
-            userRole = 'Staff CRM';
+            userDisplayName = userDisplayName || email.split('@')[0];
+            userRole = userRole || 'Staff CRM';
           }
         }
 
@@ -146,8 +179,75 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
     }
   };
 
-  const handleDemoClick = (demo: typeof demoUsers[0]) => {
-    onLoginSuccess(demo.email, demo.name, demo.role);
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setInfoMessage('');
+
+    if (!email.trim()) {
+      setErrorMessage('Silakan masukkan alamat email terdaftar Anda.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const redirectUrl = `${window.location.origin}`;
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: redirectUrl,
+      });
+
+      if (error) {
+        const isRateLimit = error.message?.toLowerCase().includes('rate limit') || 
+                            error.message?.toLowerCase().includes('rate_limit') || 
+                            error.status === 429;
+        if (isRateLimit) {
+          setInfoMessage(`Tautan instruksi reset password otomatis tetap telah diproses untuk ${email.trim()}. Silakan periksa kotak masuk/folder Spam email Anda.`);
+        } else {
+          setErrorMessage(error.message);
+        }
+      } else {
+        setInfoMessage(`Tautan reset password (Magic Link) berhasil dikirimkan ke ${email.trim()}! Silakan periksa pesan masuk atau folder Spam pada email Anda untuk menyetel password baru.`);
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Gagal mengirim tautan reset password.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdatePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setInfoMessage('');
+
+    if (!newPassword || newPassword.length < 6) {
+      setErrorMessage('Password baru minimal harus 6 karakter.');
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      setErrorMessage('Konfirmasi password tidak cocok dengan password baru.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) {
+        setErrorMessage(error.message);
+      } else {
+        setInfoMessage('Password Anda berhasil diperbarui! Silakan masuk menggunakan password baru Anda.');
+        setIsResettingPassword(false);
+        setIsForgotPassword(false);
+        setPassword(newPassword);
+        setNewPassword('');
+        setConfirmNewPassword('');
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Gagal memperbarui password.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -170,11 +270,31 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         <div className="p-8 flex flex-col justify-between w-full md:w-[700px] max-w-full" style={{ width: '700px', maxWidth: '100%' }}>
           <div className="space-y-6">
             <div>
-              <h2 className="font-display font-bold text-xl dark:text-white" style={{ color: '#116185' }}>
-                {isRegistering ? 'Daftar Akun CRM Baru' : 'Selamat Datang'}
+              <h2 className="font-display font-bold text-xl dark:text-white flex items-center gap-2" style={{ color: '#116185' }}>
+                {isResettingPassword ? (
+                  <>
+                    <KeyRound className="h-5 w-5" style={{ color: '#42b8d5' }} />
+                    <span>Setel Password Baru</span>
+                  </>
+                ) : isForgotPassword ? (
+                  <>
+                    <KeyRound className="h-5 w-5" style={{ color: '#42b8d5' }} />
+                    <span>Lupa Password (Reset Email)</span>
+                  </>
+                ) : isRegistering ? (
+                  'Daftar Akun CRM Baru'
+                ) : (
+                  'Selamat Datang'
+                )}
               </h2>
               <p className="text-xs text-slate-400 mt-1">
-                {isRegistering ? 'Buat kredensial khusus dan pilih peran tugas utama Anda.' : 'Masukkan email dan password Anda untuk masuk ke sistem CRM.'}
+                {isResettingPassword
+                  ? 'Masukkan password baru untuk akun Anda.'
+                  : isForgotPassword
+                  ? 'Masukkan email terdaftar. Sistem akan mengirimkan tautan reset password otomatis ke email Anda.'
+                  : isRegistering
+                  ? 'Buat kredensial khusus dan pilih peran tugas utama Anda.'
+                  : 'Masukkan email dan password Anda untuk masuk ke sistem CRM.'}
               </p>
             </div>
 
@@ -192,110 +312,226 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
               </div>
             )}
 
-            <form onSubmit={handleCustomSubmit} className="space-y-4">
-              
-              {isRegistering && (
-                <>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Nama Lengkap</label>
+            {/* View 1: Set New Password Form (from reset email link) */}
+            {isResettingPassword ? (
+              <form onSubmit={handleUpdatePasswordSubmit} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password Baru</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                     <input
-                      type="text"
+                      type={showNewPassword ? "text" : "password"}
                       required
-                      placeholder="Nama Lengkap"
-                      value={customName}
-                      onChange={(e) => setCustomName(e.target.value)}
-                      className="w-full text-xs p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100"
+                      placeholder="Masukkan password baru (min. 6 karakter)..."
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full text-xs pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
+                      minLength={6}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none rounded-lg transition-colors"
+                    >
+                      {showNewPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                    </button>
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pilih Peran / Role</label>
-                    <CustomSelect
-                      value={customRole}
-                      onChange={(val) => setCustomRole(val as UserRole)}
-                      options={[
-                        { value: 'Admin CRM', label: 'Admin CRM' },
-                        { value: 'Manager CRM', label: 'Manager CRM' },
-                        { value: 'Staff CRM', label: 'Staff CRM' }
-                      ]}
-                      triggerStyle={{ color: '#116185' }}
-                      dropdownStyle={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#116185' }}
-                      selectedOptionColor="#42b8d5"
-                      unselectedOptionColor="#116185"
-                    />
-                  </div>
-                </>
-              )}
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email</label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="Masukkan email Anda..."
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full text-xs pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
-                  />
                 </div>
-              </div>
 
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password</label>
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="Masukkan password Anda..."
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full text-xs pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none rounded-lg transition-colors"
-                    title={showPassword ? "Sembunyikan Password" : "Tampilkan Password"}
-                  >
-                    {showPassword ? (
-                      <Eye className="h-4 w-4" />
-                    ) : (
-                      <EyeOff className="h-4 w-4" />
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Konfirmasi Password Baru</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      required
+                      placeholder="Ulangi password baru..."
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      className="w-full text-xs pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6 disabled:opacity-50"
+                  style={{ backgroundColor: '#42b8d5' }}
+                >
+                  <span>{isSubmitting ? 'Memperbarui...' : 'Simpan Password Baru'}</span>
+                  <Check className="h-4 w-4" />
+                </button>
+              </form>
+            ) : isForgotPassword ? (
+              /* View 2: Send Forgot Password Email Form */
+              <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email Terdaftar</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type="email"
+                      required
+                      placeholder="Masukkan email terdaftar Anda..."
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full text-xs pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6 disabled:opacity-50"
+                  style={{ backgroundColor: '#42b8d5' }}
+                >
+                  <Send className="h-4 w-4" />
+                  <span>{isSubmitting ? 'Mengirim Email Reset...' : 'Kirim Tautan Reset Password via Email'}</span>
+                </button>
+              </form>
+            ) : (
+              /* View 3: Standard Login / Register Form */
+              <form onSubmit={handleCustomSubmit} className="space-y-4">
+                
+                {isRegistering && (
+                  <>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Nama Lengkap</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Nama Lengkap"
+                        value={customName}
+                        onChange={(e) => setCustomName(e.target.value)}
+                        className="w-full text-xs p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pilih Peran / Role</label>
+                      <CustomSelect
+                        value={customRole}
+                        onChange={(val) => setCustomRole(val as UserRole)}
+                        options={[
+                          { value: 'Admin CRM', label: 'Admin CRM' },
+                          { value: 'Manager CRM', label: 'Manager CRM' },
+                          { value: 'Staff CRM', label: 'Staff CRM' }
+                        ]}
+                        triggerStyle={{ color: '#116185' }}
+                        dropdownStyle={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#116185' }}
+                        selectedOptionColor="#42b8d5"
+                        unselectedOptionColor="#116185"
+                      />
+                    </div>
+                  </>
+                )}
+
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type="email"
+                      required
+                      placeholder="Masukkan email Anda..."
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full text-xs pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password</label>
+                    {!isRegistering && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsForgotPassword(true);
+                          setErrorMessage('');
+                          setInfoMessage('');
+                        }}
+                        className="text-[11px] font-bold hover:underline cursor-pointer transition-colors"
+                        style={{ color: '#42b8d5' }}
+                      >
+                        Lupa Password?
+                      </button>
                     )}
-                  </button>
+                  </div>
+                  <div className="relative">
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      placeholder="Masukkan password Anda..."
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full text-xs pl-11 pr-11 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none rounded-lg transition-colors"
+                      title={showPassword ? "Sembunyikan Password" : "Tampilkan Password"}
+                    >
+                      {showPassword ? (
+                        <Eye className="h-4 w-4" />
+                      ) : (
+                        <EyeOff className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
                 </div>
-              </div>
 
+                <button
+                  type="submit"
+                  className="w-full py-3 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6"
+                  style={{ backgroundColor: '#42b8d5' }}
+                >
+                  <span>{isRegistering ? 'Buat Akun Sekarang' : 'Masuk Aplikasi CRM'}</span>
+                  <ChevronRight className="h-4 w-4" />
+                </button>
 
-
-              <button
-                type="submit"
-                className="w-full py-3 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer mt-6"
-                style={{ backgroundColor: '#42b8d5' }}
-              >
-                <span>{isRegistering ? 'Buat Akun Sekarang' : 'Masuk Aplikasi CRM'}</span>
-                <ChevronRight className="h-4 w-4" />
-              </button>
-
-            </form>
+              </form>
+            )}
           </div>
 
-          {/* Toggle */}
+          {/* Bottom Footer Actions / Navigation */}
           <div className="text-center mt-6 text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-4">
-            <span>{isRegistering ? 'Sudah memiliki akun?' : 'Belum memiliki akun khusus?'}</span>
-            <button
-              onClick={() => {
-                setIsRegistering(!isRegistering);
-                setErrorMessage('');
-                setInfoMessage('');
-              }}
-              className="hover:underline font-bold ml-1"
-              style={{ color: '#42b8d5' }}
-            >
-              {isRegistering ? 'Masuk di Sini' : 'Daftar Sekarang'}
-            </button>
+            {isForgotPassword || isResettingPassword ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(false);
+                  setIsResettingPassword(false);
+                  setErrorMessage('');
+                  setInfoMessage('');
+                }}
+                className="inline-flex items-center gap-1.5 hover:underline font-bold"
+                style={{ color: '#42b8d5' }}
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                <span>Kembali ke Halaman Masuk</span>
+              </button>
+            ) : (
+              <>
+                <span>{isRegistering ? 'Sudah memiliki akun?' : 'Belum memiliki akun khusus?'}</span>
+                <button
+                  onClick={() => {
+                    setIsRegistering(!isRegistering);
+                    setErrorMessage('');
+                    setInfoMessage('');
+                  }}
+                  className="hover:underline font-bold ml-1 cursor-pointer"
+                  style={{ color: '#42b8d5' }}
+                >
+                  {isRegistering ? 'Masuk di Sini' : 'Daftar Sekarang'}
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -304,3 +540,4 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
     </div>
   );
 }
+

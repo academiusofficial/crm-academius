@@ -73,11 +73,13 @@ export default function App() {
           }
         } else {
           const userEmail = session.user.email || '';
-          const userDisplayName = session.user.user_metadata?.displayName || userEmail.split('@')[0];
-          let userRole = (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
           
           const profiles = await getUserProfiles();
           const matchedProfile = profiles.find(p => p.email.toLowerCase() === userEmail.toLowerCase());
+          
+          const userDisplayName = matchedProfile?.displayName || session.user.user_metadata?.displayName || userEmail.split('@')[0];
+          let userRole = matchedProfile?.role || (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
+
           const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
             ? true
             : (matchedProfile ? matchedProfile.isApproved !== false : (userEmail.toLowerCase() === 'alim.bahri@academius.com'));
@@ -108,11 +110,13 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         const userEmail = session.user.email || '';
-        const userDisplayName = session.user.user_metadata?.displayName || userEmail.split('@')[0];
-        let userRole = (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
         
         const profiles = await getUserProfiles();
         const matchedProfile = profiles.find(p => p.email.toLowerCase() === userEmail.toLowerCase());
+        
+        const userDisplayName = matchedProfile?.displayName || session.user.user_metadata?.displayName || userEmail.split('@')[0];
+        let userRole = matchedProfile?.role || (session.user.user_metadata?.role as UserRole) || 'Staff CRM';
+
         const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
           ? true
           : (matchedProfile ? matchedProfile.isApproved !== false : (userEmail.toLowerCase() === 'alim.bahri@academius.com'));
@@ -345,11 +349,15 @@ export default function App() {
   const handleLogin = async (email: string, displayName: string, role: UserRole, uid?: string) => {
     const profiles = await getUserProfiles();
     const matchedProfile = profiles.find(p => p.email.toLowerCase() === email.toLowerCase());
+
+    const finalDisplayName = matchedProfile?.displayName || displayName;
+    const finalRole = matchedProfile?.role || role;
+
     const isApproved = (email.toLowerCase() === 'academius.official@gmail.com')
       ? true
       : (matchedProfile ? matchedProfile.isApproved !== false : (email.toLowerCase() === 'alim.bahri@academius.com'));
 
-    const sessionUser = { email, displayName, role, isApproved };
+    const sessionUser = { email, displayName: finalDisplayName, role: finalRole, isApproved };
     setUser(sessionUser);
     localStorage.setItem('academius_session', JSON.stringify(sessionUser));
     
@@ -357,13 +365,13 @@ export default function App() {
     saveUserProfile({
       uid: uid || matchedProfile?.uid || `user_${Date.now()}`,
       email,
-      displayName,
-      role,
+      displayName: finalDisplayName,
+      role: finalRole,
       isApproved
     });
 
     // Add login log
-    appendAuditLog('System Access', role, `Staf ${displayName} (${role}) berhasil login ke sistem CRM.`);
+    appendAuditLog('System Access', finalRole, `Staf ${finalDisplayName} (${finalRole}) berhasil login ke sistem CRM.`);
 
     // Redirect the user to the Home page ("/")
     if (window.location.pathname !== '/') {
@@ -682,6 +690,7 @@ export default function App() {
         return (
           <ManageAccounts 
             currentUserEmail={user?.email}
+            currentUserRole={user?.role}
             onAddLog={async (txt) => {
               await appendAuditLog('system_accounts', user?.role || 'Admin CRM', txt);
             }}
@@ -856,7 +865,13 @@ export default function App() {
   };
 
   // Secure Role authorization screens logic
-  if (!user || currentPath === '/login') {
+  const isRecoveryMode = typeof window !== 'undefined' && (
+    window.location.hash.includes('type=recovery') || 
+    window.location.hash.includes('access_token') || 
+    window.location.search.includes('type=recovery')
+  );
+
+  if (!user || currentPath === '/login' || isRecoveryMode) {
     return <AuthScreen onLoginSuccess={handleLogin} />;
   }
 

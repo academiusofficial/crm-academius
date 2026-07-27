@@ -612,8 +612,12 @@ export async function getUserProfiles(): Promise<UserProfile[]> {
       .select('*');
     
     if (error) throw error;
-    
-    return (data as UserProfile[]) || [];
+    if (data && data.length > 0) {
+      localStorage.setItem('academius_user_profiles', JSON.stringify(data));
+      return data as UserProfile[];
+    }
+    const local = localStorage.getItem('academius_user_profiles');
+    return local ? JSON.parse(local) : [];
   } catch (err) {
     console.warn('Supabase profiles query failed, falling back to LocalStorage:', err);
     const local = localStorage.getItem('academius_user_profiles');
@@ -639,8 +643,15 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
     }
   }
 
+  // Preserve existing edited name if incoming profile.displayName is empty or default email split
+  let finalDisplayName = profile.displayName;
+  if ((!finalDisplayName || finalDisplayName === profile.email.split('@')[0]) && existing && existing.displayName) {
+    finalDisplayName = existing.displayName;
+  }
+
   const updatedProfile: UserProfile = {
     ...profile,
+    displayName: finalDisplayName,
     isApproved: finalApproved
   };
 
@@ -652,7 +663,6 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
     if (error) throw error;
   } catch (err) {
     console.error('Error saving user profile to Supabase:', err);
-    throw err;
   } finally {
     const index = list.findIndex(p => p.uid === updatedProfile.uid || p.email.toLowerCase() === updatedProfile.email.toLowerCase());
     if (index >= 0) {
