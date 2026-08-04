@@ -403,7 +403,7 @@ export default function LeadsTable({
           <button
             id="advanced-filters-btn"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            className={`px-3.5 py-2.5 text-xs sm:text-sm font-normal rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto ${
+            className={`px-3.5 py-2.5 text-xs sm:text-sm font-semibold font-poppins rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto ${
               showAdvancedFilters || filterStatus !== 'ALL' || filterPic !== 'ALL' || filterCountry !== 'ALL' || filterProduct !== 'ALL' || filterSource !== 'ALL' || filterAge !== 'ALL'
                 ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-950/30 dark:border-blue-800 dark:text-blue-300'
                 : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-750/50'
@@ -417,7 +417,7 @@ export default function LeadsTable({
           <button
             id="export-csv-btn"
             onClick={handleExportCSV}
-            className="px-3.5 py-2.5 text-xs sm:text-sm font-normal bg-[#e6fcf3] dark:bg-emerald-950/40 text-[#047857] dark:text-emerald-300 border border-[#047857] dark:border-emerald-600 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto"
+            className="px-3.5 py-2.5 text-xs sm:text-sm font-semibold font-poppins bg-[#e6fcf3] dark:bg-emerald-950/40 text-[#047857] dark:text-emerald-300 border border-[#047857] dark:border-emerald-600 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto"
             title="Download CSV untuk Excel"
           >
             <FileSpreadsheet className="h-4 w-4 text-[#047857] dark:text-emerald-300" />
@@ -429,7 +429,7 @@ export default function LeadsTable({
             <button
               id="add-lead-btn"
               onClick={onAddLeadClick}
-              className="col-span-2 md:col-span-1 w-full md:w-auto px-4 py-2.5 text-xs sm:text-sm font-normal text-white shadow-sm rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
+              className="col-span-2 md:col-span-1 w-full md:w-auto px-4 py-2.5 text-xs sm:text-sm font-semibold font-poppins text-white shadow-sm rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
               style={{ backgroundColor: '#42b8d5' }}
             >
               <FolderPlus className="h-4 w-4 text-white" />
@@ -466,6 +466,7 @@ export default function LeadsTable({
             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">PENDAFTAR</label>
             <CustomSelect
               id="filter-pic-select"
+              className="border-0"
               value={filterPic}
               onChange={(val) => setFilterPic(val)}
               disabled={userRole === 'Staff CRM'}
@@ -580,14 +581,14 @@ export default function LeadsTable({
                 {/* Header: Name + Status Badge on left, Stage name on right */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <h4 className="font-display font-extrabold text-sm text-slate-900 dark:text-white truncate">
+                    <h4 className="font-semibold font-poppins text-sm text-slate-900 dark:text-white truncate">
                       {lead.namaLengkap}
                     </h4>
                     <div className="shrink-0">
                       {getStatusBadge(status)}
                     </div>
                   </div>
-                  <div className="shrink-0 font-extrabold text-xs sm:text-sm text-[#2b7fff] dark:text-blue-400">
+                  <div className="shrink-0 font-bold font-poppins text-xs sm:text-sm text-[#2b7fff] dark:text-blue-400">
                     {lead.stage || 'New Lead'}
                   </div>
                 </div>
@@ -601,12 +602,12 @@ export default function LeadsTable({
                       target="_blank" 
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="font-bold text-slate-900 dark:text-slate-100 hover:text-emerald-600 flex items-center gap-1.5 text-xs sm:text-sm"
+                      className="font-semibold font-poppins text-slate-900 dark:text-slate-100 hover:text-emerald-600 flex items-center gap-1.5 text-xs sm:text-sm"
                     >
                       <span className="text-slate-400 text-sm">💬</span>
-                      <span className="font-bold">{lead.nomorWhatsApp}</span>
+                      <span className="font-semibold font-poppins">{lead.nomorWhatsApp}</span>
                     </a>
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                    <span className="text-xs font-semibold font-poppins text-slate-700 dark:text-slate-200">
                       {lead.sumberLeads || 'Meta Ads'}
                     </span>
                   </div>
@@ -618,9 +619,9 @@ export default function LeadsTable({
                   <div className="flex items-center justify-between gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
                     <div className="flex items-center gap-1.5 truncate">
                       <span className="text-sm">🎓</span>
-                      <span className="truncate font-bold text-slate-800 dark:text-slate-200">{lead.jenjangStudi} {lead.targetNegara ? `- ${lead.targetNegara}` : '-'}</span>
+                      <span className="truncate font-semibold font-poppins text-slate-800 dark:text-slate-200">{lead.jenjangStudi} {lead.targetNegara ? `- ${lead.targetNegara}` : '-'}</span>
                     </div>
-                    <span className="shrink-0 font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm">
+                    <span className="shrink-0 font-semibold font-poppins text-slate-800 dark:text-slate-200 text-xs sm:text-sm">
                       {calculateLeadAge(lead.tanggalMasuk)}
                     </span>
                   </div>
@@ -629,16 +630,16 @@ export default function LeadsTable({
                 {/* Footer Section */}
                 <div className="space-y-1.5 pt-0.5">
                   {/* Pendaftar Line */}
-                  <div className="text-xs text-[#90a1b9] font-medium">
+                  <div className="text-xs text-[#90a1b9] font-medium font-poppins">
                     <span>Pendaftar: </span>
-                    <span className="font-extrabold text-slate-800 dark:text-slate-100">{picInfo.name}</span>
+                    <span className="font-semibold font-poppins text-slate-800 dark:text-slate-100">{picInfo.name}</span>
                   </div>
 
                   {/* Potensi IDR with Eye + Action Icons */}
                   <div className="flex items-center justify-between pt-1">
                     {/* Left: IDR Potential Value + Eye Toggle */}
                     <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                      <span className="font-extrabold font-mono text-slate-900 dark:text-white text-xs">
+                      <span className="font-semibold font-poppins text-slate-900 dark:text-white text-xs">
                         {individualVisiblePotentials[lead.id] || showPotentialValue ? formatIDR(lead.nilaiPotensi) : 'Rp •••••••••'}
                       </span>
                       {(isArsul || userRole === 'Admin CRM') && (
@@ -695,7 +696,7 @@ export default function LeadsTable({
           <thead>
             <tr className="bg-slate-50/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-800 dark:text-slate-200 text-xs font-bold text-slate-400 uppercase tracking-wider">
               <th className="p-4 pl-6">{renderSortableHeader('NAMA LENGKAP', 'namaLengkap')}</th>
-              <th className="p-4">Kontak / Kota</th>
+              <th className="p-4">Kontak</th>
               <th className="p-4">{renderSortableHeader('KATEGORI BANT', 'totalScore')}</th>
               <th className="p-4 text-left">Sumber</th>
               <th className="p-4">Rencana Studi</th>
@@ -750,8 +751,8 @@ export default function LeadsTable({
                     onClick={() => onOpenLead(lead.id)}
                   >
                     {/* Nama */}
-                    <td className="p-4 pl-6 font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 transition-colors">
-                      <div className="font-sans text-sm" style={{ fontWeight: 'bold' }}>{lead.namaLengkap}</div>
+                    <td className="p-4 pl-6 text-slate-800 dark:text-slate-100 group-hover:text-blue-600 transition-colors">
+                      <div className="font-poppins font-semibold text-sm">{lead.namaLengkap}</div>
                       <div className="text-[10px] text-slate-400 font-normal mt-0.5 font-poppins" style={{ lineHeight: '14px' }}>
                         {lead.email}
                       </div>

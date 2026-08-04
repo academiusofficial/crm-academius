@@ -573,80 +573,90 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           </div>
 
           {/* Date Picker Filter Panel */}
-          <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex flex-col gap-2.5 text-xs w-full sm:max-w-md">
             {/* Elegant Search Input */}
-            <div className="relative flex items-center">
-              <Search className="h-3.5 w-3.5 absolute left-2.5 pointer-events-none" style={{ color: '#136386' }} />
+            <div className="relative flex items-center w-full">
+              <Search className="h-4 w-4 absolute left-3.5 pointer-events-none stroke-[2.2]" style={{ color: '#136386' }} />
               <input
                 type="text"
-                placeholder="Cari pendaftar..."
+                placeholder="Cari Pendaftar ..."
                 value={pendaftarSearchQuery}
                 onChange={(e) => setPendaftarSearchQuery(e.target.value)}
-                className="pl-8 pr-7 py-1 text-xs rounded-lg border-0 outline-none transition-all placeholder:text-slate-400 font-medium w-36 sm:w-44 focus:w-48 sm:focus:w-56 shadow-sm"
+                className="w-full pl-10 pr-8 py-2.5 text-xs rounded-2xl border-0 outline-none transition-all placeholder:text-slate-400 font-semibold shadow-xs"
                 style={{ backgroundColor: '#ffffff', color: '#136386' }}
               />
               {pendaftarSearchQuery && (
                 <button
                   type="button"
                   onClick={() => setPendaftarSearchQuery('')}
-                  className="absolute right-2 hover:opacity-80 transition-opacity text-xs font-bold p-0.5 cursor-pointer flex items-center justify-center"
+                  className="absolute right-3 hover:opacity-80 transition-opacity text-xs font-bold p-0.5 cursor-pointer flex items-center justify-center"
                 >
-                  <X className="h-3 w-3" style={{ color: '#42b8d5' }} />
+                  <X className="h-4 w-4" style={{ color: '#42b8d5' }} />
                 </button>
               )}
             </div>
 
-            <div className="flex rounded-lg p-0.5" style={{ backgroundColor: '#ffffff' }}>
+            {/* Date Range Presets */}
+            <div className="flex items-center justify-between rounded-2xl p-1.5 shadow-xs bg-white w-full gap-1">
               {[
                 { id: 'all', label: 'Semua' },
-                { id: '7days', label: '7 Hari' },
-                { id: '30days', label: '30 Hari' },
-                { id: 'thismonth', label: 'Bulan Ini' },
+                { id: '7days', line1: '7', line2: 'Hari' },
+                { id: '30days', line1: '30', line2: 'Hari' },
+                { id: 'thismonth', line1: 'Bulan', line2: 'Ini' },
                 { id: 'custom', label: 'Custom' }
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setDateRangePreset(p.id)}
-                  className="px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer"
-                  style={{
-                    backgroundColor: dateRangePreset === p.id ? '#42b8d5' : 'transparent',
-                    color: dateRangePreset === p.id ? '#ffffff' : '#136386'
-                  }}
-                >
-                  {p.label}
-                </button>
-              ))}
+              ].map((p) => {
+                const isActive = dateRangePreset === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setDateRangePreset(p.id)}
+                    className="flex-1 py-1.5 px-0 rounded-xl font-semibold transition-all cursor-pointer flex flex-col items-center justify-center min-h-[42px] text-xs"
+                    style={{
+                      backgroundColor: isActive ? '#3da8ce' : 'transparent',
+                      color: isActive ? '#ffffff' : '#136386'
+                    }}
+                  >
+                    {p.line1 ? (
+                      <div className="leading-tight text-center font-semibold">
+                        <div>{p.line1}</div>
+                        <div>{p.line2}</div>
+                      </div>
+                    ) : (
+                      <span className="font-semibold">{p.label}</span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
+            {/* Custom Date Range Picker */}
             {dateRangePreset === 'custom' && (
               <div 
-                className="flex items-center gap-2 rounded-lg px-2.5 py-1 animate-in fade-in slide-in-from-top-1 duration-200"
+                className="flex items-center justify-between gap-1.5 rounded-2xl px-3.5 py-2.5 shadow-xs w-full animate-in fade-in slide-in-from-top-1 duration-200 border-2 border-white"
                 style={{
-                  backgroundColor: '#42b8d5',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderColor: '#ffffff'
+                  backgroundColor: '#3da8ce',
+                  color: '#ffffff'
                 }}
               >
-                <Calendar className="h-3.5 w-3.5 shrink-0" style={{ color: '#ffffff' }} />
-                <input
-                  type="date"
-                  value={customStartDate}
-                  onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="bg-transparent text-white border-none outline-none focus:ring-0 w-24 p-0 text-xs [color-scheme:dark]"
-                  placeholder="Mulai"
-                  style={{ color: '#ffffff' }}
-                />
-                <span className="font-semibold" style={{ color: '#ffffff' }}>-</span>
-                <input
-                  type="date"
-                  value={customEndDate}
-                  onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="bg-transparent text-white border-none outline-none focus:ring-0 w-24 p-0 text-xs [color-scheme:dark]"
-                  placeholder="Akhir"
-                  style={{ color: '#ffffff' }}
-                />
+                <Calendar className="h-5 w-5 shrink-0 text-white stroke-[2.2]" />
+                <div className="flex items-center justify-center gap-1 flex-1">
+                  <input
+                    type="date"
+                    value={customStartDate}
+                    onChange={(e) => setCustomStartDate(e.target.value)}
+                    className="bg-transparent text-white font-extrabold border-none outline-none focus:ring-0 text-xs w-[110px] p-0 text-center [color-scheme:dark] placeholder-white cursor-pointer"
+                    style={{ color: '#ffffff' }}
+                  />
+                  <span className="font-extrabold text-white text-sm shrink-0">-</span>
+                  <input
+                    type="date"
+                    value={customEndDate}
+                    onChange={(e) => setCustomEndDate(e.target.value)}
+                    className="bg-transparent text-white font-extrabold border-none outline-none focus:ring-0 text-xs w-[110px] p-0 text-center [color-scheme:dark] placeholder-white cursor-pointer"
+                    style={{ color: '#ffffff' }}
+                  />
+                </div>
               </div>
             )}
           </div>

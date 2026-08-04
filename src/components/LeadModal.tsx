@@ -551,7 +551,7 @@ export default function LeadModal({
                 <label className="text-[10px] font-bold uppercase tracking-wildest block mb-1" style={{ color: '#116185' }}>Tahap Pipeline</label>
                 <CustomSelect
                   id="modal-stage-select"
-                  className="w-full"
+                  className="w-full border-0"
                   triggerStyle={{
                     backgroundColor: '#42b8d5',
                     color: '#ffffff',
