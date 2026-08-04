@@ -457,27 +457,27 @@ export default function LeadModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-5xl h-[92vh] shadow-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl w-full max-w-5xl h-[95vh] sm:h-[92vh] shadow-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
         
         {/* Dynamic header row */}
-        <div className="p-6 border-b border-slate-200/60 dark:border-slate-850 bg-slate-50/60 dark:bg-slate-900 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-4">
+        <div className="p-4 sm:p-6 border-b border-slate-200/60 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* Round Avatar initials representing study interest */}
-            <div className="h-12 w-12 rounded-2xl text-white font-bold font-display text-base flex flex-col items-center justify-center shadow-sm" style={{ backgroundColor: '#42b8d5' }}>
+            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl text-white font-bold font-display text-sm sm:text-base flex flex-col items-center justify-center shadow-sm shrink-0" style={{ backgroundColor: '#42b8d5' }}>
               <span>{lead.jenjangStudi}</span>
-              <span className="text-[9px] uppercase tracking-wider font-extrabold">{lead.targetNegara.slice(0, 3)}</span>
+              <span className="text-[8px] sm:text-[9px] uppercase tracking-wider font-extrabold">{lead.targetNegara.slice(0, 3)}</span>
             </div>
 
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h3 className="font-display font-black text-xl text-slate-800 dark:text-white leading-tight">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-display font-black text-lg sm:text-xl text-slate-800 dark:text-white leading-tight truncate">
                   {lead.namaLengkap}
                 </h3>
                 <span className="font-mono text-xs font-bold text-slate-400">
                   {lead.leadId}
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase font-mono tracking-wider ${
+                <span className={`px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-extrabold uppercase font-mono tracking-wider ${
                   computedStatus === 'HOT' ? 'bg-red-150 text-red-700 animate-pulse' :
                   computedStatus === 'WARM' ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/20 dark:text-amber-400' :
                   computedStatus === 'COLD' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-350'
@@ -485,9 +485,9 @@ export default function LeadModal({
                   {computedStatus === 'HOT' ? '🔥 HOT' : computedStatus === 'WARM' ? '🌤 WARM' : computedStatus === 'COLD' ? '❄ COLD' : '🔄 REAKTIVASI'}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
+              <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
                 <span>Terdaftar: {new Date(lead.tanggalMasuk).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Makassar' })}</span>
-                <span>&bull;</span>
+                <span className="hidden sm:inline">&bull;</span>
                 <span className="font-semibold text-[#90a1b9] dark:text-[#90a1b9] flex items-center gap-1.5">
                   Pendaftar: 
                   {(() => {
@@ -503,11 +503,11 @@ export default function LeadModal({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-0 border-slate-200/60 dark:border-slate-800">
             <button
               id="edit-lead-modal-btn"
               onClick={() => setShowEditForm(true)}
-              className="px-3.5 py-2 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm"
+              className="px-3 py-1.5 sm:px-3.5 sm:py-2 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
               style={{ color: '#42b8d5', borderColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid' }}
               title="Edit Data Lengkap Lead"
             >
@@ -521,7 +521,7 @@ export default function LeadModal({
                 onClick={() => {
                   setShowDeleteConfirm(true);
                 }}
-                className="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/25 dark:hover:bg-red-950/40 dark:text-red-400 border border-red-150/40 dark:border-red-900/35 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm"
+                className="px-3 py-1.5 sm:px-3.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/25 dark:hover:bg-red-950/40 dark:text-red-400 border border-red-150/40 dark:border-red-900/35 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
                 title="Hapus Lead dari Database"
               >
                 <Trash2 className="h-3.5 w-3.5" />
@@ -532,7 +532,7 @@ export default function LeadModal({
             <button
               id="close-lead-modal-btn"
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-white transition-all"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-white transition-all shrink-0 ml-auto sm:ml-0"
             >
               <X className="h-5 w-5" />
             </button>
@@ -543,18 +543,19 @@ export default function LeadModal({
         <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 dark:divide-slate-800">
           
           {/* Left Panel: Profile Detail, Sliders, and Program tasklists */}
-          <div className="lg:col-span-5 p-6 space-y-6 overflow-y-auto max-h-full font-sans">
+          <div className="lg:col-span-5 p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto max-h-full font-sans">
             
             {/* Sales Pipeline Stage & PIC & potential IDR Dropdowns */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="w-full">
                 <label className="text-[10px] font-bold uppercase tracking-wildest block mb-1" style={{ color: '#116185' }}>Tahap Pipeline</label>
                 <CustomSelect
                   id="modal-stage-select"
-                  className="w-[170px]"
+                  className="w-full"
                   triggerStyle={{
                     backgroundColor: '#42b8d5',
                     color: '#ffffff',
+                    width: '100%'
                   }}
                   selectedOptionBgColor="#42b8d5"
                   selectedOptionColor="#ffffff"
@@ -579,17 +580,17 @@ export default function LeadModal({
               </div>
 
               {stage === 'Completed' ? (
-                <div>
+                <div className="w-full">
                   <label className="text-[10px] font-bold uppercase tracking-wildest block mb-1" style={{ color: '#116185' }}>Tahap Mentoring</label>
                   <CustomSelect
                     id="modal-mentoring-stage-select"
-                    className="w-[178px] border-0"
+                    className="w-full border-0"
                     triggerStyle={{
                       backgroundColor: '#42b8d5',
                       color: '#ffffff',
                       paddingLeft: '10px',
                       paddingRight: '10px',
-                      width: '178px'
+                      width: '100%'
                     }}
                     selectedOptionBgColor="#42b8d5"
                     selectedOptionColor="#ffffff"
@@ -626,7 +627,7 @@ export default function LeadModal({
                   </div>
                   <CustomSelect
                     id="modal-pic-select"
-                    className="w-[170px]"
+                    className="w-full"
                     value={pic}
                     onChange={(val) => {
                       const nextPic = val as string;
@@ -648,34 +649,34 @@ export default function LeadModal({
             </div>
 
             {/* Profile Detail Contacts Card */}
-            <div className="p-4 bg-slate-50 dark:bg-slate-850 rounded-2xl border border-[#e2e8f0] dark:border-slate-800 space-y-2 text-xs">
+            <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-850 rounded-xl sm:rounded-2xl border border-[#e2e8f0] dark:border-slate-800 space-y-2 text-xs">
               <h4 className="font-display font-extrabold text-[11px] text-slate-400 uppercase tracking-wider block mb-2 leading-[15px]">Profil Kontak Akademis</h4>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Nomor WhatsApp:</span>
-                <span className="font-mono font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                  <span className="font-bold">{lead.nomorWhatsApp}</span>
-                  <a href={getWhatsAppLink(lead.nomorWhatsApp)} target="_blank" rel="noreferrer" className="text-emerald-500 hover:scale-110 ml-0.5" title="Hubungi via WhatsApp"><PhoneCall className="h-3.5 w-3.5" /></a>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Nomor WhatsApp:</span>
+                <span className="font-mono font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1 min-w-0">
+                  <span className="font-bold truncate">{lead.nomorWhatsApp}</span>
+                  <a href={getWhatsAppLink(lead.nomorWhatsApp)} target="_blank" rel="noreferrer" className="text-emerald-500 hover:scale-110 ml-0.5 shrink-0" title="Hubungi via WhatsApp"><PhoneCall className="h-3.5 w-3.5" /></a>
                 </span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Email Utama:</span>
-                <span className="font-mono text-slate-755 dark:text-slate-300 font-bold">{lead.email || '-'}</span>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Email Utama:</span>
+                <span className="font-mono text-slate-755 dark:text-slate-300 font-bold truncate max-w-[200px] sm:max-w-none">{lead.email || '-'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Domisili:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-300">{lead.kota || '-'}</span>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Domisili:</span>
+                <span className="font-bold text-slate-755 dark:text-slate-300 truncate">{lead.kota || '-'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Sumber Leads:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-350">{lead.sumberLeads || '-'}</span>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Sumber Leads:</span>
+                <span className="font-bold text-slate-755 dark:text-slate-350 truncate">{lead.sumberLeads || '-'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Usia Leads:</span>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Usia Leads:</span>
                 <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{calculateLeadAge(lead.tanggalMasuk)}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 dark:text-slate-400">Produk Keinginan:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-350">{lead.produkDiminati}</span>
+              <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Produk Keinginan:</span>
+                <span className="font-bold text-slate-755 dark:text-slate-350 truncate">{lead.produkDiminati}</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-slate-500 dark:text-slate-400">Catatan Intro:</span>
@@ -686,15 +687,15 @@ export default function LeadModal({
             </div>
 
             {/* BANT Sliders Questionnaire (Visual, extremely premium) */}
-            <div className="p-5 bg-gradient-to-br from-slate-50 to-slate-100/50 dark:from-slate-850 dark:to-slate-800/40 rounded-2xl border border-[#e2e8f0] dark:border-slate-850/80 space-y-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h4 className="font-display font-black text-[#90a1b9] text-[11px] uppercase tracking-wider leading-[15px] w-[245px]">Scoring Kualifikasi BANT</h4>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-450 mt-0.5 w-[247px]">Edit slider kualifikasi prospek untuk memperbarui skor.</p>
+            <div className="p-4 sm:p-5 bg-gradient-to-br from-slate-50 to-slate-100/50 dark:from-slate-850 dark:to-slate-800/40 rounded-xl sm:rounded-2xl border border-[#e2e8f0] dark:border-slate-850/80 space-y-3 sm:space-y-4">
+              <div className="flex justify-between items-center gap-2">
+                <div className="flex-1">
+                  <h4 className="font-display font-black text-[#90a1b9] text-[11px] uppercase tracking-wider leading-[15px]">Scoring Kualifikasi BANT</h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-450 mt-0.5">Edit slider kualifikasi prospek untuk memperbarui skor.</p>
                 </div>
-                <div className="text-right">
-                  <span className="text-[11px] font-bold text-slate-400 block uppercase leading-[15px]">TOTAL SKOR</span>
-                  <span className="font-display font-black text-lg font-mono mt-0.5 block" style={{ color: '#42b8d5' }}>{totalScore} / 12</span>
+                <div className="text-right shrink-0">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 block uppercase leading-[15px]">TOTAL SKOR</span>
+                  <span className="font-display font-black text-base sm:text-lg font-mono mt-0.5 block" style={{ color: '#42b8d5' }}>{totalScore} / 12</span>
                 </div>
               </div>
 
@@ -902,10 +903,10 @@ export default function LeadModal({
             )}
 
             {/* Sub Tabs Selection (Chats, Tasks, Timeline logs) */}
-            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex gap-1 select-none shrink-0 font-sans bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="p-2.5 sm:p-4 border-b border-slate-100 dark:border-slate-800 flex gap-1.5 overflow-x-auto scrollbar-none select-none shrink-0 font-sans bg-slate-50/50 dark:bg-slate-900/50">
               <button
                 onClick={() => setActiveSubTab('tasks')}
-                className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold rounded-xl flex items-center gap-1.5 shrink-0 whitespace-nowrap transition-all ${
                   activeSubTab === 'tasks'
                     ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -921,7 +922,7 @@ export default function LeadModal({
 
               <button
                 onClick={() => setActiveSubTab('chats')}
-                className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold rounded-xl flex items-center gap-1.5 shrink-0 whitespace-nowrap transition-all ${
                   activeSubTab === 'chats'
                     ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -934,7 +935,7 @@ export default function LeadModal({
 
               <button
                 onClick={() => setActiveSubTab('logs')}
-                className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold rounded-xl flex items-center gap-1.5 shrink-0 whitespace-nowrap transition-all ${
                   activeSubTab === 'logs'
                     ? 'text-white shadow-sm'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -947,7 +948,7 @@ export default function LeadModal({
             </div>
 
             {/* Sub Tabs Variable Viewport Area */}
-            <div className="flex-1 p-6 overflow-y-auto max-h-full flex flex-col justify-between">
+            <div className="flex-1 p-3.5 sm:p-6 overflow-y-auto max-h-full flex flex-col justify-between">
               
               {/* PAGE 1: WHATSAPP CHAT SIMULATOR */}
               {activeSubTab === 'chats' && (
@@ -966,7 +967,7 @@ export default function LeadModal({
                           key={chat.id} 
                           className={`flex ${chat.sender === 'counselor' ? 'justify-end' : 'justify-start'}`}
                         >
-                          <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-xs leading-relaxed ${
+                          <div className={`max-w-[88%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs leading-relaxed ${
                             chat.sender === 'counselor'
                               ? 'text-white rounded-tr-none'
                               : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200/50 dark:border-slate-750/30'
@@ -985,7 +986,7 @@ export default function LeadModal({
                   </div>
 
                   {/* Chat send bar */}
-                  <form onSubmit={handleChatSend} className="pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0 flex gap-2.5 font-sans">
+                  <form onSubmit={handleChatSend} className="pt-3 sm:pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0 flex flex-col sm:flex-row gap-2 sm:gap-2.5 font-sans">
                     <input
                       id="chat-simulator-input"
                       type="text"
@@ -997,7 +998,7 @@ export default function LeadModal({
                     <button
                       id="chat-simulate-send-btn"
                       type="submit"
-                      className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1 hover:shadow-md animate-transition cursor-pointer"
+                      className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1 hover:shadow-md animate-transition cursor-pointer shrink-0"
                       title="Simulasi Kirim WhatsApp"
                     >
                       <Send className="h-4 w-4" />
@@ -1010,9 +1011,9 @@ export default function LeadModal({
               {/* PAGE 2: TASK LIST & MANAGEMENT */}
               {activeSubTab === 'tasks' && (() => {
                 return (
-                  <div className="space-y-6 flex flex-col h-full justify-between">
+                  <div className="space-y-4 sm:space-y-6 flex flex-col h-full justify-between">
                     {/* Task List viewport */}
-                    <div className="flex-1 space-y-5 pr-2 overflow-y-auto max-h-[290px] scrollbar-thin font-sans">
+                    <div className="flex-1 space-y-4 sm:space-y-5 pr-1.5 overflow-y-auto max-h-[220px] sm:max-h-[290px] scrollbar-thin font-sans">
                       
                       {/* Section 1: Custom To-Do List */}
                       <div className="space-y-2.5">
@@ -1046,7 +1047,7 @@ export default function LeadModal({
                                     placeholder="Deskripsi rencana tugas / To-Do..."
                                     required
                                   />
-                                  <div className="grid grid-cols-2 gap-2">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     <div>
                                       <label className="text-[9px] text-slate-400 dark:text-slate-500 block mb-0.5">Deadline</label>
                                       <input
@@ -1106,9 +1107,9 @@ export default function LeadModal({
                             ) : (
                               <div 
                                 key={task.id} 
-                                className="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl flex items-center justify-between gap-4"
+                                className="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl flex items-center justify-between gap-3"
                               >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2.5 min-w-0">
                                   <input
                                     type="checkbox"
                                     checked={task.status === 'Completed'}
@@ -1116,27 +1117,27 @@ export default function LeadModal({
                                       onToggleTask(task.id);
                                       onAddLog(`${userName} menandai tugas To-Do "${task.todo}" untuk ${lead.namaLengkap} sebagai ${task.status === 'Pending' ? 'SELESAI' : 'TERTUNDA'}`);
                                     }}
-                                    className="h-4.5 w-4.5 accent-blue-600 rounded text-xs cursor-pointer"
+                                    className="h-4.5 w-4.5 accent-blue-600 rounded text-xs cursor-pointer shrink-0"
                                   />
-                                  <div>
-                                    <p className={`text-xs font-bold ${task.status === 'Completed' ? 'line-through text-slate-400 italic' : 'text-slate-800 dark:text-slate-105'}`}>
+                                  <div className="min-w-0">
+                                    <p className={`text-xs font-bold truncate ${task.status === 'Completed' ? 'line-through text-slate-400 italic' : 'text-slate-800 dark:text-slate-105'}`}>
                                       {task.todo}
                                     </p>
-                                    <p className="text-[10px] text-slate-405 dark:text-slate-500 font-semibold font-mono mt-0.5 flex items-center gap-1.5">
-                                      <span>📅 Deadline: {task.deadline}</span>
-                                      <span>&bull;</span>
+                                    <p className="text-[10px] text-slate-405 dark:text-slate-500 font-semibold font-mono mt-0.5 flex items-center gap-1.5 flex-wrap">
+                                      <span>📅 {task.deadline}</span>
+                                      <span className="hidden sm:inline">&bull;</span>
                                       <span className={`font-sans font-extrabold px-1 rounded uppercase ${
                                         task.priority === 'High' ? 'bg-red-50 text-red-700' :
                                         task.priority === 'Medium' ? 'bg-amber-50 text-amber-600' :
                                         'bg-blue-50 text-blue-600'
                                       }`}>
-                                        {task.priority} Priority
+                                        {task.priority}
                                       </span>
                                     </p>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1 shrink-0">
                                   <button
                                     onClick={() => {
                                       setEditingTaskId(task.id);
@@ -1240,7 +1241,7 @@ export default function LeadModal({
                     </div>
 
                   {/* Task Addition panel */}
-                  <form onSubmit={handleTaskAdd} className="pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0 grid grid-cols-1 sm:grid-cols-12 gap-3 font-sans">
+                  <form onSubmit={handleTaskAdd} className="pt-3 sm:pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 font-sans">
                     <div className="sm:col-span-6">
                       <input
                         type="text"
@@ -1248,7 +1249,7 @@ export default function LeadModal({
                         required
                         value={taskInput}
                         onChange={(e) => setTaskInput(e.target.value)}
-                        className="w-full p-2 text-xs bg-slate-50 dark:bg-slate-800 rounded-xl focus:outline-none border border-slate-200/40 dark:border-slate-700"
+                        className="w-full p-2 text-xs bg-slate-50 dark:bg-slate-800 rounded-xl focus:outline-none border border-slate-200/40 dark:border-slate-700 text-slate-800 dark:text-slate-100"
                       />
                     </div>
                     <div className="sm:col-span-3">
@@ -1256,7 +1257,7 @@ export default function LeadModal({
                         type="date"
                         value={taskDeadline}
                         onChange={(e) => setTaskDeadline(e.target.value)}
-                        className="w-full p-2 text-xs bg-slate-50 dark:bg-slate-850 rounded-xl focus:outline-none border border-slate-200/40 dark:border-slate-700 font-mono text-slate-600"
+                        className="w-full p-2 text-xs bg-slate-50 dark:bg-slate-850 rounded-xl focus:outline-none border border-slate-200/40 dark:border-slate-700 font-mono text-slate-600 dark:text-slate-200"
                         style={{ paddingLeft: '8px', paddingRight: '8px', marginRight: '0px' }}
                       />
                     </div>
@@ -1268,7 +1269,7 @@ export default function LeadModal({
                         triggerStyle={{
                           backgroundColor: '#42b8d5',
                           color: '#ffffff',
-                          width: '89.3594px'
+                          width: '100%'
                         }}
                         selectedOptionBgColor="#42b8d5"
                         selectedOptionColor="#ffffff"
@@ -1282,11 +1283,12 @@ export default function LeadModal({
                     <div className="sm:col-span-1">
                       <button
                         type="submit"
-                        className="w-full h-full text-white rounded-xl flex items-center justify-center p-2 cursor-pointer"
+                        className="w-full h-full min-h-[36px] text-white rounded-xl flex items-center justify-center p-2 cursor-pointer shadow-sm transition-transform active:scale-95"
                         style={{ backgroundColor: '#42b8d5' }}
                         title="Tambahkan Tugas"
                       >
                         <Plus className="h-4 w-4" />
+                        <span className="inline sm:hidden text-xs font-bold ml-1">Tambah</span>
                       </button>
                     </div>
                   </form>

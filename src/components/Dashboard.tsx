@@ -413,102 +413,102 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
       </div>
 
       {/* Grid Indicators */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-2.5 sm:gap-4">
         {/* Total Leads */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Leads</span>
-            <Users className="h-4 w-4" style={{ color: '#42b8d5' }} />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Total Leads</span>
+            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" style={{ color: '#42b8d5' }} />
           </div>
-          <div className="mt-4 pr-0">
-            <h3 className="font-display font-bold text-2xl" style={{ color: '#42b8d5' }}>{totalLeads}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#42b8d5', color: '#ffffff' }}>Masuk database</p>
+          <div className="mt-2 sm:mt-4 pr-0">
+            <h3 className="font-display font-bold text-lg sm:text-2xl" style={{ color: '#42b8d5' }}>{totalLeads}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#42b8d5', color: '#ffffff' }}>Masuk database</p>
           </div>
         </div>
 
         {/* Mentoring Student */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Mentoring Student</span>
-            <GraduationCap className="h-4 w-4 text-indigo-500" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Mentoring Student</span>
+            <GraduationCap className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-indigo-500 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl" style={{ color: '#615fff' }}>{mentoringCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border" style={{ backgroundColor: '#615fff', color: '#ffffff', borderColor: '#615fff' }}>Masuk Mentoring</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl" style={{ color: '#615fff' }}>{mentoringCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border truncate max-w-full" style={{ backgroundColor: '#615fff', color: '#ffffff', borderColor: '#615fff' }}>Masuk Mentoring</p>
           </div>
         </div>
 
         {/* Hot Leads */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Hot Leads</span>
-            <Flame className="h-4 w-4 text-red-500" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Hot Leads</span>
+            <Flame className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-red-600 dark:text-red-400">{hotCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#ff6468', color: '#ffffff' }}>Skor BANT &ge; 10</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl text-red-600 dark:text-red-400">{hotCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#ff6468', color: '#ffffff' }}>Skor BANT &ge; 10</p>
           </div>
         </div>
 
         {/* Warm Leads */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Warm Leads</span>
-            <Leaf className="h-4 w-4 text-amber-500" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Warm Leads</span>
+            <Leaf className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-500 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-amber-600 dark:text-amber-400">{warmCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#ffba00', color: '#ffffff' }}>Skor BANT 6 - 9</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl text-amber-600 dark:text-amber-400">{warmCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#ffba00', color: '#ffffff' }}>Skor BANT 6 - 9</p>
           </div>
         </div>
 
         {/* Cold Leads */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Cold Leads</span>
-            <Snowflake className="h-4 w-4 text-blue-400" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Cold Leads</span>
+            <Snowflake className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-blue-500">{coldCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#50a3ff', color: '#ffffff' }}>Skor BANT &le; 5</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl text-blue-500">{coldCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#50a3ff', color: '#ffffff' }}>Skor BANT &le; 5</p>
           </div>
         </div>
 
         {/* Reaktivasi */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Reaktivasi</span>
-            <RotateCcw className="h-4 w-4 text-slate-500" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Reaktivasi</span>
+            <RotateCcw className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-slate-700 dark:text-slate-300">{reactivateCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#314158', color: '#ffffff' }}>Inaktif &gt; 60 hari</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl text-slate-700 dark:text-slate-300">{reactivateCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#314158', color: '#ffffff' }}>Inaktif &gt; 60 hari</p>
           </div>
         </div>
 
         {/* Total Enrolled */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Enrolled</span>
-            <CheckCircle className="h-4 w-4 text-emerald-500" />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Enrolled</span>
+            <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-500 shrink-0" />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl text-emerald-600 dark:text-emerald-400">{enrolledCount + completedCount}</h3>
-            <p className="text-[10px] font-mono mt-1 rounded px-1.5 py-0.5 w-fit border-0" style={{ backgroundColor: '#009966', color: '#ffffff' }}>Telah mendaftar</p>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl text-emerald-600 dark:text-emerald-400">{enrolledCount + completedCount}</h3>
+            <p className="text-[9px] sm:text-[10px] font-mono mt-0.5 sm:mt-1 rounded px-1 sm:px-1.5 py-0.5 w-fit border-0 truncate max-w-full" style={{ backgroundColor: '#009966', color: '#ffffff' }}>Telah mendaftar</p>
           </div>
         </div>
 
         {/* Conversion Rate */}
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/55 dark:border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Conv. Rate</span>
-            <TrendingUp className="h-4 w-4" style={{ color: '#42b8d5' }} />
+        <div className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/55 dark:border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
+          <div className="flex items-center justify-between text-slate-400 gap-1">
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider truncate">Conv. Rate</span>
+            <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" style={{ color: '#42b8d5' }} />
           </div>
-          <div className="mt-4">
-            <h3 className="font-display font-bold text-2xl" style={{ color: '#42b8d5' }}>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="font-display font-bold text-lg sm:text-2xl" style={{ color: '#42b8d5' }}>
               {conversionRate.toFixed(1)}%
             </h3>
-            <p className="text-[10px] text-slate-400 font-mono mt-1">Target global: 20%</p>
+            <p className="text-[9px] sm:text-[10px] text-slate-400 font-mono mt-0.5 sm:mt-1 truncate">Target global: 20%</p>
           </div>
         </div>
       </div>

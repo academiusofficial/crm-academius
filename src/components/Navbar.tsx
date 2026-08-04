@@ -183,41 +183,41 @@ export default function Navbar({
   return (
     <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200">
       {/* Mobile Menu Hamburger & Brand Title */}
-      <div className="flex items-center gap-2.5 sm:gap-4">
+      <div className="flex items-center gap-2 sm:gap-4 min-w-0">
         {onToggleMobileMenu && (
           <button
             onClick={onToggleMobileMenu}
-            className="p-2 lg:hidden rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 lg:hidden rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer shrink-0"
             title="Buka Menu"
           >
             <Menu className="h-5 w-5" />
           </button>
         )}
 
-        <h2 className="font-poppins font-bold text-base sm:text-lg text-slate-800 dark:text-white truncate" style={{ color: '#136386' }}>
+        <h2 className="font-poppins font-bold text-sm sm:text-base md:text-lg text-slate-800 dark:text-white truncate hidden xs:block" style={{ color: '#136386' }}>
           Workspace CRM
         </h2>
         
         {organizations && organizations.length > 0 && setSelectedOrgId && (
-          <div className="hidden md:flex items-center gap-3">
-            <div className="flex items-center gap-1.5 font-sans text-xs">
-              <span className="text-slate-500 dark:text-slate-400 font-medium select-none shrink-0">Organisasi/Tim:</span>
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <div className="flex items-center gap-1 sm:gap-1.5 font-sans text-xs">
+              <span className="text-slate-500 dark:text-slate-400 font-medium select-none shrink-0 hidden sm:inline">Organisasi:</span>
               <CustomSelect
                 id="active-org-selector-select"
                 value={selectedOrgId || ''}
                 onChange={(val) => setSelectedOrgId(val || null)}
-                className="w-52"
+                className="w-28 xs:w-36 sm:w-44 md:w-52 text-xs"
                 options={[
-                  ...(userRole === 'Admin CRM' || userRole === 'Manager CRM' ? [{ value: '', label: 'Semua Organisasi (Global)' }] : []),
+                  ...(userRole === 'Admin CRM' || userRole === 'Manager CRM' ? [{ value: '', label: 'Semua (Global)' }] : []),
                   ...organizations.map(org => ({ value: org.id, label: org.name }))
                 ]}
               />
             </div>
             
             {orgMembers !== undefined && (
-              <span className="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
+              <span className="hidden xl:flex text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 px-2.5 py-1 rounded-full font-semibold items-center gap-1 shrink-0">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                {orgMembers.length} Anggota Terdaftar
+                {orgMembers.length} Anggota
               </span>
             )}
           </div>
