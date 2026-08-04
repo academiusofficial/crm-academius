@@ -141,8 +141,8 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
       <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in zoom-in-95 duration-150">
         
         {/* Header */}
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
-          <h3 className="font-display font-bold text-lg dark:text-white" style={{ color: '#116185' }}>
+        <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
+          <h3 className="font-display font-bold text-sm sm:text-lg dark:text-white" style={{ color: '#116185' }}>
             {lead ? `Edit Data Lead (${lead.leadId})` : 'Input Data Lead Baru'}
           </h3>
           <button 
@@ -155,7 +155,7 @@ export default function LeadForm({ lead, onSave, onClose, userName, advisors, on
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[calc(100vh-180px)] overflow-y-auto">
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             

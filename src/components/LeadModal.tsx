@@ -461,23 +461,23 @@ export default function LeadModal({
       <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl w-full max-w-5xl h-[95vh] sm:h-[92vh] shadow-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
         
         {/* Dynamic header row */}
-        <div className="p-4 sm:p-6 border-b border-slate-200/60 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-3 sm:gap-4">
+        <div className="p-3.5 sm:p-6 border-b border-slate-200/60 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
             {/* Round Avatar initials representing study interest */}
-            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl text-white font-bold font-display text-sm sm:text-base flex flex-col items-center justify-center shadow-sm shrink-0" style={{ backgroundColor: '#42b8d5' }}>
+            <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg sm:rounded-2xl text-white font-bold font-display text-xs sm:text-base flex flex-col items-center justify-center shadow-sm shrink-0" style={{ backgroundColor: '#42b8d5' }}>
               <span>{lead.jenjangStudi}</span>
-              <span className="text-[8px] sm:text-[9px] uppercase tracking-wider font-extrabold">{lead.targetNegara.slice(0, 3)}</span>
+              <span className="text-[7px] sm:text-[9px] uppercase tracking-wider font-extrabold">{lead.targetNegara.slice(0, 3)}</span>
             </div>
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-display font-black text-lg sm:text-xl text-slate-800 dark:text-white leading-tight truncate">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <h3 className="font-display font-black text-base sm:text-lg md:text-xl text-slate-800 dark:text-white leading-tight truncate">
                   {lead.namaLengkap}
                 </h3>
-                <span className="font-mono text-xs font-bold text-slate-400">
+                <span className="font-mono text-[11px] sm:text-xs font-bold text-slate-400">
                   {lead.leadId}
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-extrabold uppercase font-mono tracking-wider ${
+                <span className={`px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] font-extrabold uppercase font-mono tracking-wider ${
                   computedStatus === 'HOT' ? 'bg-red-150 text-red-700 animate-pulse' :
                   computedStatus === 'WARM' ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/20 dark:text-amber-400' :
                   computedStatus === 'COLD' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-350'
@@ -485,15 +485,15 @@ export default function LeadModal({
                   {computedStatus === 'HOT' ? '🔥 HOT' : computedStatus === 'WARM' ? '🌤 WARM' : computedStatus === 'COLD' ? '❄ COLD' : '🔄 REAKTIVASI'}
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
+              <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1 flex items-center gap-1.5 sm:gap-2 flex-wrap">
                 <span>Terdaftar: {new Date(lead.tanggalMasuk).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Makassar' })}</span>
                 <span className="hidden sm:inline">&bull;</span>
-                <span className="font-semibold text-[#90a1b9] dark:text-[#90a1b9] flex items-center gap-1.5">
+                <span className="font-semibold text-[#90a1b9] dark:text-[#90a1b9] flex items-center gap-1">
                   Pendaftar: 
                   {(() => {
                     const picInfo = getPicInfo(pic);
                     return (
-                      <span className="inline-flex items-center gap-1 bg-[#f8fafc] dark:bg-[#f8fafc] text-black dark:text-black border border-[#f8fafc] px-2 py-0.5 rounded text-[10px] font-bold">
+                      <span className="inline-flex items-center gap-0.5 bg-[#f8fafc] dark:bg-[#f8fafc] text-black dark:text-black border border-[#f8fafc] px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold">
                         {picInfo.name} <span className="text-[#90a1b9] dark:text-[#90a1b9] font-normal tracking-normal">({picInfo.role})</span>
                       </span>
                     );
@@ -507,7 +507,7 @@ export default function LeadModal({
             <button
               id="edit-lead-modal-btn"
               onClick={() => setShowEditForm(true)}
-              className="px-3 py-1.5 sm:px-3.5 sm:py-2 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
+              className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 font-semibold rounded-lg sm:rounded-xl text-[11px] sm:text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
               style={{ color: '#42b8d5', borderColor: '#42b8d5', borderWidth: '1px', borderStyle: 'solid' }}
               title="Edit Data Lengkap Lead"
             >
@@ -521,7 +521,7 @@ export default function LeadModal({
                 onClick={() => {
                   setShowDeleteConfirm(true);
                 }}
-                className="px-3 py-1.5 sm:px-3.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/25 dark:hover:bg-red-950/40 dark:text-red-400 border border-red-150/40 dark:border-red-900/35 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
+                className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/25 dark:hover:bg-red-950/40 dark:text-red-400 border border-red-150/40 dark:border-red-900/35 font-semibold rounded-lg sm:rounded-xl text-[11px] sm:text-xs flex items-center justify-center gap-1.5 transition-all duration-150 active:scale-95 cursor-pointer shadow-sm flex-1 sm:flex-initial"
                 title="Hapus Lead dari Database"
               >
                 <Trash2 className="h-3.5 w-3.5" />
@@ -543,7 +543,7 @@ export default function LeadModal({
         <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 dark:divide-slate-800">
           
           {/* Left Panel: Profile Detail, Sliders, and Program tasklists */}
-          <div className="lg:col-span-5 p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto max-h-full font-sans">
+          <div className="lg:col-span-5 p-3.5 sm:p-6 space-y-3.5 sm:space-y-6 font-sans">
             
             {/* Sales Pipeline Stage & PIC & potential IDR Dropdowns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -776,131 +776,6 @@ export default function LeadModal({
 
           {/* Right Panel: AI Insights, Interactive WhatsApp Sim, Tasks, Timeline logs */}
           <div className="lg:col-span-7 flex flex-col h-full bg-white dark:bg-slate-900 pr-1.5">
-            
-            {/* AI Insights Top Segment */}
-            {true && (
-              <div className="p-6 border-b border-slate-100 dark:border-slate-800/80 bg-gradient-to-br from-indigo-50/40 via-white to-blue-50/20 dark:from-indigo-950/20 dark:via-slate-900 dark:to-slate-900 shrink-0">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <Sparkles className="h-5 w-5 animate-pulse" style={{ color: '#42b8d5' }} />
-                      <h4 className="font-display font-extrabold text-base text-slate-800 dark:text-white">
-                        Asisten AI Admission Predictor
-                      </h4>
-                    </div>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5 leading-snug">
-                      Analisis kemungkinan closing, deteksi risiko, rekomendasi personal, dan rancang draf tindak lanjut WhatsApp secara instan dengan LLM **Gemini 3.6**.
-                    </p>
-                  </div>
-
-                  <button
-                    id="generate-ai-insight-btn"
-                    onClick={fetchGeminiInsight}
-                    disabled={isAiLoading}
-                    className="px-4 py-2.5 rounded-xl text-white font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-2 shrink-0 active:scale-95 disabled:opacity-40 select-none cursor-pointer"
-                    style={{ backgroundColor: '#42b8d5' }}
-                  >
-                    <Sparkles className="h-4 w-4 text-white" />
-                    <span>{isAiLoading ? 'Menganalisis Prospektus...' : 'Minta Analisis AI'}</span>
-                  </button>
-                </div>
-
-                {/* Loader */}
-                {isAiLoading && (
-                  <div className="mt-5 p-5 bg-indigo-50/50 dark:bg-indigo-950/25 rounded-2xl border border-indigo-100/40 dark:border-indigo-900/40 flex flex-col items-center justify-center text-center gap-3">
-                    <div className="h-8 w-8 relative flex items-center justify-center">
-                      <span className="absolute animate-ping h-6 w-6 rounded-full bg-indigo-400 opacity-75" />
-                      <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400 animate-spin" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300">Asisten Academius sedang membaca data pendaftar...</p>
-                      <p className="text-[10px] text-indigo-450 dark:text-indigo-500 font-mono mt-1">Membaca kualifikasi BANT &bull; Menganalisis riwayat obrolan WhatsApp</p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Error block */}
-                {aiError && (
-                  <div className="mt-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl border border-red-100 dark:border-red-900/30 flex items-center gap-3">
-                    <AlertOctagon className="h-4.5 w-4.5 text-red-600 dark:text-red-400 shrink-0" />
-                    <span className="text-xs font-semibold text-red-700 dark:text-red-400">
-                      {aiError}
-                    </span>
-                  </div>
-                )}
-
-                {/* AI Output Result Card */}
-                {aiInsight && !isAiLoading && (
-                  <div className="mt-5 p-5 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100/60 dark:border-indigo-900/40 space-y-4 font-sans animate-in fade-in duration-300">
-                    
-                    {/* Row 1: Closing Chance and Risk badges */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-indigo-100/50 dark:border-indigo-900/30">
-                      <div>
-                        <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">ANALISIS CLOSING PROBA</span>
-                        <p className="text-xs font-bold text-indigo-950 dark:text-indigo-200 mt-1">
-                          {aiInsight.prediction}
-                        </p>
-                      </div>
-                      <div className="shrink-0 flex items-center gap-2">
-                        <span className="text-[10px] text-indigo-400 uppercase font-bold">RISIKO HILANG:</span>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          aiInsight.riskLevel === 'LOW' ? 'bg-emerald-100 text-emerald-800' :
-                          aiInsight.riskLevel === 'MEDIUM' ? 'bg-amber-100 text-amber-800' :
-                          'bg-red-100 text-red-800 animate-pulse'
-                        }`}>
-                          {aiInsight.riskLevel}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Row 2: Bullet steps suggestions */}
-                    <div className="space-y-1.5">
-                      <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">REKOMENDASI PRIORITAS SALES</span>
-                      <div className="space-y-1.5">
-                        {aiInsight.recommendedFollowUp.split('\n').filter(Boolean).map((stg, i) => (
-                          <p key={i} className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                            {stg}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Row 3: Drag template copy follow up */}
-                    <div className="pt-2">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">DRAF FOLLOW UP SMART WHATSAPP</span>
-                        <div className="flex gap-1.5">
-                          <button
-                            onClick={() => copyToClipboard(aiInsight.draftEmail)}
-                            className="px-2.5 py-1 text-[10px] font-bold text-indigo-700 dark:text-indigo-400 bg-white dark:bg-slate-900 hover:bg-slate-100 border border-indigo-150 rounded flex items-center gap-1 select-none cursor-pointer"
-                          >
-                            {copiedDraft ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
-                            <span>{copiedDraft ? 'Copied' : 'Salin Draf'}</span>
-                          </button>
-                          <a
-                            href={getWhatsAppLink(lead.nomorWhatsApp, aiInsight.draftEmail)}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="px-2.5 py-1 text-[10px] font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded flex items-center gap-1 cursor-pointer select-none"
-                            title="Kirim draf ini langsung ke WhatsApp lead"
-                          >
-                            <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
-                              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.091-2.884-6.953C16.593 1.959 14.12 1.037 11.5 1.03c-5.448 0-9.873 4.413-9.876 9.831-.001 1.983.518 3.921 1.503 5.642l-1.001 3.655 3.743-.982zm11.332-6.536c-.305-.153-1.796-.886-2.073-.987-.278-.101-.481-.153-.683.153-.201.305-.78.987-.956 1.189-.176.201-.351.228-.656.076-.305-.153-1.288-.475-2.454-1.515-.907-.808-1.52-1.807-1.698-2.112-.178-.305-.019-.47.133-.622.137-.137.305-.357.458-.536.152-.178.203-.305.305-.508.102-.203.05-.381-.025-.533-.076-.152-.683-1.644-.936-2.253-.246-.593-.497-.513-.683-.522-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.381-.279.305-1.066 1.041-1.066 2.54 0 1.498 1.091 2.946 1.243 3.149.152.203 2.147 3.279 5.2 4.59.726.311 1.293.498 1.734.638.73.232 1.393.2 1.917.12.584-.087 1.796-.734 2.049-1.442.253-.707.253-1.314.177-1.442-.076-.128-.278-.203-.583-.356z"/>
-                            </svg>
-                            <span>Kirim ke WA</span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-indigo-100/30 text-[11px] font-mono text-slate-700 dark:text-slate-350 whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">
-                        {aiInsight.draftEmail}
-                      </div>
-                    </div>
-
-                  </div>
-                )}
-
-              </div>
-            )}
 
             {/* Sub Tabs Selection (Chats, Tasks, Timeline logs) */}
             <div className="p-2.5 sm:p-4 border-b border-slate-100 dark:border-slate-800 flex gap-1.5 overflow-x-auto scrollbar-none select-none shrink-0 font-sans bg-slate-50/50 dark:bg-slate-900/50">
@@ -952,11 +827,141 @@ export default function LeadModal({
               
               {/* PAGE 1: WHATSAPP CHAT SIMULATOR */}
               {activeSubTab === 'chats' && (
-                <div className="flex flex-col h-full justify-between gap-4">
+                <div className="flex flex-col h-full gap-4">
+                  
+                  {/* AI Insights Segment inside WhatsApp Chat tab */}
+                  <div className="p-4 sm:p-5 rounded-2xl border border-indigo-100/80 dark:border-indigo-900/40 bg-gradient-to-br from-indigo-50/40 via-white to-blue-50/20 dark:from-indigo-950/20 dark:via-slate-900 dark:to-slate-900 shrink-0 space-y-3 font-sans">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 animate-pulse" style={{ color: '#42b8d5' }} />
+                          <h4 className="font-display font-extrabold text-sm sm:text-base text-slate-800 dark:text-white">
+                            Asisten AI Admission Predictor
+                          </h4>
+                        </div>
+                        <p className="text-slate-500 dark:text-slate-400 text-[10px] sm:text-[11px] mt-0.5 leading-snug">
+                          Analisis kemungkinan closing, deteksi risiko, rekomendasi personal, dan rancang draf tindak lanjut WhatsApp secara instan dengan Gemini AI.
+                        </p>
+                      </div>
+
+                      <button
+                        id="generate-ai-insight-btn"
+                        onClick={fetchGeminiInsight}
+                        disabled={isAiLoading}
+                        className="px-3.5 py-2 rounded-xl text-white font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-1.5 shrink-0 active:scale-95 disabled:opacity-40 select-none cursor-pointer"
+                        style={{ backgroundColor: '#42b8d5' }}
+                      >
+                        <Sparkles className="h-3.5 w-3.5 text-white" />
+                        <span>{isAiLoading ? 'Menganalisis...' : 'Minta Analisis AI'}</span>
+                      </button>
+                    </div>
+
+                    {/* Loader */}
+                    {isAiLoading && (
+                      <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/25 rounded-xl border border-indigo-100/40 dark:border-indigo-900/40 flex flex-col items-center justify-center text-center gap-2">
+                        <div className="h-6 w-6 relative flex items-center justify-center">
+                          <span className="absolute animate-ping h-5 w-5 rounded-full bg-indigo-400 opacity-75" />
+                          <Sparkles className="h-4 w-4 text-indigo-600 dark:text-indigo-400 animate-spin" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300">Asisten Academius sedang membaca data pendaftar...</p>
+                          <p className="text-[10px] text-indigo-450 dark:text-indigo-500 font-mono mt-0.5">Membaca kualifikasi BANT &bull; Menganalisis riwayat obrolan WhatsApp</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error block */}
+                    {aiError && (
+                      <div className="p-3 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-100 dark:border-red-900/30 flex items-center gap-2.5">
+                        <AlertOctagon className="h-4 w-4 text-red-600 dark:text-red-400 shrink-0" />
+                        <span className="text-xs font-semibold text-red-700 dark:text-red-400">
+                          {aiError}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* AI Output Result Card */}
+                    {aiInsight && !isAiLoading && (
+                      <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-xl border border-indigo-100/60 dark:border-indigo-900/40 space-y-3 font-sans animate-in fade-in duration-300">
+                        
+                        {/* Row 1: Closing Chance and Risk badges */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-indigo-100/50 dark:border-indigo-900/30">
+                          <div>
+                            <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">ANALISIS CLOSING PROBA</span>
+                            <p className="text-xs font-bold text-indigo-950 dark:text-indigo-200 mt-0.5">
+                              {aiInsight.prediction}
+                            </p>
+                          </div>
+                          <div className="shrink-0 flex items-center gap-1.5">
+                            <span className="text-[10px] text-indigo-400 uppercase font-bold">RISIKO HILANG:</span>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              aiInsight.riskLevel === 'LOW' ? 'bg-emerald-100 text-emerald-800' :
+                              aiInsight.riskLevel === 'MEDIUM' ? 'bg-amber-100 text-amber-800' :
+                              'bg-red-100 text-red-800 animate-pulse'
+                            }`}>
+                              {aiInsight.riskLevel}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Row 2: Bullet steps suggestions */}
+                        <div className="space-y-1">
+                          <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">REKOMENDASI PRIORITAS SALES</span>
+                          <div className="space-y-1">
+                            {aiInsight.recommendedFollowUp.split('\n').filter(Boolean).map((stg, i) => (
+                              <p key={i} className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                                {stg}
+                              </p>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Row 3: Drag template copy follow up */}
+                        <div className="pt-1.5">
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-[9px] uppercase tracking-wider text-indigo-400 block font-bold">DRAF FOLLOW UP SMART WHATSAPP</span>
+                            <div className="flex gap-1.5">
+                              <button
+                                onClick={() => setChatInput(aiInsight.draftEmail)}
+                                className="px-2 py-1 text-[10px] font-bold text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 hover:bg-slate-100 border border-blue-200 rounded flex items-center gap-1 select-none cursor-pointer"
+                                title="Masukkan draf ke input chat di bawah"
+                              >
+                                <span>Gunakan di Input</span>
+                              </button>
+                              <button
+                                onClick={() => copyToClipboard(aiInsight.draftEmail)}
+                                className="px-2 py-1 text-[10px] font-bold text-indigo-700 dark:text-indigo-400 bg-white dark:bg-slate-900 hover:bg-slate-100 border border-indigo-150 rounded flex items-center gap-1 select-none cursor-pointer"
+                              >
+                                {copiedDraft ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
+                                <span>{copiedDraft ? 'Copied' : 'Salin Draf'}</span>
+                              </button>
+                              <a
+                                href={getWhatsAppLink(lead.nomorWhatsApp, aiInsight.draftEmail)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="px-2 py-1 text-[10px] font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded flex items-center gap-1 cursor-pointer select-none"
+                                title="Kirim draf ini langsung ke WhatsApp lead"
+                              >
+                                <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
+                                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.091-2.884-6.953C16.593 1.959 14.12 1.037 11.5 1.03c-5.448 0-9.873 4.413-9.876 9.831-.001 1.983.518 3.921 1.503 5.642l-1.001 3.655 3.743-.982zm11.332-6.536c-.305-.153-1.796-.886-2.073-.987-.278-.101-.481-.153-.683.153-.201.305-.78.987-.956 1.189-.176.201-.351.228-.656.076-.305-.153-1.288-.475-2.454-1.515-.907-.808-1.52-1.807-1.698-2.112-.178-.305-.019-.47.133-.622.137-.137.305-.357.458-.536.152-.178.203-.305.305-.508.102-.203.05-.381-.025-.533-.076-.152-.683-1.644-.936-2.253-.246-.593-.497-.513-.683-.522-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.381-.279.305-1.066 1.041-1.066 2.54 0 1.498 1.091 2.946 1.243 3.149.152.203 2.147 3.279 5.2 4.59.726.311 1.293.498 1.734.638.73.232 1.393.2 1.917.12.584-.087 1.796-.734 2.049-1.442.253-.707.253-1.314.177-1.442-.076-.128-.278-.203-.583-.356z"/>
+                                </svg>
+                                <span>Kirim WA</span>
+                              </a>
+                            </div>
+                          </div>
+                          <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-indigo-100/30 text-[11px] font-mono text-slate-700 dark:text-slate-350 whitespace-pre-wrap leading-relaxed">
+                            {aiInsight.draftEmail}
+                          </div>
+                        </div>
+
+                      </div>
+                    )}
+                  </div>
+
                   {/* Chat logs */}
-                  <div className="flex-1 space-y-4 max-h-60 overflow-y-auto pr-1.5 scrollbar-thin">
+                  <div className="flex-1 space-y-4 min-h-[120px] pr-1.5">
                     {chats.filter(c => c.leadId === lead.id).length === 0 ? (
-                      <div className="h-full flex flex-col items-center justify-center py-10 text-center text-slate-400 text-xs font-sans">
+                      <div className="h-full flex flex-col items-center justify-center py-6 text-center text-slate-400 text-xs font-sans">
                         <span>💬</span>
                         <p className="mt-2 font-medium">Belum ada riwayat percakapan.</p>
                         <p className="text-[10px] text-slate-550 dark:text-slate-400 mt-1">Kirim pesan pembuka WhatsApp di bawah untuk memulai simulasi chat!</p>

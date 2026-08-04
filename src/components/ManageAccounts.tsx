@@ -303,27 +303,28 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
         ) : (
           <div>
             {/* Mobile Card List View */}
-            <div className="block lg:hidden divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="block lg:hidden divide-y divide-slate-100 dark:divide-slate-800 font-sans">
               {filteredAccounts.map((account) => {
                 const isSelf = account.email.toLowerCase() === currentUserEmail?.toLowerCase();
-                let badgeStyle = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+                let badgeStyle = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200";
                 if (account.role === 'Admin CRM') {
-                  badgeStyle = "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30";
+                  badgeStyle = "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200 dark:border-blue-900/30";
                 } else if (account.role === 'Manager CRM') {
-                  badgeStyle = "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/30";
+                  badgeStyle = "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-900/30";
                 } else if (account.role === 'Staff CRM') {
-                  badgeStyle = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30";
+                  badgeStyle = "bg-[#e6fcf3] text-[#047857] dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800";
                 }
 
                 return (
-                  <div key={account.uid} className="p-4 space-y-3 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs border shrink-0" style={{ backgroundColor: '#d8f0ff', color: '#42b8d5', borderColor: '#42b8d5' }}>
+                  <div key={account.uid} className="p-4 space-y-3 bg-white dark:bg-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+                    {/* Top Row: Avatar + Name/Email + Status Badge */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="h-10 w-10 rounded-full flex items-center justify-center font-bold text-xs border-2 shrink-0" style={{ backgroundColor: '#e0f2fe', color: '#0284c7', borderColor: '#38bdf8' }}>
                           {account.displayName.slice(0, 2).toUpperCase()}
                         </div>
-                        <div className="overflow-hidden">
-                          <p className="font-bold text-slate-800 dark:text-white text-sm truncate flex items-center gap-1.5">
+                        <div className="min-w-0">
+                          <p className="font-bold text-slate-900 dark:text-white text-sm truncate flex items-center gap-1.5">
                             {account.displayName}
                             {isSelf && (
                               <span className="text-[9px] bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider shrink-0">
@@ -331,52 +332,56 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
                               </span>
                             )}
                           </p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1 mt-0.5">
+                          <p className="text-[10px] font-normal text-slate-500 dark:text-slate-400 truncate flex items-center gap-1 mt-0.5">
                             <Mail className="h-3 w-3 shrink-0 text-slate-400" />
-                            {account.email}
+                            <span className="truncate">{account.email}</span>
                           </p>
                         </div>
                       </div>
 
                       {/* Status Tag */}
                       {account.isApproved ? (
-                        <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30 shrink-0">
-                          <Check className="h-3 w-3" />
+                        <span className="px-2.5 py-1 rounded-full text-[9px] font-extrabold tracking-wider uppercase inline-flex items-center gap-1 bg-[#e6fcf3] text-[#047857] dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800 shrink-0 mt-0.5">
+                          <Check className="h-3.5 w-3.5 stroke-[2.5]" />
                           Disetujui
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-100 dark:border-amber-900/30 shrink-0">
-                          <Clock className="h-3 w-3 animate-pulse" />
+                        <span className="px-2.5 py-1 rounded-full text-[9px] font-extrabold tracking-wider uppercase inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-300 dark:border-amber-800 shrink-0 mt-0.5">
+                          <Clock className="h-3.5 w-3.5 animate-pulse stroke-[2.5]" />
                           Tertunda
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-100/60 dark:border-slate-800/40 text-xs">
-                      <span className={`px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 ${badgeStyle}`}>
-                        <Shield className="h-3 w-3" />
+                    {/* Faint Divider */}
+                    <div className="border-t border-slate-100 dark:border-slate-800/60" />
+
+                    {/* Bottom Row: Role Badge + Actions */}
+                    <div className="flex items-center justify-between gap-2 pt-0.5">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider uppercase inline-flex items-center gap-1.5 ${badgeStyle}`}>
+                        <Shield className="h-3.5 w-3.5 stroke-[2]" />
                         {account.role}
                       </span>
 
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleToggleApproval(account)}
-                          className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer ${
                             account.isApproved
-                              ? 'bg-slate-100 dark:bg-slate-800 hover:bg-amber-50 text-slate-600 hover:text-amber-600'
+                              ? 'bg-[#f1f5f9] dark:bg-slate-800 hover:bg-amber-50 text-slate-700 hover:text-amber-700 dark:text-slate-200'
                               : 'bg-emerald-500 text-white hover:bg-emerald-600 font-bold shadow-xs'
                           }`}
                         >
-                          <Check className="h-3.5 w-3.5" />
+                          <Check className="h-4 w-4 stroke-[2.5]" />
                           <span>{account.isApproved ? 'Tunda' : 'Setujui'}</span>
                         </button>
 
                         <button
                           onClick={() => handleEditClick(account)}
-                          className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors cursor-pointer"
+                          className="p-2 bg-[#f1f5f9] dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition-colors cursor-pointer"
                           title="Edit Profil"
                         >
-                          <Edit3 className="h-3.5 w-3.5" />
+                          <Edit3 className="h-4 w-4 stroke-[2]" />
                         </button>
 
                         <button
@@ -389,7 +394,7 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
                             setErrorMsg('');
                             setSuccessMsg('');
                           }}
-                          className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                          className={`p-2 rounded-xl transition-colors cursor-pointer ${
                             isSelf 
                               ? 'text-slate-200 dark:text-slate-800 cursor-not-allowed bg-slate-50 dark:bg-slate-900' 
                               : 'bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100'
@@ -397,7 +402,7 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
                           disabled={isSelf}
                           title={isSelf ? 'Tidak dapat menghapus diri sendiri' : 'Hapus Akun'}
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Trash2 className="h-4 w-4 stroke-[2]" />
                         </button>
                       </div>
                     </div>

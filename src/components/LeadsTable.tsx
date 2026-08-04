@@ -382,10 +382,10 @@ export default function LeadsTable({
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 overflow-hidden">
       
       {/* Table Action Controls */}
-      <div className="p-6 border-b border-slate-200/60 dark:border-slate-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/50">
+      <div className="p-3.5 sm:p-5 border-b border-slate-200/60 dark:border-slate-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 bg-slate-50/50 dark:bg-slate-900/50">
         
         {/* Search */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 max-w-md w-full">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
             id="lead-search-input"
@@ -393,23 +393,23 @@ export default function LeadsTable({
             placeholder="Cari nama, WhatsApp, email, atau kota..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 transition-shadow"
+            className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 transition-shadow shadow-2xs placeholder:text-slate-400"
           />
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="grid grid-cols-2 md:flex md:items-center gap-2.5 w-full md:w-auto">
           {/* Advanced Sliders trigger */}
           <button
             id="advanced-filters-btn"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            className={`px-3.5 py-2 text-sm font-semibold rounded-xl border flex items-center gap-2 transition-all ${
+            className={`px-3.5 py-2.5 text-xs sm:text-sm font-normal rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto ${
               showAdvancedFilters || filterStatus !== 'ALL' || filterPic !== 'ALL' || filterCountry !== 'ALL' || filterProduct !== 'ALL' || filterSource !== 'ALL' || filterAge !== 'ALL'
-                ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/30 dark:border-blue-900/60 dark:text-blue-300'
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-750 dark:text-slate-300 dark:hover:bg-slate-750/50'
+                ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-950/30 dark:border-blue-800 dark:text-blue-300'
+                : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-750/50'
             }`}
           >
-            <SlidersHorizontal className="h-4 w-4" />
+            <SlidersHorizontal className="h-4 w-4 text-slate-600 dark:text-slate-300" />
             <span>Filter Lanjutan</span>
           </button>
 
@@ -417,10 +417,10 @@ export default function LeadsTable({
           <button
             id="export-csv-btn"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 text-sm font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40 rounded-xl flex items-center gap-2 transition-all"
+            className="px-3.5 py-2.5 text-xs sm:text-sm font-normal bg-[#e6fcf3] dark:bg-emerald-950/40 text-[#047857] dark:text-emerald-300 border border-[#047857] dark:border-emerald-600 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs col-span-1 md:w-auto"
             title="Download CSV untuk Excel"
           >
-            <FileSpreadsheet className="h-4 w-4" />
+            <FileSpreadsheet className="h-4 w-4 text-[#047857] dark:text-emerald-300" />
             <span>Ekspor CSV</span>
           </button>
 
@@ -429,10 +429,10 @@ export default function LeadsTable({
             <button
               id="add-lead-btn"
               onClick={onAddLeadClick}
-              className="px-4 py-2 text-sm font-semibold text-white shadow-sm rounded-xl flex items-center gap-2 transition-all active:scale-95"
+              className="col-span-2 md:col-span-1 w-full md:w-auto px-4 py-2.5 text-xs sm:text-sm font-normal text-white shadow-sm rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
               style={{ backgroundColor: '#42b8d5' }}
             >
-              <FolderPlus className="h-4 w-4" />
+              <FolderPlus className="h-4 w-4 text-white" />
               <span>Input Lead Baru</span>
             </button>
           )}
@@ -442,7 +442,7 @@ export default function LeadsTable({
 
       {/* Advanced Filter Panel drop down */}
       {(showAdvancedFilters) && (
-        <div className="p-6 border-b border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/20 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 font-sans animate-in slide-in-from-top-4 duration-200">
+        <div className="p-3.5 sm:p-6 border-b border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 font-sans animate-in slide-in-from-top-4 duration-200">
           
           {/* Status BANT Filter */}
           <div>
@@ -558,8 +558,139 @@ export default function LeadsTable({
         </div>
       )}
 
-      {/* Main Database Table Grid */}
-      <div className="overflow-x-auto">
+      {/* Mobile Card List View */}
+      <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800 font-sans">
+        {sortedLeads.length === 0 ? (
+          <div className="p-8 text-center text-slate-500 dark:text-slate-400">
+            <span className="text-2xl block">🔍</span>
+            <p className="font-semibold mt-2 text-xs">Tidak ada data leads ditemukan</p>
+            <p className="text-[11px] text-slate-400 mt-1">Coba sesuaikan pencarian atau reset filter.</p>
+          </div>
+        ) : (
+          sortedLeads.map((lead) => {
+            const status = getLeadStatus(lead.bant, lead.tanggalFollowUpTerakhir, lead.tanggalMasuk);
+            const picInfo = getPicInfo(lead);
+
+            return (
+              <div 
+                key={lead.id} 
+                onClick={() => onOpenLead(lead.id)}
+                className="p-4 bg-white dark:bg-slate-900 active:bg-slate-50 dark:active:bg-slate-800/40 transition-colors cursor-pointer space-y-3"
+              >
+                {/* Header: Name + Status Badge on left, Stage name on right */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <h4 className="font-display font-extrabold text-sm text-slate-900 dark:text-white truncate">
+                      {lead.namaLengkap}
+                    </h4>
+                    <div className="shrink-0">
+                      {getStatusBadge(status)}
+                    </div>
+                  </div>
+                  <div className="shrink-0 font-extrabold text-xs sm:text-sm text-[#2b7fff] dark:text-blue-400">
+                    {lead.stage || 'New Lead'}
+                  </div>
+                </div>
+
+                {/* Middle Rounded Gray Box */}
+                <div className="bg-[#f8fafc] dark:bg-slate-800/60 p-3.5 rounded-2xl border border-[#e2e8f0] dark:border-slate-800 space-y-2.5">
+                  {/* Line 1: WhatsApp + Sumber Leads */}
+                  <div className="flex items-center justify-between gap-2">
+                    <a 
+                      href={getWhatsAppLink(lead.nomorWhatsApp)} 
+                      target="_blank" 
+                      rel="noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="font-bold text-slate-900 dark:text-slate-100 hover:text-emerald-600 flex items-center gap-1.5 text-xs sm:text-sm"
+                    >
+                      <span className="text-slate-400 text-sm">💬</span>
+                      <span className="font-bold">{lead.nomorWhatsApp}</span>
+                    </a>
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                      {lead.sumberLeads || 'Meta Ads'}
+                    </span>
+                  </div>
+
+                  {/* Divider line */}
+                  <div className="border-t border-slate-200/60 dark:border-slate-700/60" />
+
+                  {/* Line 2: Jenjang/Target + Lead Age */}
+                  <div className="flex items-center justify-between gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    <div className="flex items-center gap-1.5 truncate">
+                      <span className="text-sm">🎓</span>
+                      <span className="truncate font-bold text-slate-800 dark:text-slate-200">{lead.jenjangStudi} {lead.targetNegara ? `- ${lead.targetNegara}` : '-'}</span>
+                    </div>
+                    <span className="shrink-0 font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm">
+                      {calculateLeadAge(lead.tanggalMasuk)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Footer Section */}
+                <div className="space-y-1.5 pt-0.5">
+                  {/* Pendaftar Line */}
+                  <div className="text-xs text-[#90a1b9] font-medium">
+                    <span>Pendaftar: </span>
+                    <span className="font-extrabold text-slate-800 dark:text-slate-100">{picInfo.name}</span>
+                  </div>
+
+                  {/* Potensi IDR with Eye + Action Icons */}
+                  <div className="flex items-center justify-between pt-1">
+                    {/* Left: IDR Potential Value + Eye Toggle */}
+                    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                      <span className="font-extrabold font-mono text-slate-900 dark:text-white text-xs">
+                        {individualVisiblePotentials[lead.id] || showPotentialValue ? formatIDR(lead.nilaiPotensi) : 'Rp •••••••••'}
+                      </span>
+                      {(isArsul || userRole === 'Admin CRM') && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIndividualVisiblePotentials(prev => ({
+                              ...prev,
+                              [lead.id]: !(prev[lead.id] || showPotentialValue)
+                            }));
+                          }}
+                          className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                          title="Toggle Tampilan Potensi IDR"
+                        >
+                          {(individualVisiblePotentials[lead.id] || showPotentialValue) ? (
+                            <EyeOff className="h-4 w-4 text-slate-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-slate-400" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Right: Detail (FileSearch) and Delete Action Icons */}
+                    <div className="flex items-center gap-2.5" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={() => onOpenLead(lead.id)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+                        title="Detail Lead"
+                      >
+                        <FileSearch className="h-5 w-5 stroke-[1.75]" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteConfirmationId(lead.id)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                        title="Hapus Lead"
+                      >
+                        <Trash2 className="h-5 w-5 stroke-[1.75]" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Main Database Table Grid (Desktop) */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse font-sans">
           <thead>
             <tr className="bg-slate-50/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-800 dark:text-slate-200 text-xs font-bold text-slate-400 uppercase tracking-wider">
