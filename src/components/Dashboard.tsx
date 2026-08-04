@@ -392,10 +392,10 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-display font-bold text-2xl dark:text-white" style={{ color: '#136386' }}>
+          <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 dark:text-white" style={{ color: '#136386' }}>
             Performance Overview
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
             Pantau perolehan leads, status kualifikasi BANT, dan efisiensi konversi sales konselor secara real-time.
           </p>
         </div>

@@ -367,7 +367,19 @@ export default function LeadsTable({
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 overflow-hidden animate-in fade-in duration-300">
+    <div className="space-y-6 pb-12 animate-in fade-in duration-300">
+      
+      {/* Title & Sub-title Header */}
+      <div>
+        <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 dark:text-white" style={{ color: '#136386' }}>
+          Leads Database
+        </h2>
+        <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
+          Kelola seluruh data calon mahasiswa, status kualifikasi BANT, penetapan PIC sales konselor, dan riwayat interaksi secara terpusat.
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800 overflow-hidden">
       
       {/* Table Action Controls */}
       <div className="p-6 border-b border-slate-200/60 dark:border-slate-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/50">
@@ -767,6 +779,7 @@ export default function LeadsTable({
             <span>🔥 HOT = Budget + Authority + Need + Timeline &ge; 10</span>
           </span>
         </div>
+      </div>
       </div>
 
       {deleteConfirmationId && (

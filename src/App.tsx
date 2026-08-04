@@ -763,28 +763,32 @@ export default function App() {
     return (
       <div className="space-y-6 pb-12 animate-in fade-in duration-300 font-sans">
         <div>
-          <h2 className="font-display font-black text-2xl dark:text-white" style={{ color: '#136386' }}>Daftar Penugasan & Reminders</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Eksplorasi seluruh to-do list follow up, cetak reminders hari ini, dan tandai kelar pekerjaan.</p>
+          <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 dark:text-white" style={{ color: '#136386' }}>
+            Daftar Penugasan & Reminders
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
+            Eksplorasi seluruh to-do list follow up, cetak reminders hari ini, dan tandai kelar pekerjaan.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Main task list display */}
-          <div className="lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-3xl overflow-hidden p-6 space-y-6">
+          <div className="lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl sm:rounded-3xl overflow-hidden p-4 sm:p-6 space-y-4 sm:space-y-6">
             <div>
-              <h3 className="font-display font-extrabold text-base text-slate-800 dark:text-slate-200">Tugas Aktif Terlayani</h3>
-              <p className="text-slate-400 text-xs mt-1 border border-[#e2e8f0] dark:border-slate-800/80 rounded-lg px-2.5 py-0.5 w-fit bg-slate-50/40 dark:bg-slate-900/20 font-sans">Total {pendingTasks.length} tugas menunggu respon dari total {displayedTasks.length} to-do.</p>
+              <h3 className="font-display font-extrabold text-sm sm:text-base text-slate-800 dark:text-slate-200">Tugas Aktif Terlayani</h3>
+              <p className="text-slate-400 text-[11px] sm:text-xs mt-1 border border-[#e2e8f0] dark:border-slate-800/80 rounded-lg px-2 sm:px-2.5 py-0.5 w-fit bg-slate-50/40 dark:bg-slate-900/20 font-sans">Total {pendingTasks.length} tugas menunggu respon dari total {displayedTasks.length} to-do.</p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {pendingTasks.length === 0 ? (
-                <div className="p-8 text-center bg-slate-50 dark:bg-slate-850 rounded-2xl text-slate-400 italic text-xs">
-                  Sempurna! Semua renana tugas follow up counselor telah diselesaikan dengan baik.
+                <div className="p-6 sm:p-8 text-center bg-slate-50 dark:bg-slate-850 rounded-2xl text-slate-400 italic text-xs">
+                  Sempurna! Semua rencana tugas follow up counselor telah diselesaikan dengan baik.
                 </div>
               ) : (
                 pendingTasks.map(task => (
-                  <div key={task.id} className="p-4 bg-slate-50 dark:bg-slate-850/50 hover:bg-blue-50/20 dark:hover:bg-slate-800 rounded-2xl border border-[#e2e8f0] dark:border-slate-800 flex items-center justify-between gap-4 group">
-                    <div className="flex items-center gap-3">
+                  <div key={task.id} className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-850/50 hover:bg-blue-50/20 dark:hover:bg-slate-800 rounded-xl sm:rounded-2xl border border-[#e2e8f0] dark:border-slate-800 flex items-start sm:items-center justify-between gap-3 sm:gap-4 group">
+                    <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
                       <input 
                         type="checkbox"
                         checked={false}
@@ -792,18 +796,18 @@ export default function App() {
                           handleToggleTaskStatus(task.id);
                           appendAuditLog(task.leadId, user?.role || 'Staff CRM', `Menyelesaikan tugas To-Do "${task.todo}" untuk ${task.leadName}`);
                         }}
-                        className="h-5 w-5 rounded accent-blue-600 cursor-pointer"
+                        className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 sm:mt-0 rounded accent-blue-600 cursor-pointer shrink-0"
                       />
-                      <div>
-                        <h4 className="text-xs font-bold text-slate-800 dark:text-slate-100">{task.todo}</h4>
-                        <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-400 font-semibold font-mono">
-                          <span className="text-blue-600 dark:text-blue-400 font-sans font-bold hover:underline cursor-pointer" onClick={() => handleOpenLeadDetails(task.leadId)}>
+                      <div className="min-w-0 space-y-1">
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug break-words">{task.todo}</h4>
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                          <span className="text-blue-600 dark:text-blue-400 font-sans font-bold hover:underline cursor-pointer truncate" onClick={() => handleOpenLeadDetails(task.leadId)}>
                             🎯 Lead: {task.leadName}
                           </span>
-                          <span>&bull;</span>
-                          <span>📆 Deadline: {task.deadline}</span>
-                          <span>&bull;</span>
-                          <span className={`px-1.5 rounded uppercase ${
+                          <span className="hidden sm:inline text-slate-300 dark:text-slate-600">&bull;</span>
+                          <span className="whitespace-nowrap">📆 Deadline: {task.deadline}</span>
+                          <span className="hidden sm:inline text-slate-300 dark:text-slate-600">&bull;</span>
+                          <span className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-semibold uppercase ${
                             task.priority === 'High' ? 'bg-red-50 text-red-600' :
                             task.priority === 'Medium' ? 'bg-amber-50 text-amber-600' :
                             'bg-blue-50 text-blue-600'
@@ -817,7 +821,8 @@ export default function App() {
                         handleDeleteTaskMessage(task.id);
                         appendAuditLog(task.leadId, user?.role || 'Staff CRM', `Menghapus tugas To-Do "${task.todo}" milik ${task.leadName}`);
                       }}
-                      className="p-2 hover:bg-red-50 hover:text-red-600 text-slate-400 rounded-lg group-hover:opacity-100 opacity-20 transition-all duration-150"
+                      className="p-1.5 sm:p-2 hover:bg-red-50 hover:text-red-600 text-slate-400 rounded-lg opacity-80 sm:opacity-20 group-hover:opacity-100 transition-all duration-150 shrink-0"
+                      title="Hapus Tugas"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -828,12 +833,12 @@ export default function App() {
 
             {/* Completed Tasks Log */}
             {completedTasks.length > 0 && (
-              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-4">
-                <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">Tugas Selesai (Completed Log)</h4>
-                <div className="space-y-3.5 opacity-60">
+              <div className="pt-4 sm:pt-6 border-t border-slate-100 dark:border-slate-800 space-y-3 sm:space-y-4">
+                <h4 className="text-[11px] sm:text-xs font-black uppercase text-slate-400 tracking-wider">Tugas Selesai (Completed Log)</h4>
+                <div className="space-y-2.5 sm:space-y-3.5 opacity-60">
                   {completedTasks.map(task => (
-                    <div key={task.id} className="p-3 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-100 dark:border-slate-800 rounded-xl flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
+                    <div key={task.id} className="p-2.5 sm:p-3 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-100 dark:border-slate-800 rounded-xl flex items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
                         <input 
                           type="checkbox"
                           checked={true}
@@ -841,11 +846,11 @@ export default function App() {
                             handleToggleTaskStatus(task.id);
                             appendAuditLog(task.leadId, user?.role || 'Staff CRM', `Mengaktifkan kembali tugas To-Do "${task.todo}" untuk ${task.leadName}`);
                           }}
-                          className="h-4 w-4 accent-emerald-600 rounded cursor-pointer"
+                          className="h-4 w-4 mt-0.5 sm:mt-0 accent-emerald-600 rounded cursor-pointer shrink-0"
                         />
-                        <div>
-                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 line-through italic">{task.todo}</p>
-                          <p className="text-[9px] text-slate-400 mt-0.5">Sapa: {task.leadName} &bull; Selesai dikerjakan</p>
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 line-through italic break-words">{task.todo}</p>
+                          <p className="text-[9px] sm:text-[10px] text-slate-400 mt-0.5 truncate">Lead: {task.leadName} &bull; Selesai dikerjakan</p>
                         </div>
                       </div>
                     </div>
@@ -857,24 +862,24 @@ export default function App() {
           </div>
 
           {/* Quick Stats panel for task deadlines */}
-          <div className="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-3xl p-6 space-y-4">
+          <div className="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4">
             <h4 className="font-display font-extrabold text-xs text-slate-800 dark:text-white uppercase tracking-wider block">Statistik Hari Ini</h4>
             
-            <div className="p-4 bg-red-50/40 dark:bg-red-950/10 border border-red-100 dark:border-red-950 rounded-2xl flex items-center gap-3.5">
-              <span className="text-2xl shrink-0">📆</span>
-              <div>
-                <span className="text-[10px] font-bold text-red-700/80 uppercase block">DEADLINE HARI INI: {getMakassarDateString()}</span>
-                <span className="font-display font-black text-base text-red-800 dark:text-red-400 mt-0.5 block">
+            <div className="p-3.5 sm:p-4 bg-red-50/40 dark:bg-red-950/10 border border-red-100 dark:border-red-950 rounded-xl sm:rounded-2xl flex items-center gap-3 sm:gap-3.5">
+              <span className="text-xl sm:text-2xl shrink-0">📆</span>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-red-700/80 uppercase block truncate">DEADLINE HARI INI: {getMakassarDateString()}</span>
+                <span className="font-display font-black text-sm sm:text-base text-red-800 dark:text-red-400 mt-0.5 block">
                   {displayedTasks.filter(t => t.status === 'Pending' && t.deadline === getMakassarDateString()).length} Tugas
                 </span>
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 dark:bg-slate-850/60 border border-slate-100 dark:border-slate-800 rounded-2xl flex items-center gap-3.5">
-              <span className="text-2xl shrink-0">🔥</span>
-              <div>
-                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block">PRIORITAS TINGGI</span>
-                <span className="font-display font-black text-base text-slate-705 dark:text-slate-200 mt-0.5 block">
+            <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-850/60 border border-slate-100 dark:border-slate-800 rounded-xl sm:rounded-2xl flex items-center gap-3 sm:gap-3.5">
+              <span className="text-xl sm:text-2xl shrink-0">🔥</span>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block truncate">PRIORITAS TINGGI</span>
+                <span className="font-display font-black text-sm sm:text-base text-slate-700 dark:text-slate-200 mt-0.5 block">
                   {displayedTasks.filter(t => t.status === 'Pending' && t.priority === 'High').length} Tugas
                 </span>
               </div>

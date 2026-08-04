@@ -94,10 +94,10 @@ export default function ChecklistSettings({
         <div>
           <div className="flex items-center gap-2.5">
             <div>
-              <h2 className="font-display font-bold text-2xl dark:text-white" style={{ color: '#136386' }}>
+              <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 dark:text-white" style={{ color: '#136386' }}>
                 Pengaturan Checklist Alur Mentoring
               </h2>
-              <p className="hidden">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
                 Konfigurasi daftar tugas otomatis (To-Do list) yang muncul pada setiap tahap pembimbingan student.
               </p>
             </div>
