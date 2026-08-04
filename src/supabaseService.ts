@@ -617,18 +617,41 @@ export async function getUserProfiles(): Promise<UserProfile[]> {
     if (error) throw error;
 
     if (data && data.length > 0) {
-      // Merge remote data with local profiles so custom/edited display names in local are never lost
-      const mergedList = (data as UserProfile[]).map(remote => {
-        const localMatch = localProfiles.find(p => p.uid === remote.uid || p.email.toLowerCase() === remote.email.toLowerCase());
-        if (localMatch && localMatch.displayName && localMatch.displayName !== remote.email.split('@')[0]) {
-          return {
-            ...remote,
-            displayName: localMatch.displayName || remote.displayName,
-            role: localMatch.role || remote.role,
-            isApproved: localMatch.isApproved !== undefined ? localMatch.isApproved : remote.isApproved
-          };
+      // Merge remote data with local profiles
+      const mergedList = (data as any[]).map(remote => {
+        const localMatch = localProfiles.find(p => p.uid === remote.uid || p.email?.toLowerCase() === remote.email?.toLowerCase());
+        
+        // Remote DB approval status evaluation
+        let isApproved: boolean;
+        if (remote.email?.toLowerCase() === 'academius.official@gmail.com' || remote.email?.toLowerCase() === 'alim.bahri@academius.com') {
+          isApproved = true;
+        } else if (remote.photoURL === 'status:approved' || remote.photo_url === 'status:approved') {
+          isApproved = true;
+        } else if (remote.photoURL === 'status:pending' || remote.photo_url === 'status:pending') {
+          isApproved = false;
+        } else if (remote.isApproved !== undefined && remote.isApproved !== null) {
+          isApproved = Boolean(remote.isApproved);
+        } else if (remote.is_approved !== undefined && remote.is_approved !== null) {
+          isApproved = Boolean(remote.is_approved);
+        } else if (localMatch && localMatch.isApproved !== undefined) {
+          isApproved = localMatch.isApproved;
+        } else {
+          isApproved = false;
         }
-        return remote;
+
+        const displayName = (remote.displayName && remote.displayName !== remote.email?.split('@')[0])
+          ? remote.displayName
+          : (remote.display_name || localMatch?.displayName || remote.displayName || remote.email?.split('@')[0]);
+
+        const role = remote.role || localMatch?.role || 'Staff CRM';
+
+        return {
+          uid: remote.uid || localMatch?.uid || `user_${Date.now()}`,
+          email: remote.email || localMatch?.email || '',
+          displayName,
+          role: role as UserRole,
+          isApproved
+        } as UserProfile;
       });
 
       // Also include any local profiles not present in remote data
@@ -695,6 +718,7 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
       if (activeSession.email?.toLowerCase() === updatedProfile.email.toLowerCase()) {
         activeSession.displayName = finalDisplayName;
         activeSession.role = updatedProfile.role;
+        activeSession.isApproved = finalApproved;
         localStorage.setItem('academius_session', JSON.stringify(activeSession));
       }
     } catch (e) {
@@ -709,7 +733,8 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
       await supabase.auth.updateUser({
         data: {
           displayName: finalDisplayName,
-          role: updatedProfile.role
+          role: updatedProfile.role,
+          isApproved: finalApproved
         }
       });
     }
@@ -717,30 +742,74 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
     console.warn('Could not update user_metadata in Supabase Auth:', authErr);
   }
 
-  // 4. Save to Supabase DB profiles table
+  // 4. Save to Supabase DB profiles table using robust column mapping & fallback
   try {
-    await supabase.from('profiles').upsert(updatedProfile);
+    const statusTag = finalApproved ? 'status:approved' : 'status:pending';
+
+    // Primary attempt: standard schema as per Supabase UI (displayName, photoURL, isApproved)
+    const primaryPayload: any = {
+      uid: updatedProfile.uid,
+      email: updatedProfile.email,
+      displayName: finalDisplayName,
+      role: updatedProfile.role,
+      photoURL: statusTag,
+      isApproved: finalApproved
+    };
+
+    const { error: upsertErr } = await supabase
+      .from('profiles')
+      .upsert(primaryPayload, { onConflict: 'email' });
+
+    if (upsertErr) {
+      // Secondary attempt without isApproved column if schema lacks it
+      const fallbackPayload: any = {
+        uid: updatedProfile.uid,
+        email: updatedProfile.email,
+        displayName: finalDisplayName,
+        role: updatedProfile.role,
+        photoURL: statusTag
+      };
+      const { error: fallbackErr } = await supabase
+        .from('profiles')
+        .upsert(fallbackPayload, { onConflict: 'email' });
+
+      if (fallbackErr) {
+        // Snake case fallback
+        const snakePayload: any = {
+          uid: updatedProfile.uid,
+          email: updatedProfile.email,
+          display_name: finalDisplayName,
+          role: updatedProfile.role,
+          is_approved: finalApproved
+        };
+        await supabase
+          .from('profiles')
+          .upsert(snakePayload, { onConflict: 'email' });
+      }
+    }
   } catch (err) {
     console.error('Error saving user profile to Supabase DB:', err);
   }
 }
 
-export async function deleteUserProfile(uid: string): Promise<void> {
+export async function deleteUserProfile(uidOrEmail: string): Promise<void> {
   try {
     const { error } = await supabase
       .from('profiles')
       .delete()
-      .eq('uid', uid);
+      .or(`uid.eq.${uidOrEmail},email.eq.${uidOrEmail}`);
       
-    if (error) throw error;
+    if (error) {
+      await supabase.from('profiles').delete().eq('uid', uidOrEmail);
+      await supabase.from('profiles').delete().eq('email', uidOrEmail);
+    }
   } catch (err) {
     console.error('Error deleting user profile from Supabase:', err);
-    throw err;
   } finally {
     const local = localStorage.getItem('academius_user_profiles');
     if (local) {
       const list: UserProfile[] = JSON.parse(local);
-      const filtered = list.filter(p => p.uid !== uid);
+      const filtered = list.filter(p => p.uid !== uidOrEmail && p.email?.toLowerCase() !== uidOrEmail.toLowerCase());
       localStorage.setItem('academius_user_profiles', JSON.stringify(filtered));
     }
   }

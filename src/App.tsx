@@ -89,21 +89,23 @@ export default function App() {
                          (session.user.user_metadata?.role as UserRole) || 
                          'Staff CRM';
 
-          const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
+          const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com' || userEmail.toLowerCase() === 'alim.bahri@academius.com')
             ? true
-            : (matchedProfile ? matchedProfile.isApproved !== false : (userEmail.toLowerCase() === 'alim.bahri@academius.com'));
+            : (matchedProfile ? matchedProfile.isApproved === true : false);
 
           setUser({ email: userEmail, displayName: userDisplayName, role: userRole, isApproved });
           localStorage.setItem('academius_session', JSON.stringify({ email: userEmail, displayName: userDisplayName, role: userRole, isApproved }));
           
-          // Save profile to database so it is registered in accounts list
-          saveUserProfile({
-            uid: session.user.id,
-            email: userEmail,
-            displayName: userDisplayName,
-            role: userRole,
-            isApproved
-          });
+          // Only save profile if user is not in profiles list yet
+          if (!matchedProfile) {
+            saveUserProfile({
+              uid: session.user.id,
+              email: userEmail,
+              displayName: userDisplayName,
+              role: userRole,
+              isApproved
+            });
+          }
           
           if (window.location.pathname === '/login') {
             window.history.pushState({}, '', '/');
@@ -135,21 +137,23 @@ export default function App() {
                        (session.user.user_metadata?.role as UserRole) || 
                        'Staff CRM';
 
-        const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com')
+        const isApproved = (userEmail.toLowerCase() === 'academius.official@gmail.com' || userEmail.toLowerCase() === 'alim.bahri@academius.com')
           ? true
-          : (matchedProfile ? matchedProfile.isApproved !== false : (userEmail.toLowerCase() === 'alim.bahri@academius.com'));
+          : (matchedProfile ? matchedProfile.isApproved === true : false);
 
         setUser({ email: userEmail, displayName: userDisplayName, role: userRole, isApproved });
         localStorage.setItem('academius_session', JSON.stringify({ email: userEmail, displayName: userDisplayName, role: userRole, isApproved }));
         
-        // Save profile to database so it is registered in accounts list
-        saveUserProfile({
-          uid: session.user.id,
-          email: userEmail,
-          displayName: userDisplayName,
-          role: userRole,
-          isApproved
-        });
+        // Only save profile if user is not registered in accounts list yet
+        if (!matchedProfile) {
+          saveUserProfile({
+            uid: session.user.id,
+            email: userEmail,
+            displayName: userDisplayName,
+            role: userRole,
+            isApproved
+          });
+        }
         
         if (window.location.pathname === '/login') {
           window.history.pushState({}, '', '/');
@@ -199,6 +203,7 @@ export default function App() {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [showAddLeadForm, setShowAddLeadForm] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Advisors List State (Persisted in localStorage)
   const [advisors, setAdvisors] = useState<string[]>(() => {
@@ -925,35 +930,28 @@ export default function App() {
           <div className="flex flex-col gap-2 pt-2">
             <button
               onClick={async () => {
-                // Refresh status
+                // Refresh status from remote database
                 const { data: { session } } = await supabase.auth.getSession();
-                if (session) {
-                  const profiles = await getUserProfiles();
-                  const matchedProfile = profiles.find(p => p.email.toLowerCase() === session.user.email?.toLowerCase());
-                  const isApproved = (session.user.email?.toLowerCase() === 'academius.official@gmail.com')
-                    ? true
-                    : (matchedProfile ? matchedProfile.isApproved !== false : false);
-                  if (isApproved) {
-                    const updatedUser = { ...user, isApproved: true };
-                    setUser(updatedUser);
-                    localStorage.setItem('academius_session', JSON.stringify(updatedUser));
-                  } else {
-                    triggerSuccessToast("Status akun Anda masih pending. Hubungi Owner CRM.");
-                  }
+                const targetEmail = session?.user?.email || user.email;
+                const profiles = await getUserProfiles();
+                const matchedProfile = profiles.find(p => p.email.toLowerCase() === targetEmail.toLowerCase());
+                
+                const approved = (targetEmail.toLowerCase() === 'academius.official@gmail.com' || targetEmail.toLowerCase() === 'alim.bahri@academius.com')
+                  ? true
+                  : (matchedProfile ? matchedProfile.isApproved === true : false);
+
+                if (approved) {
+                  const updatedUser = {
+                    email: targetEmail,
+                    displayName: matchedProfile?.displayName || user.displayName,
+                    role: matchedProfile?.role || user.role,
+                    isApproved: true
+                  };
+                  setUser(updatedUser);
+                  localStorage.setItem('academius_session', JSON.stringify(updatedUser));
+                  triggerSuccessToast("Akun Anda telah disetujui! Selamat datang di CRM Academius.");
                 } else {
-                  // Fallback for local simulation users
-                  const profiles = await getUserProfiles();
-                  const matchedProfile = profiles.find(p => p.email.toLowerCase() === user.email.toLowerCase());
-                  const isApproved = (user.email.toLowerCase() === 'academius.official@gmail.com')
-                    ? true
-                    : (matchedProfile ? matchedProfile.isApproved !== false : false);
-                  if (isApproved) {
-                    const updatedUser = { ...user, isApproved: true };
-                    setUser(updatedUser);
-                    localStorage.setItem('academius_session', JSON.stringify(updatedUser));
-                  } else {
-                    triggerSuccessToast("Status akun Anda masih pending. Hubungi Owner CRM.");
-                  }
+                  triggerSuccessToast("Status akun Anda masih pending. Hubungi Admin CRM.");
                 }
               }}
               className="w-full py-2.5 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5"
@@ -988,10 +986,12 @@ export default function App() {
         onAddLeadClick={() => setShowAddLeadForm(true)}
         onManageAdvisorsClick={() => setShowManageAdvisors(true)}
         onClearDatabaseClick={() => setShowClearDbConfirm(true)}
+        mobileOpen={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Main viewport Container */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         
         {/* Navbar */}
         <Navbar 
@@ -1014,10 +1014,11 @@ export default function App() {
           selectedOrgId={selectedOrgId}
           setSelectedOrgId={setSelectedOrgId}
           orgMembers={orgMembers}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
 
         {/* Content Box */}
-        <main className="flex-1 p-8 overflow-y-auto max-h-[calc(100vh-64px)] scrollbar-thin">
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 overflow-y-auto max-h-[calc(100vh-64px)] scrollbar-thin">
           {renderTabContent()}
         </main>
 

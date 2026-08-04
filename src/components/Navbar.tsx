@@ -8,7 +8,8 @@ import {
   Flame,
   Clock,
   Briefcase,
-  Trash2
+  Trash2,
+  Menu
 } from 'lucide-react';
 import { UserRole, Lead, Task, Organization } from '../types';
 import { getLeadStatus, getMakassarDateString } from '../utils';
@@ -29,6 +30,7 @@ interface NavbarProps {
   selectedOrgId?: string | null;
   setSelectedOrgId?: (orgId: string | null) => void;
   orgMembers?: any[];
+  onToggleMobileMenu?: () => void;
 }
 
 export default function Navbar({ 
@@ -45,7 +47,8 @@ export default function Navbar({
   organizations,
   selectedOrgId,
   setSelectedOrgId,
-  orgMembers
+  orgMembers,
+  onToggleMobileMenu
 }: NavbarProps) {
   const [showNotificationMenu, setShowNotificationMenu] = useState(false);
   const [dismissedNotificationIds, setDismissedNotificationIds] = useState<string[]>(() => {
@@ -178,15 +181,25 @@ export default function Navbar({
   const roles: UserRole[] = ['Admin CRM', 'Staff CRM', 'Manager CRM'];
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200">
-      {/* Search Bar Placeholder or Title */}
-      <div className="flex items-center gap-4">
-        <h2 className="font-poppins font-semibold text-lg sm:block hidden" style={{ color: '#136386' }}>
+    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200">
+      {/* Mobile Menu Hamburger & Brand Title */}
+      <div className="flex items-center gap-2.5 sm:gap-4">
+        {onToggleMobileMenu && (
+          <button
+            onClick={onToggleMobileMenu}
+            className="p-2 lg:hidden rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+            title="Buka Menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        )}
+
+        <h2 className="font-poppins font-bold text-base sm:text-lg text-slate-800 dark:text-white truncate" style={{ color: '#136386' }}>
           Workspace CRM
         </h2>
         
         {organizations && organizations.length > 0 && setSelectedOrgId && (
-          <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             <div className="flex items-center gap-1.5 font-sans text-xs">
               <span className="text-slate-500 dark:text-slate-400 font-medium select-none shrink-0">Organisasi/Tim:</span>
               <CustomSelect
@@ -212,7 +225,7 @@ export default function Navbar({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1.5 sm:gap-3">
         
         {/* Light/Dark Mode Switcher */}
         <button

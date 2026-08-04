@@ -301,128 +301,233 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
             <p className="text-xs text-slate-400 mt-1">Coba ubah kata kunci pencarian Anda.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50/50 dark:bg-slate-900/40 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
-                  <th className="p-4 pl-6">Profil Nama / Staf</th>
-                  <th className="p-4">Email</th>
-                  <th className="p-4">Peran / Role</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right pr-6">Aksi Kelola</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
-                {filteredAccounts.map((account) => {
-                  const isSelf = account.email.toLowerCase() === currentUserEmail?.toLowerCase();
-                  
-                  // Role badges style
-                  let badgeStyle = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
-                  if (account.role === 'Admin CRM') {
-                    badgeStyle = "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30";
-                  } else if (account.role === 'Manager CRM') {
-                    badgeStyle = "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/30";
-                  } else if (account.role === 'Staff CRM') {
-                    badgeStyle = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30";
-                  }
+          <div>
+            {/* Mobile Card List View */}
+            <div className="block lg:hidden divide-y divide-slate-100 dark:divide-slate-800">
+              {filteredAccounts.map((account) => {
+                const isSelf = account.email.toLowerCase() === currentUserEmail?.toLowerCase();
+                let badgeStyle = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+                if (account.role === 'Admin CRM') {
+                  badgeStyle = "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30";
+                } else if (account.role === 'Manager CRM') {
+                  badgeStyle = "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/30";
+                } else if (account.role === 'Staff CRM') {
+                  badgeStyle = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30";
+                }
 
-                  return (
-                    <tr 
-                      key={account.uid}
-                      className="hover:bg-slate-50/40 dark:hover:bg-slate-800/20 transition-colors group"
-                    >
-                      <td className="p-4 pl-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: '#d8f0ff', color: '#42b8d5', borderColor: '#42b8d5' }}>
-                            {account.displayName.slice(0, 2).toUpperCase()}
-                          </div>
-                          <div>
-                            <span className="font-bold text-slate-800 dark:text-white text-sm group-hover:text-blue-600 transition-colors flex items-center gap-1.5">
-                              {account.displayName}
-                              {isSelf && (
-                                <span className="text-[9px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider scale-95">
-                                  Anda
-                                </span>
-                              )}
-                            </span>
-                            {/* UID hidden for minimalist display */}
-                          </div>
+                return (
+                  <div key={account.uid} className="p-4 space-y-3 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2.5">
+                        <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs border shrink-0" style={{ backgroundColor: '#d8f0ff', color: '#42b8d5', borderColor: '#42b8d5' }}>
+                          {account.displayName.slice(0, 2).toUpperCase()}
                         </div>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
-                          <Mail className="h-3.5 w-3.5 text-slate-400" />
-                          <span>{account.email}</span>
+                        <div className="overflow-hidden">
+                          <p className="font-bold text-slate-800 dark:text-white text-sm truncate flex items-center gap-1.5">
+                            {account.displayName}
+                            {isSelf && (
+                              <span className="text-[9px] bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider shrink-0">
+                                Anda
+                              </span>
+                            )}
+                          </p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1 mt-0.5">
+                            <Mail className="h-3 w-3 shrink-0 text-slate-400" />
+                            {account.email}
+                          </p>
                         </div>
-                      </td>
-                      <td className="p-4">
-                        <span className={`px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 ${badgeStyle}`}>
-                          <Shield className="h-3 w-3" />
-                          {account.role === 'Admin CRM' ? 'Admin CRM' : account.role === 'Manager CRM' ? 'Manager CRM' : 'Staff CRM'}
+                      </div>
+
+                      {/* Status Tag */}
+                      {account.isApproved ? (
+                        <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30 shrink-0">
+                          <Check className="h-3 w-3" />
+                          Disetujui
                         </span>
-                      </td>
-                      <td className="p-4">
-                        {account.isApproved ? (
-                          <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30">
-                            <Check className="h-3 w-3" />
-                            Disetujui
-                          </span>
-                        ) : (
-                          <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-100 dark:border-amber-900/30">
-                            <Clock className="h-3 w-3 animate-pulse" />
-                            Tertunda
-                          </span>
-                        )}
-                      </td>
-                      <td className="p-4 text-right pr-6">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() => handleToggleApproval(account)}
-                            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                              account.isApproved
-                                ? 'hover:bg-amber-50 hover:text-amber-600 text-slate-400'
-                                : 'hover:bg-emerald-50 hover:text-emerald-600 text-slate-400 font-bold'
-                            }`}
-                            title={account.isApproved ? 'Tunda Persetujuan' : 'Setujui Akun'}
-                          >
-                            <Check className="h-4 w-4" />
-                          </button>
+                      ) : (
+                        <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-100 dark:border-amber-900/30 shrink-0">
+                          <Clock className="h-3 w-3 animate-pulse" />
+                          Tertunda
+                        </span>
+                      )}
+                    </div>
 
-                          <button
-                            onClick={() => handleEditClick(account)}
-                            className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
-                            title="Edit Profil"
-                          >
-                            <Edit3 className="h-4 w-4" />
-                          </button>
-                          
-                          <button
-                            onClick={() => {
-                              if (isSelf) {
-                                setErrorMsg('Anda tidak bisa menghapus akun login Anda saat ini.');
-                                return;
-                              }
-                              setDeletingAccount(account);
-                              setErrorMsg('');
-                              setSuccessMsg('');
-                            }}
-                            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                              isSelf 
-                                ? 'text-slate-200 dark:text-slate-800 cursor-not-allowed' 
-                                : 'hover:bg-rose-50 dark:hover:bg-rose-950/20 text-slate-400 hover:text-rose-600'
-                            }`}
-                            disabled={isSelf}
-                            title={isSelf ? 'Tidak dapat menghapus diri sendiri' : 'Hapus Akun'}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                    <div className="flex items-center justify-between pt-1 border-t border-slate-100/60 dark:border-slate-800/40 text-xs">
+                      <span className={`px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 ${badgeStyle}`}>
+                        <Shield className="h-3 w-3" />
+                        {account.role}
+                      </span>
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => handleToggleApproval(account)}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer ${
+                            account.isApproved
+                              ? 'bg-slate-100 dark:bg-slate-800 hover:bg-amber-50 text-slate-600 hover:text-amber-600'
+                              : 'bg-emerald-500 text-white hover:bg-emerald-600 font-bold shadow-xs'
+                          }`}
+                        >
+                          <Check className="h-3.5 w-3.5" />
+                          <span>{account.isApproved ? 'Tunda' : 'Setujui'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleEditClick(account)}
+                          className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors cursor-pointer"
+                          title="Edit Profil"
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            if (isSelf) {
+                              setErrorMsg('Anda tidak bisa menghapus akun login Anda saat ini.');
+                              return;
+                            }
+                            setDeletingAccount(account);
+                            setErrorMsg('');
+                            setSuccessMsg('');
+                          }}
+                          className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                            isSelf 
+                              ? 'text-slate-200 dark:text-slate-800 cursor-not-allowed bg-slate-50 dark:bg-slate-900' 
+                              : 'bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100'
+                          }`}
+                          disabled={isSelf}
+                          title={isSelf ? 'Tidak dapat menghapus diri sendiri' : 'Hapus Akun'}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/50 dark:bg-slate-900/40 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
+                    <th className="p-4 pl-6">Profil Nama / Staf</th>
+                    <th className="p-4">Email</th>
+                    <th className="p-4">Peran / Role</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 text-right pr-6">Aksi Kelola</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                  {filteredAccounts.map((account) => {
+                    const isSelf = account.email.toLowerCase() === currentUserEmail?.toLowerCase();
+                    
+                    let badgeStyle = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+                    if (account.role === 'Admin CRM') {
+                      badgeStyle = "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30";
+                    } else if (account.role === 'Manager CRM') {
+                      badgeStyle = "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/30";
+                    } else if (account.role === 'Staff CRM') {
+                      badgeStyle = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30";
+                    }
+
+                    return (
+                      <tr 
+                        key={account.uid}
+                        className="hover:bg-slate-50/40 dark:hover:bg-slate-800/20 transition-colors group"
+                      >
+                        <td className="p-4 pl-6">
+                          <div className="flex items-center gap-3">
+                            <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: '#d8f0ff', color: '#42b8d5', borderColor: '#42b8d5' }}>
+                              {account.displayName.slice(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                              <span className="font-bold text-slate-800 dark:text-white text-sm group-hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                                {account.displayName}
+                                {isSelf && (
+                                  <span className="text-[9px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider scale-95">
+                                    Anda
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
+                            <Mail className="h-3.5 w-3.5 text-slate-400" />
+                            <span>{account.email}</span>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <span className={`px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 ${badgeStyle}`}>
+                            <Shield className="h-3 w-3" />
+                            {account.role === 'Admin CRM' ? 'Admin CRM' : account.role === 'Manager CRM' ? 'Manager CRM' : 'Staff CRM'}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          {account.isApproved ? (
+                            <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30">
+                              <Check className="h-3 w-3" />
+                              Disetujui
+                            </span>
+                          ) : (
+                            <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold tracking-wider uppercase inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-100 dark:border-amber-900/30">
+                              <Clock className="h-3 w-3 animate-pulse" />
+                              Tertunda
+                            </span>
+                          )}
+                        </td>
+                        <td className="p-4 text-right pr-6">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => handleToggleApproval(account)}
+                              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                account.isApproved
+                                  ? 'hover:bg-amber-50 hover:text-amber-600 text-slate-400'
+                                  : 'hover:bg-emerald-50 hover:text-emerald-600 text-slate-400 font-bold'
+                              }`}
+                              title={account.isApproved ? 'Tunda Persetujuan' : 'Setujui Akun'}
+                            >
+                              <Check className="h-4 w-4" />
+                            </button>
+
+                            <button
+                              onClick={() => handleEditClick(account)}
+                              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
+                              title="Edit Profil"
+                            >
+                              <Edit3 className="h-4 w-4" />
+                            </button>
+                            
+                            <button
+                              onClick={() => {
+                                if (isSelf) {
+                                  setErrorMsg('Anda tidak bisa menghapus akun login Anda saat ini.');
+                                  return;
+                                }
+                                setDeletingAccount(account);
+                                setErrorMsg('');
+                                setSuccessMsg('');
+                              }}
+                              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                isSelf 
+                                  ? 'text-slate-200 dark:text-slate-800 cursor-not-allowed' 
+                                  : 'hover:bg-rose-50 dark:hover:bg-rose-950/20 text-slate-400 hover:text-rose-600'
+                              }`}
+                              disabled={isSelf}
+                              title={isSelf ? 'Tidak dapat menghapus diri sendiri' : 'Hapus Akun'}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

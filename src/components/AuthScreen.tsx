@@ -80,6 +80,42 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         });
 
         if (error) {
+          const isUserAlreadyRegistered = error.message?.toLowerCase().includes('already registered') || 
+                                         error.message?.toLowerCase().includes('already exists') ||
+                                         error.message?.toLowerCase().includes('user_already_exists');
+
+          if (isUserAlreadyRegistered) {
+            // Attempt fallback login with the credentials provided
+            const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+
+            if (!signInErr && signInData?.user) {
+              // Check if user profile already exists in DB to preserve approval status
+              const existingProfiles = await getUserProfiles();
+              const existing = existingProfiles.find(p => p.email.toLowerCase() === email.toLowerCase());
+              const isApprovedStatus = existing ? existing.isApproved : false;
+
+              const reRegisteredName = existing?.displayName || customName || email.split('@')[0];
+              const reRegisteredRole = existing?.role || customRole || 'Staff CRM';
+
+              await saveUserProfile({
+                uid: signInData.user.id,
+                email: signInData.user.email || email,
+                displayName: reRegisteredName,
+                role: reRegisteredRole,
+                isApproved: isApprovedStatus
+              });
+
+              onLoginSuccess(email, reRegisteredName, reRegisteredRole, signInData.user.id);
+              return;
+            } else {
+              setErrorMessage("Email ini sudah pernah terdaftar di Autentikasi Supabase. Silakan gunakan kata sandi sebelumnya untuk 'Masuk' (Sign In) atau minta Admin mereset kata sandi Anda.");
+              return;
+            }
+          }
+
           const isRateLimit = error.message?.toLowerCase().includes('rate limit') || 
                               error.message?.toLowerCase().includes('rate_limit') || 
                               error.message?.toLowerCase().includes('too many requests') ||
@@ -267,7 +303,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
       <div className="w-full max-w-[700px] bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-200/50 dark:border-slate-800/80 overflow-hidden animate-in zoom-in-95 duration-200">
         
         {/* Main Content Form */}
-        <div className="p-8 flex flex-col justify-between w-full md:w-[700px] max-w-full" style={{ width: '700px', maxWidth: '100%' }}>
+        <div className="p-5 sm:p-8 flex flex-col justify-between w-full max-w-full">
           <div className="space-y-6">
             <div>
               <h2 className="font-display font-bold text-xl dark:text-white flex items-center gap-2" style={{ color: '#116185' }}>
