@@ -650,33 +650,33 @@ export default function LeadModal({
 
             {/* Profile Detail Contacts Card */}
             <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-850 rounded-xl sm:rounded-2xl border border-[#e2e8f0] dark:border-slate-800 space-y-2 text-xs">
-              <h4 className="font-display font-extrabold text-[11px] text-slate-400 uppercase tracking-wider block mb-2 leading-[15px]">Profil Kontak Akademis</h4>
+              <h4 className="font-semibold font-poppins text-[11px] text-slate-400 uppercase tracking-wider block mb-2 leading-[15px]">Profil Kontak Akademis</h4>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Nomor WhatsApp:</span>
-                <span className="font-mono font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1 min-w-0">
-                  <span className="font-bold truncate">{lead.nomorWhatsApp}</span>
+                <span className="font-poppins font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1 min-w-0">
+                  <span className="font-semibold font-poppins truncate">{lead.nomorWhatsApp}</span>
                   <a href={getWhatsAppLink(lead.nomorWhatsApp)} target="_blank" rel="noreferrer" className="text-emerald-500 hover:scale-110 ml-0.5 shrink-0" title="Hubungi via WhatsApp"><PhoneCall className="h-3.5 w-3.5" /></a>
                 </span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Email Utama:</span>
-                <span className="font-mono text-slate-755 dark:text-slate-300 font-bold truncate max-w-[200px] sm:max-w-none">{lead.email || '-'}</span>
+                <span className="font-poppins text-slate-755 dark:text-slate-300 font-semibold truncate max-w-[200px] sm:max-w-none">{lead.email || '-'}</span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Domisili:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-300 truncate">{lead.kota || '-'}</span>
+                <span className="font-semibold font-poppins text-slate-755 dark:text-slate-300 truncate">{lead.kota || '-'}</span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Sumber Leads:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-350 truncate">{lead.sumberLeads || '-'}</span>
+                <span className="font-semibold font-poppins text-slate-755 dark:text-slate-350 truncate">{lead.sumberLeads || '-'}</span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Usia Leads:</span>
-                <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{calculateLeadAge(lead.tanggalMasuk)}</span>
+                <span className="font-semibold font-poppins text-slate-800 dark:text-slate-200">{calculateLeadAge(lead.tanggalMasuk)}</span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 gap-2">
                 <span className="text-slate-500 dark:text-slate-400 shrink-0">Produk Keinginan:</span>
-                <span className="font-bold text-slate-755 dark:text-slate-350 truncate">{lead.produkDiminati}</span>
+                <span className="font-semibold font-poppins text-slate-755 dark:text-slate-350 truncate">{lead.produkDiminati}</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-slate-500 dark:text-slate-400">Catatan Intro:</span>

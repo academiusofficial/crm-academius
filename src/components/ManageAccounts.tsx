@@ -272,7 +272,10 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
       <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
         
         {/* Search Bar section */}
-        <div className="p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/20 flex flex-col sm:flex-row items-center gap-3">
+        <div 
+          className="p-5 flex flex-col sm:flex-row items-center gap-3 text-white"
+          style={{ background: 'linear-gradient(90deg, #3EB2CF 0%, #15688A 100%)' }}
+        >
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input
@@ -280,10 +283,10 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
               placeholder="Cari berdasarkan nama, email, atau role..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full text-xs pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 placeholder-slate-400"
+              className="w-full text-xs pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 placeholder-slate-400 shadow-xs font-poppins"
             />
           </div>
-          <span className="text-[11px] text-slate-400 font-medium font-poppins ml-auto">
+          <span className="text-xs text-white font-semibold font-poppins ml-auto">
             Menampilkan {filteredAccounts.length} dari {accounts.length} akun terdaftar
           </span>
         </div>
@@ -415,12 +418,15 @@ export default function ManageAccounts({ currentUserEmail, currentUserRole, onAd
             <div className="hidden lg:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/50 dark:bg-slate-900/40 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
-                    <th className="p-4 pl-6">Profil Nama / Staf</th>
-                    <th className="p-4">Email</th>
-                    <th className="p-4">Peran / Role</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4 text-right pr-6">Aksi Kelola</th>
+                  <tr 
+                    className="text-xs font-bold text-white uppercase tracking-wider font-poppins border-b border-teal-700/30"
+                    style={{ background: 'linear-gradient(90deg, #3EB2CF 0%, #15688A 100%)' }}
+                  >
+                    <th className="p-4 pl-6 text-white font-poppins">PROFIL NAMA / STAFF</th>
+                    <th className="p-4 text-white font-poppins">EMAIL</th>
+                    <th className="p-4 text-white font-poppins">PERAN / ROLE</th>
+                    <th className="p-4 text-white font-poppins">STATUS</th>
+                    <th className="p-4 text-right pr-6 text-white font-poppins">AKSI KELOLA</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
