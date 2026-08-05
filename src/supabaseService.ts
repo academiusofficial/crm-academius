@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient';
-import { Lead, Task, ActivityLog, ChatMessage, Organization, UserProfile } from './types';
+import { Lead, Task, ActivityLog, ChatMessage, Organization, UserProfile, UserRole } from './types';
 import { initialLeads, initialTasks, initialLogs, initialChats } from './utils';
 
 // Helper to get active authenticated user ID
