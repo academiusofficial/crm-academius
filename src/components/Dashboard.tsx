@@ -666,37 +666,37 @@ export default function Dashboard({ leads, onOpenLead, userRole, isArsul, userNa
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-blue-800/50">
-                <th className="pb-4 pr-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 pr-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Pendaftar
                     <Users className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 px-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Role
                     <Shield className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 px-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Rentang Tanggal
                     <Calendar className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 px-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Jumlah Leads
                     <Target className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 px-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 px-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Jumlah Mentoring Student
                     <GraduationCap className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />
                   </span>
                 </th>
-                <th className="pb-4 pl-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider font-sans">
+                <th className="pb-4 pl-4 text-xs font-bold uppercase tracking-wider font-sans">
                   <span className="inline-flex items-center gap-1.5" style={{ color: '#ffffff' }}>
                     Conversion Rate
                     <TrendingUp className="h-3.5 w-3.5" style={{ color: '#ffffff' }} />

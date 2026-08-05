@@ -358,7 +358,7 @@ export default function LeadsTable({
     
     return (
       <span 
-        className="inline-flex px-2 py-0.5 rounded text-xs font-bold font-poppins bg-white dark:bg-slate-800" 
+        className="inline-flex px-2 py-0.5 rounded text-xs font-semibold font-poppins bg-white dark:bg-slate-800" 
         style={{ color, lineHeight: '16px' }}
       >
         {stage}
@@ -789,14 +789,14 @@ export default function LeadsTable({
 
                     {/* Sumber */}
                     <td className="p-4 text-left">
-                      <span className="inline-flex px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded font-bold font-poppins text-[#1d293d] dark:text-slate-200">
+                      <span className="inline-flex px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded font-semibold font-poppins text-[#1d293d] dark:text-slate-200">
                         {lead.sumberLeads}
                       </span>
                     </td>
 
                     {/* Rencana Studi */}
                     <td className="p-4">
-                      <div className="font-bold text-slate-800 dark:text-slate-200 font-poppins">{lead.jenjangStudi} - {lead.targetNegara}</div>
+                      <div className="font-semibold text-slate-800 dark:text-slate-200 font-poppins">{lead.jenjangStudi} - {lead.targetNegara}</div>
                       <div className="text-[10px] text-[#90a1b9] mt-0.5 font-poppins" style={{ lineHeight: '14px' }}>{lead.produkDiminati}</div>
                     </td>
 
@@ -807,7 +807,7 @@ export default function LeadsTable({
                            const picInfo = getPicInfo(lead);
                            return (
                              <>
-                               <span className="font-bold font-poppins text-slate-800 dark:text-slate-100 text-xs leading-4">
+                               <span className="font-semibold font-poppins text-slate-800 dark:text-slate-100 text-xs leading-4">
                                  {picInfo.name}
                                </span>
                                <span className="text-[10px] font-normal text-[#90a1b9] mt-0.5 uppercase tracking-wider leading-[14px]">
@@ -831,7 +831,7 @@ export default function LeadsTable({
 
                     {/* Usia Leads */}
                     <td className="p-4 whitespace-nowrap">
-                      <div className="font-bold text-[#1d293d] dark:text-slate-200 font-mono">
+                      <div className="font-semibold text-[#1d293d] dark:text-slate-200 font-poppins">
                         {calculateLeadAge(lead.tanggalMasuk)}
                       </div>
                       <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 font-poppins" style={{ lineHeight: '14px' }}>
@@ -840,10 +840,10 @@ export default function LeadsTable({
                     </td>
 
                     {/* Nilai Pontensi */}
-                    <td className="p-4 text-left font-bold text-slate-800 dark:text-slate-100 font-mono">
+                    <td className="p-4 text-left font-semibold text-slate-800 dark:text-slate-100 font-poppins">
                       {isArsul || userRole === 'Admin CRM' ? (
                         <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                          <span className="min-w-[85px] inline-block">
+                          <span className="min-w-[85px] inline-block font-semibold font-poppins">
                             {individualVisiblePotentials[lead.id] || showPotentialValue ? formatIDR(lead.nilaiPotensi) : 'Rp ••••••••'}
                           </span>
                           <button
